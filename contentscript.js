@@ -9,13 +9,14 @@
 
 $('body').append('<div class="getyourcrayon-menubar"><button type="gyc-button" id="gyc-paint-button" class="gyc-btn gyc-btn-default">Paint</button><button type="gyc-button" class="gyc-btn gyc-btn-default">Erase</button><label>Width: <span id="current_width">10</span><br><input id="width" type="range" name="points" min="1" max="40"></label><br><label>Opacity: <span id="current_opacity">100%</span><br><input id="opacity" type="range" name="points" min="1" max="100" value="100"></label><form><input type="text" id="color" name="color" value="#123456" /></form><div id="colorpicker"></div></div>');
 
-$('body').append('<script type="text/paperscript" canvas="myCanvas">var myPath;function onMouseDown(event) {myPath = new Path();myPath.strokeColor = "black";}function onMouseDrag(event) {myPath.add(event.point);}</script><canvas id="myCanvas" style="display:none;" resize></canvas>');
+var pscriptUrl = chrome.extension.getURL("paperscript.js");
 
-var wheelUrl = chrome.extension.getURL("wheel.png");
-console.log($('.farbtastic .wheel'));
-$('.farbtastic .wheel').css("width", '500px');
-console.log(wheelUrl);
+$('body').append('<script type="text/paperscript" src="'+ pscriptUrl + '" canvas="myCanvas"></script><canvas id="myCanvas" style="display:none;" resize></canvas>');
 
+
+var farbWheel = chrome.extension.getURL("mask.png");
+console.log(farbWheel);
+// $('.farbtastic .wheel').css("background-image", "url(" + farbWheel + ")");
 
 
 
