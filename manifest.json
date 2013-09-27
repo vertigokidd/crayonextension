@@ -13,14 +13,14 @@
     "jquery-ui.js",
     "paper.js",
     "farbtastic.js",
-    "paperscript.js",
+    // "drawController.js",
     "colorpicker.js",
     "contentscript.js"],
     "css": ["contentscript.css", "farbtastic.css"]
     }
   ],
 
-  "web_accessible_resources": ["paperscript.js", "wheel.png", "marker.png", "mask.png"],
+  "web_accessible_resources": ["drawController.js", "wheel.png", "marker.png", "mask.png"],
 
   "browser_action": {
     "default_icon": "icon.png",
