@@ -39,8 +39,6 @@ $('#gyc-save-button').click(function(){
   // $post.('/save', data)
 });
 
-$("#gyc-undo-button")
-
 $('#colorpicker').farbtastic('#color');
 
 var myPath;
