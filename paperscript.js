@@ -38,6 +38,10 @@ $('#opacity').change(function() {
   $('#current_opacity').html(newOpacity + "%");
 });
 
+$('#gyc-undo-button').click(function() {
+  myPath.remove();
+});
+
 var farbtasticWheel = chrome.extension.getURL("wheel.png");
 var farbtasticMask = chrome.extension.getURL("mask.png");
 var farbtasticMarker = chrome.extension.getURL("marker.png");
