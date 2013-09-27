@@ -7,16 +7,16 @@
 //     s.parentNode.removeChild(s);
 // };
 
-$('body').append('<div class="getyourcrayon-menubar"><button type="gyc-button" id="gyc-paint-button" class="gyc-btn gyc-btn-default">Paint</button><button type="gyc-button" class="gyc-btn gyc-btn-default">Erase</button><label>Width: <span id="current_width">10</span><br><input id="width" type="range" name="points" min="1" max="40"></label><br><label>Opacity: <span id="current_opacity">100%</span><br><input id="opacity" type="range" name="points" min="1" max="100" value="100"></label><form><input type="text" id="color" name="color" value="#123456" /></form><div id="colorpicker"></div></div>');
+
+$('body').append('<div class="getyourcrayon-menubar"><button type="gyc-button" id="gyc-paint-button" class="gyc-btn gyc-btn-default">Paint</button><button type="gyc-button" class="gyc-btn gyc-btn-default">Undo</button><button type="gyc-button" id="gyc-save-button" class="gyc-btn gyc-btn-default">Save</button><label>Width: <span id="current_width">10</span><br><input id="width" type="range" name="points" min="1" max="40" value="5"></label><br><label>Opacity: <span id="current_opacity">100%</span><br><input id="opacity" type="range" name="points" min="1" max="100" value="100"></label><form><input type="text" id="color" name="color" value="#123456" /></form><div id="colorpicker"></div></div>');
 
 var pscriptUrl = chrome.extension.getURL("paperscript.js");
 
 $('body').append('<script type="text/paperscript" src="'+ pscriptUrl + '" canvas="myCanvas"></script><canvas id="myCanvas" style="display:none;" resize></canvas>');
 
 
-var farbWheel = chrome.extension.getURL("mask.png");
-console.log(farbWheel);
-// $('.farbtastic .wheel').css("background-image", "url(" + farbWheel + ")");
+
+
 
 
 
@@ -24,6 +24,19 @@ $('.getyourcrayon-menubar').draggable();
 
 $('#gyc-paint-button').click(function(){
   $('#myCanvas').toggle();
+});
+
+// var data = {
+//   url: document.url,
+//   json_string: "sheeeeeeit"
+// }
+
+var windowUrl = window.location.href;
+
+
+$('#gyc-save-button').click(function(){
+  console.log("HELLO");
+  // $post.('/save', data)
 
 });
 
