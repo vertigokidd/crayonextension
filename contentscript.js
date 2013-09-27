@@ -35,9 +35,9 @@ var windowUrl = window.location.href;
 
 
 $('#gyc-save-button').click(function(){
-  console.log("HELLO");
-  // $post.('/save', data)
-
+  $.post('http://localhost:3000/save', { message: "Greetings."}, function(response){
+    console.log(response);
+  });
 });
 
 $('#colorpicker').farbtastic('#color');
