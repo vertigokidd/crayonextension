@@ -51,3 +51,13 @@ $('.farbtastic .wheel').css("background", "url('" + farbtasticWheel + "') no-rep
 $('.farbtastic .overlay').css("background", "url('" + farbtasticMask + "') no-repeat");
 $('.farbtastic .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
 
+
+
+var windowUrl = window.location.href;
+
+$.get('http://localhost:3000/retrieve', {'url': windowUrl}, function(response) {
+  project.importJSON(response);
+});
+
+
+
