@@ -43,6 +43,22 @@ $('#gyc-undo-button').click(function() {
   myPath.remove();
 });
 
+$('#gyc-save-button').click(function(){
+  //console.log("HELLO");
+  var data = {
+    url: windowUrl,
+    json_string: myProject.exportJSON()
+  };
+
+  console.log(data);
+
+  $.post('http://localhost:3000/save', data,function(response){
+    console.log(response);
+
+  });
+
+});
+
 var farbtasticWheel = chrome.extension.getURL("wheel.png");
 var farbtasticMask = chrome.extension.getURL("mask.png");
 var farbtasticMarker = chrome.extension.getURL("marker.png");
