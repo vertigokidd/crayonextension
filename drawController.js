@@ -59,6 +59,12 @@ $('#gyc-save-button').click(function(){
 
 });
 
+$('#gyc-previous-button').click(function(){
+  $.get('http://localhost:3000/retrieve',{id: },function(response){
+    console.log(response);
+  });
+});
+
 var farbtasticWheel = chrome.extension.getURL("wheel.png");
 var farbtasticMask = chrome.extension.getURL("mask.png");
 var farbtasticMarker = chrome.extension.getURL("marker.png");
