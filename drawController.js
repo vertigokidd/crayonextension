@@ -70,9 +70,10 @@ $('#gyc-save-button').click(function(){
 
   $.post(serverURL + '/save', data,function(response){
     console.log(response);
-
+    maxIndex += 1;
+    currentPosition = maxIndex;
+    $("#gyc-next-button").prop('disabled', true);
   });
-
 });
 
 
