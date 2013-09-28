@@ -41,6 +41,8 @@ $('#opacity').change(function() {
   $('#current_opacity').html(newOpacity + "%");
 });
 
+
+
 $('#gyc-undo-button').click(function() {
   myPath.remove();
 });
@@ -53,8 +55,15 @@ $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
   if (response !== "website not found") {
     project.importJSON(response.json_string);
     maxIndex = response.max_index;
-    minIndex = 1;
     currentPosition = maxIndex;
+    $("#timeline").prop('max', maxIndex);
+    $('#timeline').val(maxIndex);
+    $("#gyc-next-button").prop('disabled', true);
+  }
+  else {
+    maxIndex = 0;
+    currentPosition = maxIndex;
+    $('#timeline').hide();
     $("#gyc-next-button").prop('disabled', true);
   }
 });
@@ -80,31 +89,40 @@ $('#gyc-save-button').click(function(){
 });
 
 
-$('#gyc-previous-button').click(function(){
-  currentPosition -= 1;
+$('#timeline').change(function() {
+  currentPosition = $(this).val();
   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
-    $("#gyc-next-button").prop('disabled', false);
     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
     myProject.activeLayer.removeChildren();
     myProject.importJSON(response);
-    if (currentPosition == 0) {
-      $("#gyc-previous-button").prop('disabled', true);
-    }
   });
 });
 
-$('#gyc-next-button').click(function(){
-  currentPosition += 1;
-  $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
-    $("#gyc-previous-button").prop('disabled', false);
-    canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
-    myProject.activeLayer.removeChildren();
-    myProject.importJSON(response);
-    if (currentPosition == maxIndex) {
-      $("#gyc-next-button").prop('disabled', true);
-    }
-  });
-});
+// $('#gyc-previous-button').click(function(){
+//   currentPosition -= 1;
+//   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
+//     $("#gyc-next-button").prop('disabled', false);
+//     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
+//     myProject.activeLayer.removeChildren();
+//     myProject.importJSON(response);
+//     if (currentPosition == 0) {
+//       $("#gyc-previous-button").prop('disabled', true);
+//     }
+//   });
+// });
+
+// $('#gyc-next-button').click(function(){
+//   currentPosition += 1;
+//   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
+//     $("#gyc-previous-button").prop('disabled', false);
+//     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
+//     myProject.activeLayer.removeChildren();
+//     myProject.importJSON(response);
+//     if (currentPosition == maxIndex) {
+//       $("#gyc-next-button").prop('disabled', true);
+//     }
+//   });
+// });
 
 var farbtasticWheel = chrome.extension.getURL("wheel.png");
 var farbtasticMask = chrome.extension.getURL("mask.png");
