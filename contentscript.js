@@ -8,7 +8,9 @@
 // };
 
 
-$('body').append('<div class="getyourcrayon-menubar"><button type="gyc-button" id="gyc-paint-button" class="gyc-btn gyc-btn-default">Paint</button><button type="gyc-button" id="gyc-undo-button" class="gyc-btn gyc-btn-default">Undo</button><button type="gyc-button" id="gyc-save-button" class="gyc-btn gyc-btn-default">Save</button><label>Width: <span id="current_width">5</span><br><input id="width" type="range" name="points" min="1" max="40" value="5"></label><br><label>Opacity: <span id="current_opacity">100%</span><br><input id="opacity" type="range" name="points" min="1" max="100" value="100"></label><form><input type="text" id="color" name="color" value="#123456" /></form><div id="colorpicker"></div></div>');
+$('body').append('<div class="getyourcrayon-menubar"><button type="gyc-button" id="gyc-paint-button" class="gyc-btn gyc-btn-default">Paint</button><button type="gyc-button" id="gyc-undo-button" class="gyc-btn gyc-btn-default">Undo</button><button type="gyc-button" id="gyc-save-button" class="gyc-btn gyc-btn-default">Save</button><label>Width: <span id="current_width">5</span><br><input id="width" type="range" name="points" min="1" max="40" value="5"></label><br><label>Opacity: <span id="current_opacity">100%</span><br><input id="opacity" type="range" name="points" min="1" max="100" value="100"></label><form><input type="text" id="color" name="color" value="#123456" /></form><div id="colorpicker"></div><input type="text" id="drawingTags" placeholder="tags" value=" "></input></div>');
+
+
 
 var pscriptUrl = chrome.extension.getURL("drawController.js");
 
@@ -40,10 +42,7 @@ chrome.runtime.onMessage.addListener(
                 "from a content script:" + sender.tab.url :
                 "from the extension");
     if (request.greeting == "hello") {
-      $('h1').hide();
-    }
-    else if (request.greeting == "save") {
-
+      response.farewell == "goodbye"
     }
       // $('body').append('<canvas id="myCanvas"></canvas>');
       // var myPath;

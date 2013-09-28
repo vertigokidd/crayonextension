@@ -45,16 +45,17 @@ $('#gyc-undo-button').click(function() {
 
 $('#gyc-save-button').click(function(){
   //console.log("HELLO");
+  var tags = $('#drawingTags').val();
+  console.log(tags);
   var data = {
     url: windowUrl,
-    json_string: myProject.exportJSON()
+    json_string: myProject.exportJSON(),
+    tags: tags
   };
 
   console.log(data);
 
   $.post('http://localhost:3000/save', data,function(response){
-    console.log(response);
-
   });
 
 });
