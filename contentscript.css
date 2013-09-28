@@ -5,7 +5,7 @@
   position: absolute;
   top: 50px;
   left:20px;
-  z-index:10000000000000000000001;
+  z-index:1001;
 }
 
 #myCanvas {
@@ -28,4 +28,5 @@ vertical-align: middle !important;
 cursor: pointer !important;
 border: 1px solid rgba(0, 0, 0, 0) !important;
 border-radius: 4px !important;
+background-color: #aaa !important;
 }
