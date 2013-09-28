@@ -61,9 +61,12 @@ $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
 
 $('#gyc-save-button').click(function(){
   //console.log("HELLO");
+  var tags = $('#drawingTags').val();
+  console.log(tags);
   var data = {
     url: windowUrl,
-    json_string: myProject.exportJSON()
+    json_string: myProject.exportJSON(),
+    tags: tags
   };
 
   console.log(data);
