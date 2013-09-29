@@ -4,6 +4,9 @@
   "name": "Get Your Crayon",
   "description": "Painting",
   "version": "1.0",
+  "permissions": [
+    "activeTab"
+  ],
 
   "content_scripts": [
   {
@@ -16,7 +19,7 @@
     // "drawController.js",
     "colorpicker.js",
     "contentscript.js"],
-    "css": ["contentscript.css", "farbtastic.css"]
+    "css": ["contentscript.css", "farbtastic.css", "jquery-ui.min.css"]
     }
   ],
 
@@ -24,7 +27,12 @@
 
   "browser_action": {
     "default_icon": "eyeopen19.png",
-    "default_popup": "popup.html"
-  }
+    "default_title": "Get Your Crayon"
+  },
 
+
+  "background": {
+    "persistent": false,
+    "scripts": ["background.js"]
+  }
 }

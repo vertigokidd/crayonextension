@@ -41,6 +41,15 @@ $('#opacity').change(function() {
   $('#current_opacity').html(newOpacity + "%");
 });
 
+$('#toolbar-toggle').on('click', function() {
+  if ($(this).hasClass('ui-state-active')) {
+    $('#toggle-toolbar-arrow').html('&#9650');
+  }
+  else {
+    $('#toggle-toolbar-arrow').html('&#9660');
+  }
+});
+
 $('#gyc-undo-button').click(function() {
   myPath.remove();
 });
@@ -54,8 +63,15 @@ $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
     project.importJSON(response.json_string);
     $('.getyourcrayon-menubar').append(response.tags_html_string);
     maxIndex = response.max_index;
-    minIndex = 1;
     currentPosition = maxIndex;
+    $("#timeline").prop('max', maxIndex);
+    $('#timeline').val(maxIndex);
+    $("#gyc-next-button").prop('disabled', true);
+  }
+  else {
+    maxIndex = 0;
+    currentPosition = maxIndex;
+    $('#timeline').hide();
     $("#gyc-next-button").prop('disabled', true);
   }
 });
@@ -101,10 +117,14 @@ var make_post = function(){
       $('#drawingTags').val('')
       maxIndex += 1;
       currentPosition = maxIndex;
+      $("#timeline").prop('max', maxIndex);
+      $('#timeline').val(maxIndex);
       $("#gyc-next-button").prop('disabled', true);
     }
     else {
+    
     }
+
   });
 }
 
@@ -121,31 +141,45 @@ var confirmation_popup = function(){
 }
 
 
-$('#gyc-previous-button').click(function(){
-  currentPosition -= 1;
+function timelineUpdate() {
   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
-    $("#gyc-next-button").prop('disabled', false);
     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
     myProject.activeLayer.removeChildren();
     myProject.importJSON(response);
-    if (currentPosition == 0) {
-      $("#gyc-previous-button").prop('disabled', true);
-    }
   });
+}
+
+$('#timeline').change(function() {
+  currentPosition = $(this).val();
+  timelineUpdate();
 });
 
-$('#gyc-next-button').click(function(){
-  currentPosition += 1;
-  $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
-    $("#gyc-previous-button").prop('disabled', false);
-    canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
-    myProject.activeLayer.removeChildren();
-    myProject.importJSON(response);
-    if (currentPosition == maxIndex) {
-      $("#gyc-next-button").prop('disabled', true);
-    }
-  });
-});
+// $('#gyc-previous-button').click(function(){
+//   currentPosition -= 1;
+//   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
+//     $("#gyc-next-button").prop('disabled', false);
+//     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
+//     myProject.activeLayer.removeChildren();
+//     myProject.importJSON(response);
+//     if (currentPosition == 0) {
+//       $("#gyc-previous-button").prop('disabled', true);
+//     }
+//   });
+// });
+
+// $('#gyc-next-button').click(function(){
+//   currentPosition += 1;
+//   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
+//     $("#gyc-previous-button").prop('disabled', false);
+//     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
+//     myProject.activeLayer.removeChildren();
+//     myProject.importJSON(response);
+//     if (currentPosition == maxIndex) {
+//       $("#gyc-next-button").prop('disabled', true);
+//     }
+//   });
+// });
+
 
 var farbtasticWheel = chrome.extension.getURL("wheel.png");
 var farbtasticMask = chrome.extension.getURL("mask.png");
