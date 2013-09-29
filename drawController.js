@@ -76,8 +76,31 @@ $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
   }
 });
 
+// Initializes pop-up save form //
+$('#gyc-save-confirm').dialog({
+  autoOpen: false,
+  height: 100,
+  width: 250,
+  modal: true,
+  buttons: {
+    "Confirm Save": function(){
+      make_post();
+
+      $(this).dialog('close');
+      },
+    Cancel: function(){
+      $(this).dialog('close');
+      }
+    }
+});
+
+//Opens the dialog save form //
 $('#gyc-save-button').click(function(){
-  //console.log("HELLO");
+  $('#gyc-save-confirm').dialog("open");
+});
+
+// This is the post that saves the drwaing //
+var make_post = function(){
   var tags = $('#drawingTags').val();
   console.log(tags);
   var data = {
@@ -89,14 +112,33 @@ $('#gyc-save-button').click(function(){
   console.log(data);
 
   $.post(serverURL + '/save', data,function(response){
-    console.log(response);
-    maxIndex += 1;
-    currentPosition = maxIndex;
-    $("#timeline").prop('max', maxIndex);
-    $('#timeline').val(maxIndex);
-    $("#gyc-next-button").prop('disabled', true);
+    if (response === 'Success'){
+      confirmation_popup();
+      $('#drawingTags').val('')
+      maxIndex += 1;
+      currentPosition = maxIndex;
+      $("#timeline").prop('max', maxIndex);
+      $('#timeline').val(maxIndex);
+      $("#gyc-next-button").prop('disabled', true);
+    }
+    else {
+    
+    }
+
   });
-});
+}
+
+var confirmation_popup = function(){
+  $(body).prepend("<div id='gyc-confirmation-popup'>SAVED!</div>");
+  $('#gyc-confirmation-popup').slideDown('slow');
+  setTimeout(function(){
+    $('#gyc-confirmation-popup').fadeOut('slow',function(){
+      // $('#gyc-confirmation-popup').remove();
+      // console.log("removed")
+    });
+    
+  }, 3000)
+}
 
 
 function timelineUpdate() {
