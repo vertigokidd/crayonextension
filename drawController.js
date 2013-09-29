@@ -5,6 +5,7 @@ var width = 5;
 var opacity = 1;
 var canvas = document.getElementById('myCanvas');
 var serverURL = 'http://localhost:3000';
+var windowUrl = window.location.href;
 myProject = project;
 
 
@@ -33,6 +34,7 @@ function onMouseDrag(event) {
 }
 
 // This are all the Painting Functionality Listeners
+loadDrawings(windowUrl);
 toggleDropdownArrow();
 toggleCanvas();
 updateColor();
@@ -41,6 +43,28 @@ updateOpacity();
 undo();
 openSaveForm();
 initializePopupForm();
+
+
+// Creates a request for latest drawing on initial page load
+function loadDrawings(windowUrl){
+  $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
+    if (response !== "website not found") {
+      project.importJSON(response.json_string);
+      $('.getyourcrayon-menubar').append(response.tags_html_string);
+      maxIndex = response.max_index;
+      currentPosition = maxIndex;
+      $("#timeline").prop('max', maxIndex);
+      $('#timeline').val(maxIndex);
+      $("#gyc-next-button").prop('disabled', true);
+    }
+    else {
+      maxIndex = 0;
+      currentPosition = maxIndex;
+      $('#timeline').hide();
+      $("#gyc-next-button").prop('disabled', true);
+    }
+  });
+}
 
 // Listens to a click on the dropdown bar and toggles the arrow up and down. 
 function toggleDropdownArrow(){
@@ -153,7 +177,8 @@ function saveDrawingPost(){
   });
 }
 
-//
+// displays a save confirmation message when post is succesfull
+// this is called from the post
 function showConfirmationPopup(){
   $('body').prepend("<div id='gyc-confirmation-popup'>SAVED!</div>");
   $('#gyc-confirmation-popup').slideDown('slow');
@@ -166,46 +191,16 @@ function showConfirmationPopup(){
   }, 3000)
 }
 
-
-var windowUrl = window.location.href;
-retrieveDrawings(windowUrl);
- 
-// Make get request for latest drawing on initial page load
-function retrieveDrawings(windowUrl){
-  $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
-    if (response !== "website not found") {
-      project.importJSON(response.json_string);
-      $('.getyourcrayon-menubar').append(response.tags_html_string);
-      maxIndex = response.max_index;
-      currentPosition = maxIndex;
-      $("#timeline").prop('max', maxIndex);
-      $('#timeline').val(maxIndex);
-      $("#gyc-next-button").prop('disabled', true);
-    }
-    else {
-      maxIndex = 0;
-      currentPosition = maxIndex;
-      $('#timeline').hide();
-      $("#gyc-next-button").prop('disabled', true);
-    }
-  });
-}
+// Listens for a change on the timeline slider 
+// updates the current position and updates the time line
+$('#timeline').change(function() {
+  currentPosition = $(this).val();
+  timelineUpdate();
+});
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// triggers a get requests that rettrives drwaings 
+// clears the canvas and imports the response to the canvas
 function timelineUpdate() {
   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
@@ -216,36 +211,25 @@ function timelineUpdate() {
   });
 }
 
-$('#timeline').change(function() {
-  currentPosition = $(this).val();
-  timelineUpdate();
-});
 
-// $('#gyc-previous-button').click(function(){
-//   currentPosition -= 1;
-//   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
-//     $("#gyc-next-button").prop('disabled', false);
-//     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
-//     myProject.activeLayer.removeChildren();
-//     myProject.importJSON(response);
-//     if (currentPosition == 0) {
-//       $("#gyc-previous-button").prop('disabled', true);
-//     }
-//   });
-// });
+ 
 
-// $('#gyc-next-button').click(function(){
-//   currentPosition += 1;
-//   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
-//     $("#gyc-previous-button").prop('disabled', false);
-//     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
-//     myProject.activeLayer.removeChildren();
-//     myProject.importJSON(response);
-//     if (currentPosition == maxIndex) {
-//       $("#gyc-next-button").prop('disabled', true);
-//     }
-//   });
-// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
