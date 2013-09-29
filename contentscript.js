@@ -44,7 +44,7 @@ $('.getyourcrayon-menubar').draggable({
 });
 
 
-chrome.runtime.onMessage.addListener(
+chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
     console.log(request);
     console.log(sender.tab ?
