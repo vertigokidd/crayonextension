@@ -16,15 +16,15 @@
 }
 
 #gyc-confirmation-popup {
-  background-color: orange;
-  position:absolute;
-  text-align: center;
-  display: none;
-  top:0;
-  left:48%;
+  background-color: orange ;
+  position:absolute ;
+  text-align: center ;
+  display: none ;
+  top:0 ;
+  left:48% ;
   height:20px;
-  width:60px;
-  z-index:1000000000;
+  width:60px ;
+  z-index:1000000000 ;
 }
 
 #myCanvas {

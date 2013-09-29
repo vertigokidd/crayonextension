@@ -83,7 +83,7 @@ $('#gyc-save-button').click(function(){
   $('#gyc-save-confirm').dialog("open");
 });
 
-// THis is the post that saves the drwaing //
+// This is the post that saves the drwaing //
 var make_post = function(){
   var tags = $('#drawingTags').val();
   console.log(tags);
@@ -96,7 +96,7 @@ var make_post = function(){
   console.log(data);
 
   $.post(serverURL + '/save', data,function(response){
-    if (response=== 'Success'){
+    if (response === 'Success'){
       confirmation_popup();
       $('#drawingTags').val('')
       maxIndex += 1;
@@ -113,7 +113,8 @@ var confirmation_popup = function(){
   $('#gyc-confirmation-popup').slideDown('slow');
   setTimeout(function(){
     $('#gyc-confirmation-popup').fadeOut('slow',function(){
-      $('#gyc-confirmation-popup').remove();
+      // $('#gyc-confirmation-popup').remove();
+      // console.log("removed")
     });
     
   }, 3000)
