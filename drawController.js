@@ -43,6 +43,7 @@ updateOpacity();
 undo();
 openSaveForm();
 initializePopupForm();
+updateTimeline();
 
 
 // Creates a request for latest drawing on initial page load
@@ -193,11 +194,12 @@ function showConfirmationPopup(){
 
 // Listens for a change on the timeline slider 
 // updates the current position and updates the time line
-$('#timeline').change(function() {
-  currentPosition = $(this).val();
-  timelineUpdate();
-});
-
+function updateTimeline(){
+  $('#timeline').change(function() {
+    currentPosition = $(this).val();
+    timelineUpdate();
+  });
+}
 
 // triggers a get requests that rettrives drwaings 
 // clears the canvas and imports the response to the canvas
