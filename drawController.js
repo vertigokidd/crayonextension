@@ -7,6 +7,17 @@ var canvas = document.getElementById('myCanvas');
 var serverURL = 'http://localhost:3000';
 myProject = project;
 
+
+// This loads the color picker images 
+var farbtasticWheel = chrome.extension.getURL("wheel.png");
+var farbtasticMask = chrome.extension.getURL("mask.png");
+var farbtasticMarker = chrome.extension.getURL("marker.png");
+
+$('.farbtastic .wheel').css("background", "url('" + farbtasticWheel + "') no-repeat");
+$('.farbtastic .overlay').css("background", "url('" + farbtasticMask + "') no-repeat");
+$('.farbtastic .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
+
+
 // This is the Painting Functionality
 function onMouseDown(event) {
   myPath = new Path();
@@ -21,15 +32,27 @@ function onMouseDrag(event) {
   myPath.smooth();
 }
 
-
-
 // This are all the Painting Functionality Listeners
+toggleDropdownArrow();
 toggleCanvas();
 updateColor();
 updateWidth();
 updateOpacity();
 undo();
+openSaveForm();
+initializePopupForm();
 
+// Listens to a click on the dropdown bar and toggles the arrow up and down. 
+function toggleDropdownArrow(){
+  $('#toolbar-toggle').on('click', function() {
+    if ($(this).hasClass('ui-state-active')) {
+      $('#toggle-toolbar-arrow').html('&#9650');
+    }
+    else {
+      $('#toggle-toolbar-arrow').html('&#9660');
+    }
+  });
+}
 
 // Listens for a click on the paint button and hides or displays the canvas
 function toggleCanvas(){
@@ -77,89 +100,45 @@ function undo(){
   });
 }
 
+// Listens for a click on the save button and opens the dialog save form
+function openSaveForm(){
+  $('#gyc-save-button').click(function(){
+    $('#gyc-save-confirm').dialog("open");
+  });
+}
 
-
-
-
-
-
-
-
-
-
-
-
-// This chenges the arrow //
-$('#toolbar-toggle').on('click', function() {
-  if ($(this).hasClass('ui-state-active')) {
-    $('#toggle-toolbar-arrow').html('&#9650');
-  }
-  else {
-    $('#toggle-toolbar-arrow').html('&#9660');
-  }
-});
-
-
-var windowUrl = window.location.href;
-
-// Make get request for latest drawing on initial page load
-$.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
-  console.log(response);
-  if (response !== "website not found") {
-    project.importJSON(response.json_string);
-    $('.getyourcrayon-menubar').append(response.tags_html_string);
-    maxIndex = response.max_index;
-    currentPosition = maxIndex;
-    $("#timeline").prop('max', maxIndex);
-    $('#timeline').val(maxIndex);
-    $("#gyc-next-button").prop('disabled', true);
-  }
-  else {
-    maxIndex = 0;
-    currentPosition = maxIndex;
-    $('#timeline').hide();
-    $("#gyc-next-button").prop('disabled', true);
-  }
-});
-
-// Initializes pop-up save form //
-$('#gyc-save-confirm').dialog({
-  autoOpen: false,
-  height: 100,
-  width: 250,
-  modal: true,
-  buttons: {
-    "Confirm Save": function(){
-      make_post();
-
-      $(this).dialog('close');
-      },
-    Cancel: function(){
-      $(this).dialog('close');
+// Initializes pop-up Save form and listens
+function initializePopupForm(){
+  $('#gyc-save-confirm').dialog({
+    autoOpen: false,
+    height: 100,
+    width: 250,
+    modal: true,
+    buttons: {
+      "Confirm Save": function(){
+        saveDrawingPost();
+        $(this).dialog('close');
+        },
+      Cancel: function(){
+        $(this).dialog('close');
+        }
       }
-    }
-});
+  });
+}
 
-//Opens the dialog save form //
-$('#gyc-save-button').click(function(){
-  $('#gyc-save-confirm').dialog("open");
-});
-
-// This is the post that saves the drwaing //
-var make_post = function(){
+// Makes a post that saves the drwaing and is triggered 
+// by the PopupForm Confirm-Save button
+function saveDrawingPost(){
   var tags = $('#drawingTags').val();
-  console.log(tags);
   var data = {
     url: windowUrl,
     json_string: myProject.exportJSON(),
     tags: tags
   };
 
-  console.log(data);
-
   $.post(serverURL + '/save', data,function(response){
     if (response === 'Success'){
-      confirmation_popup();
+      showConfirmationPopup();
       $('#drawingTags').val('')
       maxIndex += 1;
       currentPosition = maxIndex;
@@ -168,13 +147,14 @@ var make_post = function(){
       $("#gyc-next-button").prop('disabled', true);
     }
     else {
-    
+      //We need to make a message in case the post fails
     }
 
   });
 }
 
-var confirmation_popup = function(){
+//
+function showConfirmationPopup(){
   $(body).prepend("<div id='gyc-confirmation-popup'>SAVED!</div>");
   $('#gyc-confirmation-popup').slideDown('slow');
   setTimeout(function(){
@@ -185,6 +165,45 @@ var confirmation_popup = function(){
     
   }, 3000)
 }
+
+
+var windowUrl = window.location.href;
+retrieveDrawings(windowUrl);
+ 
+// Make get request for latest drawing on initial page load
+function retrieveDrawings(windowUrl){
+  $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
+    if (response !== "website not found") {
+      project.importJSON(response.json_string);
+      $('.getyourcrayon-menubar').append(response.tags_html_string);
+      maxIndex = response.max_index;
+      currentPosition = maxIndex;
+      $("#timeline").prop('max', maxIndex);
+      $('#timeline').val(maxIndex);
+      $("#gyc-next-button").prop('disabled', true);
+    }
+    else {
+      maxIndex = 0;
+      currentPosition = maxIndex;
+      $('#timeline').hide();
+      $("#gyc-next-button").prop('disabled', true);
+    }
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function timelineUpdate() {
@@ -227,10 +246,6 @@ $('#timeline').change(function() {
 // });
 
 
-var farbtasticWheel = chrome.extension.getURL("wheel.png");
-var farbtasticMask = chrome.extension.getURL("mask.png");
-var farbtasticMarker = chrome.extension.getURL("marker.png");
 
-$('.farbtastic .wheel').css("background", "url('" + farbtasticWheel + "') no-repeat");
-$('.farbtastic .overlay').css("background", "url('" + farbtasticMask + "') no-repeat");
-$('.farbtastic .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
+
+
