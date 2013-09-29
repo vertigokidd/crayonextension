@@ -9,7 +9,7 @@ var windowUrl = window.location.href;
 myProject = project;
 
 
-// This loads the color picker images 
+// This loads the color picker images
 var farbtasticWheel = chrome.extension.getURL("wheel.png");
 var farbtasticMask = chrome.extension.getURL("mask.png");
 var farbtasticMarker = chrome.extension.getURL("marker.png");
@@ -41,9 +41,9 @@ updateColor();
 updateWidth();
 updateOpacity();
 undo();
-openSaveForm(); 
+openSaveForm();
 initializePopupForm();
-updateTimeline(); 
+updateTimeline();
 
 
 // Creates a request for latest drawing on initial page load
@@ -67,7 +67,7 @@ function loadDrawings(windowUrl){
   });
 }
 
-// Listens to a click on the dropdown bar and toggles the arrow up and down. 
+// Listens to a click on the dropdown bar and toggles the arrow up and down.
 function toggleDropdownArrow(){
   $('#toolbar-toggle').on('click', function() {
     if ($(this).hasClass('ui-state-active')) {
@@ -86,7 +86,7 @@ function toggleCanvas(){
   });
 }
 
-// Listens for mouse events on the color picker image to change 
+// Listens for mouse events on the color picker image to change
 // the stroke color by updating the color variable
 function updateColor(){
   $('.marker').on('mouseup', function(){
@@ -151,7 +151,7 @@ function initializePopupForm(){
   });
 }
 
-// Makes a post that saves the drwaing and is triggered 
+// Makes a post that saves the drwaing and is triggered
 // by the PopupForm Confirm-Save button
 function saveDrawingPost(){
   var tags = $('#drawingTags').val();
@@ -188,11 +188,11 @@ function showConfirmationPopup(){
       // $('#gyc-confirmation-popup').remove();
       // console.log("removed")
     });
-    
+
   }, 3000)
 }
 
-// Listens for a change on the timeline slider 
+// Listens for a change on the timeline slider
 // updates the current position and updates the time line
 function updateTimeline(){
   $('#timeline').change(function() {
@@ -201,7 +201,7 @@ function updateTimeline(){
   });
 }
 
-// triggers a get requests that rettrives drwaings 
+// triggers a get requests that rettrives drwaings
 // clears the canvas and imports the response to the canvas
 function timelineUpdate() {
   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
@@ -212,3 +212,29 @@ function timelineUpdate() {
     myProject.importJSON(response);
   });
 }
+
+// $('#gyc-previous-button').click(function(){
+//   currentPosition -= 1;
+//   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
+//     $("#gyc-next-button").prop('disabled', false);
+//     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
+//     myProject.activeLayer.removeChildren();
+//     myProject.importJSON(response);
+//     if (currentPosition == 0) {
+//       $("#gyc-previous-button").prop('disabled', true);
+//     }
+//   });
+// });
+
+// $('#gyc-next-button').click(function(){
+//   currentPosition += 1;
+//   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
+//     $("#gyc-previous-button").prop('disabled', false);
+//     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
+//     myProject.activeLayer.removeChildren();
+//     myProject.importJSON(response);
+//     if (currentPosition == maxIndex) {
+//       $("#gyc-next-button").prop('disabled', true);
+//     }
+//   });
+// });
