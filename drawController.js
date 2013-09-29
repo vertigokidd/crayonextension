@@ -19,7 +19,7 @@ $('.farbtastic .overlay').css("background", "url('" + farbtasticMask + "') no-re
 $('.farbtastic .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
 
 
-// This is the Painting Functionality
+// This is the Painting Functionality, method names are required by paper.js
 function onMouseDown(event) {
   myPath = new Path();
   myPath.strokeColor = color;
@@ -41,9 +41,9 @@ updateColor();
 updateWidth();
 updateOpacity();
 undo();
-openSaveForm();
+openSaveForm(); 
 initializePopupForm();
-updateTimeline();
+updateTimeline(); 
 
 
 // Creates a request for latest drawing on initial page load
@@ -212,28 +212,3 @@ function timelineUpdate() {
     myProject.importJSON(response);
   });
 }
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
