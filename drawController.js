@@ -112,9 +112,6 @@ $('#timeline').change(function() {
   timelineUpdate();
 });
 
-
-$('.getyourcrayon-menubar').draggable();
-
 // $('#gyc-previous-button').click(function(){
 //   currentPosition -= 1;
 //   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
