@@ -85,19 +85,26 @@ $('#gyc-save-button').click(function(){
     console.log(response);
     maxIndex += 1;
     currentPosition = maxIndex;
+    $("#timeline").prop('max', maxIndex);
+    $('#timeline').val(maxIndex);
     $("#gyc-next-button").prop('disabled', true);
   });
 });
 
-
-$('#timeline').change(function() {
-  currentPosition = $(this).val();
+function timelineUpdate() {
   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
-    canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
+    // canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
     myProject.activeLayer.removeChildren();
     myProject.importJSON(response);
   });
+}
+
+$('#timeline').change(function() {
+  currentPosition = $(this).val();
+  timelineUpdate();
 });
+
+$('.getyourcrayon-menubar').draggable();
 
 // $('#gyc-previous-button').click(function(){
 //   currentPosition -= 1;
@@ -124,6 +131,7 @@ $('#timeline').change(function() {
 //     }
 //   });
 // });
+
 
 var farbtasticWheel = chrome.extension.getURL("wheel.png");
 var farbtasticMask = chrome.extension.getURL("mask.png");
