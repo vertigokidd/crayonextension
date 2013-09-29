@@ -132,7 +132,7 @@ function saveDrawingPost(){
   var tags = $('#drawingTags').val();
   var data = {
     url: windowUrl,
-    json_string: myProject.exportJSON(),
+    json_string: myProject.layers[myProject.layers.length - 1].exportJSON(),
     tags: tags
   };
 
@@ -155,7 +155,7 @@ function saveDrawingPost(){
 
 //
 function showConfirmationPopup(){
-  $(body).prepend("<div id='gyc-confirmation-popup'>SAVED!</div>");
+  $('body').prepend("<div id='gyc-confirmation-popup'>SAVED!</div>");
   $('#gyc-confirmation-popup').slideDown('slow');
   setTimeout(function(){
     $('#gyc-confirmation-popup').fadeOut('slow',function(){
@@ -209,7 +209,9 @@ function retrieveDrawings(windowUrl){
 function timelineUpdate() {
   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
-    myProject.activeLayer.removeChildren();
+    myProject.activeLayer.remove();
+    var newlayer = new Layer()
+    // myProject.activeLayer.removeChildren();
     myProject.importJSON(response);
   });
 }
