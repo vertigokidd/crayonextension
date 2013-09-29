@@ -41,6 +41,15 @@ $('#opacity').change(function() {
   $('#current_opacity').html(newOpacity + "%");
 });
 
+$('#toolbar-toggle').on('click', function() {
+  if ($(this).hasClass('ui-state-active')) {
+    $('#toggle-toolbar-arrow').html('&#9650');
+  }
+  else {
+    $('#toggle-toolbar-arrow').html('&#9660');
+  }
+});
+
 
 
 $('#gyc-undo-button').click(function() {

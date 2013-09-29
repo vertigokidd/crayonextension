@@ -1,10 +1,10 @@
 .getyourcrayon-menubar {
-  border: solid black 1px !important;
-  background-color:white !important;
-  width:200px !important;
+  /*border: solid black 1px !important;*/
+  /*background-color:white !important;*/
+  width:260px !important;
   position: absolute !important;
-  top: 50px ;
-  left:20px ;
+  top: 20px ;
+  right:20px ;
   z-index:1001 !important;
 }
 
@@ -33,5 +33,29 @@ background-color: #aaa !important;
 }
 
 #toolbar-header {
-  height: 50px !important;
+  height: 40px !important;
+  /*background-color: #aaa !important;*/
+  border-top-left-radius: 4px !important;
+  border-top-right-radius: 4px !important;
+  background-color: rgba(86,86,86,0.9) !important;
 }
+
+#toolbar-toggle {
+  margin-top: 0 !important;
+  height: 5px !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+}
+
+#toolbar-tools {
+  background-color: rgba(255,255,255,0.7) !important;
+}
+
+#toggle-toolbar-arrow {
+  line-height: 5px !important;
+  margin: 0 !important;
+  margin-right: 16px !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
