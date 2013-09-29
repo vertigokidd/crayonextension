@@ -26,9 +26,10 @@
   "web_accessible_resources": ["drawController.js", "wheel.png", "marker.png", "mask.png"],
 
   "browser_action": {
-    "default_icon": "icon.png",
+    "default_icon": "eyeopen19.png",
     "default_title": "Get Your Crayon"
   },
+
 
   "background": {
     "persistent": false,

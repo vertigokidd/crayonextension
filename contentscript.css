@@ -1,11 +1,29 @@
 .getyourcrayon-menubar {
-  /*border: solid black 1px !important;*/
-  /*background-color:white !important;*/
   width:260px !important;
   position: absolute !important;
   top: 20px ;
   right:20px ;
-  z-index:1001 !important;
+  z-index:3129484650 !important;
+}
+
+.ui-front {
+  border: solid black 1px;
+  position:absolute;
+  display:block;
+  background-color: white;
+  z-index:1000000000 !important;
+}
+
+#gyc-confirmation-popup {
+  background-color: orange ;
+  position:absolute ;
+  text-align: center ;
+  display: none ;
+  top:0 ;
+  left:48% ;
+  height:20px;
+  width:60px ;
+  z-index:1000000000 ;
 }
 
 #myCanvas {
