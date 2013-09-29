@@ -7,40 +7,89 @@ var canvas = document.getElementById('myCanvas');
 var serverURL = 'http://localhost:3000';
 myProject = project;
 
+// This is the Painting Functionality
 function onMouseDown(event) {
   myPath = new Path();
   myPath.strokeColor = color;
   myPath.strokeWidth = width;
   myPath.strokeCap = strokeCap;
   myPath.opacity = opacity;
-
-}
+};
 
 function onMouseDrag(event) {
   myPath.add(event.point);
   myPath.smooth();
 }
 
-$('.marker').on('mouseup', function(){
-  color = $('#color').val();
-});
 
-$('.marker').on('mouseleave', function(){
-  color = $('#color').val();
-});
 
-$('#width').change(function() {
-  var newWidth = $(this).val();
-  width = parseInt(newWidth);
-  $('#current_width').html(width);
-});
+// This are all the Painting Functionality Listeners
+toggleCanvas();
+updateColor();
+updateWidth();
+updateOpacity();
+undo();
 
-$('#opacity').change(function() {
-  var newOpacity = $(this).val();
-  opacity = parseFloat(newOpacity)/100;
-  $('#current_opacity').html(newOpacity + "%");
-});
 
+// Listens for a click on the paint button and hides or displays the canvas
+function toggleCanvas(){
+  $('#gyc-paint-button').click(function(){
+    $('#myCanvas').toggle();
+  });
+}
+
+// Listens for mouse events on the color picker image to change 
+// the stroke color by updating the color variable
+function updateColor(){
+  $('.marker').on('mouseup', function(){
+    color = $('#color').val();
+  });
+
+  $('.marker').on('mouseleave', function(){
+    color = $('#color').val();
+  });
+}
+
+// Listens for a change on the width slider to change
+// the stroke width by updating the width variable
+function updateWidth(){
+  $('#width').change(function() {
+    var newWidth = $(this).val();
+    width = parseInt(newWidth);
+    $('#current_width').html(width);
+  });
+}
+
+// Listens for a change on the opacity slider to change
+// the stroke opacity by updating the opacity variable
+function updateOpacity(){
+  $('#opacity').change(function() {
+    var newOpacity = $(this).val();
+    opacity = parseFloat(newOpacity)/100;
+    $('#current_opacity').html(newOpacity + "%");
+  });
+}
+
+// Listens for a click on the undo button and removes the last stroke
+function undo(){
+  $('#gyc-undo-button').click(function() {
+    myPath.remove();
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// This chenges the arrow //
 $('#toolbar-toggle').on('click', function() {
   if ($(this).hasClass('ui-state-active')) {
     $('#toggle-toolbar-arrow').html('&#9650');
@@ -50,9 +99,6 @@ $('#toolbar-toggle').on('click', function() {
   }
 });
 
-$('#gyc-undo-button').click(function() {
-  myPath.remove();
-});
 
 var windowUrl = window.location.href;
 
