@@ -222,9 +222,10 @@ function saveDrawingPost(){
       $('#gyc-timeline').val(maxIndex);
       $("#gyc-next-button").prop('disabled', true);
       $("#gyc-save-button").prop('disabled', true);
-      latestDrawing = myProject.layers[myProject.layers.length - 1].exportJSON();
-    }
-  }).fail(function(){showConfirmationPopup("ERROR WHEN SAVING");});
+      latestDrawing = myProject.layers[myProject.layers.length - 1].exportJSON()
+      $('#gyc-timeline').show();
+    };
+  }).fail(function(){showConfirmationPopup("ERROR WHEN SAVING")});
 }
 
 // displays a save confirmation message when post is succesfull
