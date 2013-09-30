@@ -6,11 +6,11 @@
   z-index:3129484650 !important;
 }
 
-.ui-front {
+.gyc-save-popup {
   border: solid black 1px;
   position:absolute;
   display:block;
-  background-color: white;
+  background-color: red;
   z-index:1000000000 !important;
 }
 
