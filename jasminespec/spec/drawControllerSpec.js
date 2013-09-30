@@ -1,3 +1,56 @@
+describe("drawController", function(){
+  // describe("onMouseDown", function() {
+  //   it("creates a new path when the canvas is clicked", function() {
+  //     $('#myCanvas').show();
+  //     console.log($('#myCanvas'));
+  //     spyOn($('#myCanvas'), 'onMouseDown');
+  //     console.log('hello');
+  //     $('#myCanvas').click();
+  //     console.log('goodbye');
+  //     // expect($('#myCanvas').mousedown).toHaveBeenCalled();
+  //     expect($('#myCanvas').onMouseDown).toHaveBeenCalled();
+  //   });
+  // });
+  describe("toggleCanvas", function() {
+    it("shows the canvas when toggle button is clicked", function(){
+      $('#toolbar-toggle').trigger('click');
+      setTimeout(function() { $('#gyc-paint-button').trigger('click'); }, 100);
+      setTimeout(function() {expect($('#myCanvas').css('display')).toBe('block');}, 101);
+    });
+  });
+
+  describe("updateWidth", function() {
+    it("updates the width variable when the width slider changes value", function() {
+      $('#width').val(20);
+      var newWidth = $('#width').val();
+      var width = parseInt(newWidth);
+      $('#current_width').html(width);
+      expect($('#current_width').html()).toBe('20');
+    });
+  });
+
+  describe("save confirmation", function(){
+    it("displays the save confirmation when user clicks save", function(){
+      setTimeout(function() {$('#gyc-save-button').trigger('click');}, 100);
+      setTimeout(function() {expect($('.ui-front').css('display')).toBe('block');}, 101);
+    });
+
+    it("closes the save confirm dialog box if user presses confirm save", function(){
+      setTimeout(function() {$('.gyc-save-confirm-button').trigger('click');}, 100);
+      expect($('.gyc-save-popup').css('display')).toBe('none');
+    });
+
+    it("closes the save confirm dialog box if user presses cancel", function(){
+      setTimeout(function() {$('#gyc-save-button').trigger('click');}, 101);
+      setTimeout(function() {$('.gyc-save-confirm-button').trigger('click');}, 101);
+      expect($('.gyc-save-popup').css('display')).toBe('none');
+    });
+
+  });
+});
+
+
+
 // describe("Player", function() {
 //   var player;
 //   var song;

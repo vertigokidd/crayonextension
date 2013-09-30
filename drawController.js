@@ -26,7 +26,7 @@ function onMouseDown(event) {
   myPath.strokeWidth = width;
   myPath.strokeCap = strokeCap;
   myPath.opacity = opacity;
-};
+}
 
 function onMouseDrag(event) {
   myPath.add(event.point);
@@ -80,6 +80,7 @@ function toggleDropdownArrow(){
 }
 
 // Listens for a click on the paint button and hides or displays the canvas
+// TESTED
 function toggleCanvas(){
   $('#gyc-paint-button').click(function(){
     $('#myCanvas').toggle();
@@ -138,16 +139,17 @@ function initializePopupForm(){
     autoOpen: false,
     height: 100,
     width: 250,
+    dialogClass: 'gyc-save-popup',
     modal: true,
     buttons: {
-      "Confirm Save": function(){
+      "Confirm Save": {class: 'gyc-save-confirm-button', text: 'Confirm Save', click: function(){
         saveDrawingPost();
         $(this).dialog('close');
-        },
-      Cancel: function(){
+        }},
+      Cancel: {class: 'gyc-save-cancel-button', text: 'Cancel', click: function(){
         $(this).dialog('close');
         }
-      }
+      }}
   });
 }
 
@@ -164,7 +166,7 @@ function saveDrawingPost(){
   $.post(serverURL + '/save', data,function(response){
     if (response === 'Success'){
       showConfirmationPopup();
-      $('#drawingTags').val('')
+      $('#drawingTags').val('');
       maxIndex += 1;
       currentPosition = maxIndex;
       $("#timeline").prop('max', maxIndex);
@@ -189,7 +191,7 @@ function showConfirmationPopup(){
       // console.log("removed")
     });
 
-  }, 3000)
+  }, 3000);
 }
 
 // Listens for a change on the timeline slider
@@ -207,7 +209,7 @@ function timelineUpdate() {
   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
     myProject.activeLayer.remove();
-    var newlayer = new Layer()
+    var newlayer = new Layer();
     // myProject.activeLayer.removeChildren();
     myProject.importJSON(response);
   });
