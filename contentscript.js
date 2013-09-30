@@ -27,7 +27,7 @@ function injectToolbar() {
                          '<label>Width: <span id="gyc-current_width">5</span><br><input id="width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
                          '<label>Opacity: <span id="gyc-current_opacity">100%</span><br><input id="opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
                          '<form>' +
-                           '<input type="text" id="color" name="color" value="#123456" />' +
+                           '<input type="text" id="gyc-color" name="color" value="#123456" />' +
                          '</form>' +
                          '<div id="gyc-colorpicker"></div>' +
                        '</div>' +
@@ -90,7 +90,7 @@ function initializeDraggable() {
 // This initializes the color picker on the toolbar through farbtastic.js
 
 function initializeColorPicker(){
-  $('#gyc-colorpicker').farbtastic('#color');
+  $('#gyc-colorpicker').farbtastic('#gyc-color');
 }
 
 

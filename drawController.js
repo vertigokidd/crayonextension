@@ -91,11 +91,11 @@ function toggleCanvas(){
 // the stroke color by updating the color variable
 function updateColor(){
   $('.marker').on('mouseup', function(){
-    color = $('#color').val();
+    color = $('#gyc-color').val();
   });
 
   $('.marker').on('mouseleave', function(){
-    color = $('#color').val();
+    color = $('#gyc-color').val();
   });
 }
 
