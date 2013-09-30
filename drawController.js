@@ -6,6 +6,7 @@ var opacity = 1;
 var canvas = document.getElementById('gyc-canvas');
 var serverURL = 'http://localhost:3000';
 var windowUrl = window.location.href;
+var latestDrawing;
 myProject = project;
 
 
@@ -48,12 +49,14 @@ undo();
 openSaveForm();
 initializePopupForm();
 updateTimeline();
+toggleSaveButton();
 
 
 // Creates a request for latest drawing on initial page load
 function loadDrawings(windowUrl){
   $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
     if (response !== "website not found") {
+      latestDrawing = response.json_string
       project.importJSON(response.json_string);
       $('#gyc-tag-holder').html(response.tags_html_string);
       maxIndex = response.max_index;
@@ -61,14 +64,42 @@ function loadDrawings(windowUrl){
       $("#gyc-timeline").prop('max', maxIndex);
       $('#gyc-timeline').val(maxIndex);
       $("#gyc-next-button").prop('disabled', true);
+      $('#gyc-save-button').prop('disabled', true);
     }
     else {
       maxIndex = 0;
       currentPosition = maxIndex;
       $('#gyc-timeline').hide();
       $("#gyc-next-button").prop('disabled', true);
+      $('#gyc-save-button').prop('disabled', true);
     }
   }).fail(function(){showConfirmationPopup("Error: server conection problem")});
+}
+
+//listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
+function toggleSaveButton(){
+  $(document).on('mouseup', function(){
+    var currentDrawing = myProject.layers[myProject.layers.length - 1].exportJSON();
+    if(latestDrawing != currentDrawing){
+      $('#gyc-save-button').prop('disabled', false);
+    }
+    else{
+      $('#gyc-save-button').prop('disabled', true);
+    }
+  })
+}
+
+//listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
+function toggleSaveButton(){
+  $(document).on('mouseup', function(){
+    var currentDrawing = myProject.layers[myProject.layers.length - 1].exportJSON();
+    if(latestDrawing != currentDrawing){
+      $('#gyc-save-button').prop('disabled', false);
+    }
+    else{
+      $('#gyc-save-button').prop('disabled', true);
+    }
+  });
 }
 
 // Listens to a click on the dropdown bar and toggles the arrow up and down.
@@ -157,7 +188,7 @@ function initializePopupForm(){
   });
 }
 
-// Makes a post that saves the drwaing and is triggered
+// Makes a post that saves the drawing and is triggered
 // by the PopupForm Confirm-Save button
 function saveDrawingPost(){
   var tags = $('#gyc-drawingTags').val();
@@ -166,7 +197,7 @@ function saveDrawingPost(){
     json_string: myProject.layers[myProject.layers.length - 1].exportJSON(),
     tags: tags
   };
-
+  
   $.post(serverURL + '/save', data,function(response){
     if (response.tags_html_string){
       $('#gyc-tag-holder').html(response.tags_html_string);
@@ -177,7 +208,9 @@ function saveDrawingPost(){
       $("#gyc-timeline").prop('max', maxIndex);
       $('#gyc-timeline').val(maxIndex);
       $("#gyc-next-button").prop('disabled', true);
-    }  
+      $("#gyc-save-button").prop('disabled', true);
+      latestDrawing = myProject.layers[myProject.layers.length - 1].exportJSON()
+    };
   }).fail(function(){showConfirmationPopup("ERROR WHEN SAVING")});
 }
 
@@ -199,6 +232,12 @@ function updateTimeline(){
   $('#gyc-timeline').change(function() {
     currentPosition = $(this).val();
     timelineUpdate();
+    if(currentPosition != maxIndex){
+      $("#gyc-save-button").prop('disabled', false);
+    }
+    else{
+      $("#gyc-save-button").prop('disabled', true);
+    }
   });
 }
 
