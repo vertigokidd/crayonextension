@@ -6,6 +6,7 @@ var opacity = 1;
 var canvas = document.getElementById('gyc-canvas');
 var serverURL = 'http://localhost:3000';
 var windowUrl = window.location.href;
+// var latestDrawing;
 myProject = project;
 
 
