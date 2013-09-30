@@ -164,7 +164,7 @@ function saveDrawingPost(){
   };
 
   $.post(serverURL + '/save', data,function(response){
-    if (response === 'Success'){
+    if (response.tags_html_string){
       showConfirmationPopup();
       $('#drawingTags').val('');
       maxIndex += 1;
