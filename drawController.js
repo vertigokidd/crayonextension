@@ -53,6 +53,7 @@ function loadDrawings(windowUrl){
   $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
     if (response !== "website not found") {
       latestDrawing = response.json_string
+      project.activeLayer.remove();
       project.importJSON(response.json_string);
       $('#gyc-tag-holder').html(response.tags_html_string);
       maxIndex = response.max_index;
@@ -244,9 +245,9 @@ function timelineUpdate() {
     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
     myProject.activeLayer.remove();
     var newlayer = new Layer();
-    // myProject.activeLayer.removeChildren();
+    project.activeLayer.remove();
     myProject.importJSON(response);
-  });
+  }).fail(function(){showConfirmationPopup("ERROR: When Retrieving drawings")});
 }
 
 // $('#gyc-previous-button').click(function(){
