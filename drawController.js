@@ -3,7 +3,7 @@ var color = 'blue';
 var strokeCap = 'round';
 var width = 5;
 var opacity = 1;
-var canvas = document.getElementById('myCanvas');
+var canvas = document.getElementById('gyc-canvas');
 var serverURL = 'http://localhost:3000';
 var windowUrl = window.location.href;
 myProject = project;
@@ -14,9 +14,9 @@ var farbtasticWheel = chrome.extension.getURL("wheel.png");
 var farbtasticMask = chrome.extension.getURL("mask.png");
 var farbtasticMarker = chrome.extension.getURL("marker.png");
 
-$('.farbtastic .wheel').css("background", "url('" + farbtasticWheel + "') no-repeat");
-$('.farbtastic .overlay').css("background", "url('" + farbtasticMask + "') no-repeat");
-$('.farbtastic .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
+$('.farbtastic-gyc .wheel').css("background", "url('" + farbtasticWheel + "') no-repeat");
+$('.farbtastic-gyc .overlay').css("background", "url('" + farbtasticMask + "') no-repeat");
+$('.farbtastic-gyc .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
 
 
 // This is the Painting Functionality, method names are required by paper.js
@@ -54,14 +54,14 @@ function loadDrawings(windowUrl){
       $('#gyc-tag-holder').html(response.tags_html_string);
       maxIndex = response.max_index;
       currentPosition = maxIndex;
-      $("#timeline").prop('max', maxIndex);
-      $('#timeline').val(maxIndex);
+      $("#gyc-timeline").prop('max', maxIndex);
+      $('#gyc-timeline').val(maxIndex);
       $("#gyc-next-button").prop('disabled', true);
     }
     else {
       maxIndex = 0;
       currentPosition = maxIndex;
-      $('#timeline').hide();
+      $('#gyc-timeline').hide();
       $("#gyc-next-button").prop('disabled', true);
     }
   }).fail(function(){showConfirmationPopup("Error: server conection problem")});
@@ -69,12 +69,12 @@ function loadDrawings(windowUrl){
 
 // Listens to a click on the dropdown bar and toggles the arrow up and down.
 function toggleDropdownArrow(){
-  $('#toolbar-toggle').on('click', function() {
+  $('#gyc-toolbar-toggle').on('click', function() {
     if ($(this).hasClass('ui-state-active')) {
-      $('#toggle-toolbar-arrow').html('&#9650');
+      $('#gyc-toggle-toolbar-arrow').html('&#9650');
     }
     else {
-      $('#toggle-toolbar-arrow').html('&#9660');
+      $('#gyc-toggle-toolbar-arrow').html('&#9660');
     }
   });
 }
@@ -83,7 +83,7 @@ function toggleDropdownArrow(){
 // TESTED
 function toggleCanvas(){
   $('#gyc-paint-button').click(function(){
-    $('#myCanvas').toggle();
+    $('#gyc-canvas').toggle();
   });
 }
 
@@ -91,11 +91,11 @@ function toggleCanvas(){
 // the stroke color by updating the color variable
 function updateColor(){
   $('.marker').on('mouseup', function(){
-    color = $('#color').val();
+    color = $('#gyc-color').val();
   });
 
   $('.marker').on('mouseleave', function(){
-    color = $('#color').val();
+    color = $('#gyc-color').val();
   });
 }
 
@@ -105,7 +105,7 @@ function updateWidth(){
   $('#width').change(function() {
     var newWidth = $(this).val();
     width = parseInt(newWidth);
-    $('#current_width').html(width);
+    $('#gyc-current_width').html(width);
   });
 }
 
@@ -115,7 +115,7 @@ function updateOpacity(){
   $('#opacity').change(function() {
     var newOpacity = $(this).val();
     opacity = parseFloat(newOpacity)/100;
-    $('#current_opacity').html(newOpacity + "%");
+    $('#gyc-current_opacity').html(newOpacity + "%");
   });
 }
 
@@ -156,7 +156,7 @@ function initializePopupForm(){
 // Makes a post that saves the drwaing and is triggered
 // by the PopupForm Confirm-Save button
 function saveDrawingPost(){
-  var tags = $('#drawingTags').val();
+  var tags = $('#gyc-drawingTags').val();
   var data = {
     url: windowUrl,
     json_string: myProject.layers[myProject.layers.length - 1].exportJSON(),
@@ -171,8 +171,8 @@ function saveDrawingPost(){
       $('#drawingTags').val('');
       maxIndex += 1;
       currentPosition = maxIndex;
-      $("#timeline").prop('max', maxIndex);
-      $('#timeline').val(maxIndex);
+      $("#gyc-timeline").prop('max', maxIndex);
+      $('#gyc-timeline').val(maxIndex);
       $("#gyc-next-button").prop('disabled', true);
     }  
   }).fail(function(){showConfirmationPopup("ERROR WHEN SAVING")});
@@ -193,7 +193,7 @@ function showConfirmationPopup(message){
 // Listens for a change on the timeline slider
 // updates the current position and updates the time line
 function updateTimeline(){
-  $('#timeline').change(function() {
+  $('#gyc-timeline').change(function() {
     currentPosition = $(this).val();
     timelineUpdate();
   });

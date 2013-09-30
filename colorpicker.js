@@ -1,3 +1,3 @@
 $(document).ready(function() {
-  $('#colorpicker').farbtastic('#color');
+  $('#gyc-colorpicker').farbtastic('#color');
 });

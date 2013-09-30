@@ -19,7 +19,7 @@
     // "drawController.js",
     "colorpicker.js",
     "contentscript.js"],
-    "css": ["contentscript.css", "farbtastic.css", "jquery-ui.min.css"]
+    "css": ["contentscript.css", "farbtastic.css"]
     }
   ],
 
