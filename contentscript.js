@@ -104,5 +104,3 @@ function initializeColorPicker(){
   $('#gyc-colorpicker').farbtastic('#gyc-color');
 }
 
-
-
