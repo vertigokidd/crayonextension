@@ -54,7 +54,7 @@ toggleSaveButton();
 function loadDrawings(windowUrl){
   $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
     if (response !== "website not found") {
-      latestDrawing = response.json_string
+      latestDrawing = response.json_string;
       project.activeLayer.remove();
       project.importJSON(response.json_string);
       $('#gyc-tag-holder').html(response.tags_html_string);
@@ -73,7 +73,7 @@ function loadDrawings(windowUrl){
       $('#gyc-save-button').prop('disabled', true);
     }
   }).fail(function(){showConfirmationPopup("Error: server conection problem");
-       $('#gyc-timeline').hide(); 
+       $('#gyc-timeline').hide();
      });
 }
 
@@ -231,8 +231,8 @@ function saveDrawingPost(){
       $('#gyc-tag-holder').html(response.tags_html_string);
       showConfirmationPopup("SAVED!");
       $('#gyc-drawingTags').val('');
-      if(maxIndex == null){
-        maxIndex = 0
+      if(maxIndex === null){
+        maxIndex = 0;
       }
       else{
         maxIndex += 1;
@@ -242,14 +242,14 @@ function saveDrawingPost(){
       $('#gyc-timeline').val(maxIndex);
       $("#gyc-next-button").prop('disabled', true);
       $("#gyc-save-button").prop('disabled', true);
-      latestDrawing = myProject.layers[myProject.layers.length - 1].exportJSON()
+      latestDrawing = myProject.layers[myProject.layers.length - 1].exportJSON();
       if(maxIndex >= 1){
         $('#gyc-timeline').show();
       }
-    };
+    }
   }).fail(function(){
     showConfirmationPopup("ERROR WHEN SAVING");
-    $('#gyc-timeline').hide(); 
+    $('#gyc-timeline').hide();
      });
 }
 
@@ -289,7 +289,7 @@ function timelineUpdate() {
     var newlayer = new Layer();
     project.activeLayer.remove();
     myProject.importJSON(response);
-  }).fail(function(){showConfirmationPopup("ERROR: When Retrieving drawings")});
+  }).fail(function(){showConfirmationPopup("ERROR: When Retrieving drawings");});
 }
 
 // This method validates the authenticity of a hex color string
