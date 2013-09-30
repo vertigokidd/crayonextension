@@ -64,7 +64,7 @@ function loadDrawings(windowUrl){
       $('#gyc-timeline').hide();
       $("#gyc-next-button").prop('disabled', true);
     }
-  });
+  }).fail(function(){showConfirmationPopup("Error: server conection problem")});
 }
 
 // Listens to a click on the dropdown bar and toggles the arrow up and down.
@@ -165,34 +165,27 @@ function saveDrawingPost(){
 
   $.post(serverURL + '/save', data,function(response){
     if (response.tags_html_string){
-      console.log(response.tags_html_string);
       $('#gyc-tag-holder').html(response.tags_html_string);
-      showConfirmationPopup();
+      showConfirmationPopup("SAVED!");
       $('#gyc-drawingTags').val('');
       maxIndex += 1;
       currentPosition = maxIndex;
       $("#gyc-timeline").prop('max', maxIndex);
       $('#gyc-timeline').val(maxIndex);
       $("#gyc-next-button").prop('disabled', true);
-    }
-    else {
-      //We need to make a message in case the post fails
-    }
-
-  });
+    }  
+  }).fail(function(){showConfirmationPopup("ERROR WHEN SAVING")});
 }
 
 // displays a save confirmation message when post is succesfull
 // this is called from the post
-function showConfirmationPopup(){
-  $('body').prepend("<div id='gyc-confirmation-popup'>SAVED!</div>");
+function showConfirmationPopup(message){
+  $('body').prepend("<div id='gyc-confirmation-popup'>"+message+"</div>");
   $('#gyc-confirmation-popup').slideDown('slow');
   setTimeout(function(){
     $('#gyc-confirmation-popup').fadeOut('slow',function(){
-      // $('#gyc-confirmation-popup').remove();
-      // console.log("removed")
+      $('#gyc-confirmation-popup').remove();
     });
-
   }, 3000);
 }
 
