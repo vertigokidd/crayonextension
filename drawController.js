@@ -172,6 +172,13 @@ function initializePopupForm(){
     width: 250,
     dialogClass: 'gyc-save-popup',
     modal: true,
+    open: function() {
+      $("#gyc-drawingTags").keypress(function(e) {
+        if (e.keyCode == $.ui.keyCode.ENTER) {
+          $('.gyc-save-confirm-button').trigger("click");
+        }
+      });
+    },
     buttons: {
       "Confirm Save": {class: 'gyc-save-confirm-button', text: 'Confirm Save', click: function(){
         saveDrawingPost();

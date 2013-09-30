@@ -35,9 +35,7 @@ function injectToolbar() {
                      '</div>' +
                    '</div>' +
                    '<div id="gyc-save-confirm" title="Confirm save">' +
-                     '<form>' +
                        '<label>Tags:<input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
-                     '</form>' +
                    '</div>'
                    );
 }
