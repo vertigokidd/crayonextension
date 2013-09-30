@@ -1,6 +1,7 @@
 // Calls all initialize methods
 injectScripts();
 injectToolbar();
+getToolbarStatus();
 initializeMessageListener();
 initializeAccordion();
 initializeDraggable();
@@ -41,8 +42,6 @@ function injectToolbar() {
                    );
 }
 
-
-
 // This injects the drawController.js script onto the page.  Note - the script must be of
 // type 'text/paperscript' attached to a specific canvas id for paper.js to function properly
 
@@ -66,6 +65,19 @@ function initializeMessageListener(){
         $('.getyourcrayon-menubar').toggle();
       }
     });
+}
+
+// This sends a message at runtime asking the background.js for the status of the toolbar.
+// If it receives a status of 'off', the toolbar is not displayed on page load
+
+function getToolbarStatus() {
+  chrome.runtime.sendMessage({task: "get status"}, function(response) {
+    console.log(response.onOff);
+    if (response.onOff === "off") {
+      console.log('got in here');
+      $('.getyourcrayon-menubar').hide();
+    }
+  });
 }
 
 // This initializes the toolbar to have the accordion functionality once it is loaded and
