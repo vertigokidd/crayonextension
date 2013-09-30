@@ -32,6 +32,7 @@ function onMouseDown(event) {
 function onMouseDrag(event) {
   myPath.add(event.point);
   myPath.smooth();
+  console.log(myProject);
 }
 
 // This are all the Painting Functionality Listeners
@@ -163,7 +164,7 @@ function updateOpacity(){
 // Listens for a click on the undo button and removes the last stroke
 function undo(){
   $('#gyc-undo-button').click(function() {
-    myPath.remove();
+    myProject.layers[1].children[myProject.layers[1].children.length -1].remove();
   });
 }
 
