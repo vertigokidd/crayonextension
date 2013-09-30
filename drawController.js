@@ -82,6 +82,19 @@ function toggleSaveButton(){
     else{
       $('#gyc-save-button').prop('disabled', true);
     }
+  })
+}
+
+//listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
+function toggleSaveButton(){
+  $(document).on('mouseup', function(){
+    var currentDrawing = myProject.layers[myProject.layers.length - 1].exportJSON();
+    if(latestDrawing != currentDrawing){
+      $('#gyc-save-button').prop('disabled', false);
+    }
+    else{
+      $('#gyc-save-button').prop('disabled', true);
+    }
   });
 }
 
