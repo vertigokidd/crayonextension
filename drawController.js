@@ -65,7 +65,7 @@ function loadDrawings(windowUrl){
       $('#gyc-save-button').prop('disabled', true);
     }
     else {
-      maxIndex = 0;
+      maxIndex = null;
       currentPosition = maxIndex;
       $('#gyc-timeline').hide();
       $("#gyc-next-button").prop('disabled', true);
@@ -224,15 +224,23 @@ function saveDrawingPost(){
       $('#gyc-tag-holder').html(response.tags_html_string);
       showConfirmationPopup("SAVED!");
       $('#gyc-drawingTags').val('');
-      maxIndex += 1;
+      if(maxIndex == null){
+        maxIndex = 0
+      }
+      else{
+        maxIndex += 1;
+      }
       currentPosition = maxIndex;
       $("#gyc-timeline").prop('max', maxIndex);
       $('#gyc-timeline').val(maxIndex);
       $("#gyc-next-button").prop('disabled', true);
       $("#gyc-save-button").prop('disabled', true);
-      latestDrawing = myProject.layers[myProject.layers.length - 1].exportJSON();
-    }
-  }).fail(function(){showConfirmationPopup("ERROR WHEN SAVING");});
+      latestDrawing = myProject.layers[myProject.layers.length - 1].exportJSON()
+      if(maxIndex >= 1){  
+        $('#gyc-timeline').show(); 
+      }
+    };
+  }).fail(function(){showConfirmationPopup("ERROR WHEN SAVING")});
 }
 
 // displays a save confirmation message when post is succesfull
