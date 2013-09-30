@@ -191,6 +191,7 @@ function saveDrawingPost(){
       $('#gyc-timeline').val(maxIndex);
       $("#gyc-next-button").prop('disabled', true);
       $("#gyc-save-button").prop('disabled', true);
+      latestDrawing = myProject.layers[myProject.layers.length - 1].exportJSON()
     };
   }).fail(function(){showConfirmationPopup("ERROR WHEN SAVING")});
 }
@@ -213,6 +214,12 @@ function updateTimeline(){
   $('#gyc-timeline').change(function() {
     currentPosition = $(this).val();
     timelineUpdate();
+    if(currentPosition != maxIndex){
+      $("#gyc-save-button").prop('disabled', false);
+    }
+    else{
+      $("#gyc-save-button").prop('disabled', true);
+    }
   });
 }
 
@@ -225,12 +232,6 @@ function timelineUpdate() {
     var newlayer = new Layer();
     // myProject.activeLayer.removeChildren();
     myProject.importJSON(response);
-    if(currentPosition != maxIndex){
-      $("#gyc-save-button").prop('disabled', false);
-    }
-    else{
-      $("#gyc-save-button").prop('disabled', true);
-    }
   });
 }
 
