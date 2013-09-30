@@ -9,6 +9,10 @@ var windowUrl = window.location.href;
 myProject = project;
 
 
+$(body).mousemove(function(){console.log("NUM OF LAYERS: " + myProject.layers.length)})
+
+
+
 // This loads the color picker images
 var farbtasticWheel = chrome.extension.getURL("wheel.png");
 var farbtasticMask = chrome.extension.getURL("mask.png");
@@ -207,6 +211,7 @@ function timelineUpdate() {
     var newlayer = new Layer();
     // myProject.activeLayer.removeChildren();
     myProject.importJSON(response);
+    console.log("NUM OF LAYERS: " + myProject.layers.length)
   }).fail(function(){showConfirmationPopup("ERROR: When Retrieving drawings")});
 }
 
