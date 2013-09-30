@@ -53,7 +53,7 @@ toggleSaveButton();
 function loadDrawings(windowUrl){
   $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
     if (response !== "website not found") {
-      latestDrawing = response.json_string
+      latestDrawing = response.json_string;
       project.importJSON(response.json_string);
       $('#gyc-tag-holder').html(response.tags_html_string);
       maxIndex = response.max_index;
@@ -71,20 +71,6 @@ function loadDrawings(windowUrl){
       $('#gyc-save-button').prop('disabled', true);
     }
   }).fail(function(){showConfirmationPopup("Error: server conection problem");});
-<<<<<<< HEAD
-}
-
-//listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
-function toggleSaveButton(){
-  $(document).on('mouseup', function(){
-    var currentDrawing = myProject.layers[myProject.layers.length - 1].exportJSON();
-    if(latestDrawing != currentDrawing){
-      $('#gyc-save-button').prop('disabled', false);
-    }
-    else{
-      $('#gyc-save-button').prop('disabled', true);
-    }
-  })
 }
 
 //listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
@@ -98,8 +84,19 @@ function toggleSaveButton(){
       $('#gyc-save-button').prop('disabled', true);
     }
   });
-=======
->>>>>>> 46bfd2ee675367784a40dbb443e9db67e58fbdf5
+}
+
+//listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
+function toggleSaveButton(){
+  $(document).on('mouseup', function(){
+    var currentDrawing = myProject.layers[myProject.layers.length - 1].exportJSON();
+    if(latestDrawing != currentDrawing){
+      $('#gyc-save-button').prop('disabled', false);
+    }
+    else{
+      $('#gyc-save-button').prop('disabled', true);
+    }
+  });
 }
 
 // Listens to a click on the dropdown bar and toggles the arrow up and down.
