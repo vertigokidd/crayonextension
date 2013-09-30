@@ -71,6 +71,7 @@ function loadDrawings(windowUrl){
       $('#gyc-save-button').prop('disabled', true);
     }
   }).fail(function(){showConfirmationPopup("Error: server conection problem");});
+<<<<<<< HEAD
 }
 
 //listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
@@ -97,6 +98,8 @@ function toggleSaveButton(){
       $('#gyc-save-button').prop('disabled', true);
     }
   });
+=======
+>>>>>>> 46bfd2ee675367784a40dbb443e9db67e58fbdf5
 }
 
 // Listens to a click on the dropdown bar and toggles the arrow up and down.
