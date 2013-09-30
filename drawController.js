@@ -42,6 +42,7 @@ updateColor();
 updateWidth();
 updateOpacity();
 undo();
+cleanSlate();
 openSaveForm();
 initializePopupForm();
 updateTimeline();
@@ -53,6 +54,7 @@ function loadDrawings(windowUrl){
   $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
     if (response !== "website not found") {
       latestDrawing = response.json_string
+      project.activeLayer.remove();
       project.importJSON(response.json_string);
       $('#gyc-tag-holder').html(response.tags_html_string);
       maxIndex = response.max_index;
@@ -69,7 +71,7 @@ function loadDrawings(windowUrl){
       $("#gyc-next-button").prop('disabled', true);
       $('#gyc-save-button').prop('disabled', true);
     }
-  }).fail(function(){showConfirmationPopup("Error: server conection problem")});
+  }).fail(function(){showConfirmationPopup("Error: server conection problem");});
 }
 
 //listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
@@ -82,7 +84,7 @@ function toggleSaveButton(){
     else{
       $('#gyc-save-button').prop('disabled', true);
     }
-  })
+  });
 }
 
 //listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
@@ -128,6 +130,12 @@ function updateColor(){
   $('.marker').on('mouseleave', function(){
     color = $('#gyc-color').val();
   });
+
+  $('#gyc-color').on('keyup', function() {
+    if (validHex($('#gyc-color').val())) {
+      color = $('#gyc-color').val();
+    }
+  });
 }
 
 // Listens for a change on the width slider to change
@@ -154,6 +162,16 @@ function updateOpacity(){
 function undo(){
   $('#gyc-undo-button').click(function() {
     myPath.remove();
+  });
+}
+
+// Listens for a click on the clean slate button and clears the entire canvas
+
+function cleanSlate() {
+  $('#gyc-clean-slate-button').click(function() {
+    canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
+    myProject.activeLayer.remove();
+    var newlayer = new Layer();
   });
 }
 
@@ -200,7 +218,7 @@ function saveDrawingPost(){
     json_string: myProject.layers[myProject.layers.length - 1].exportJSON(),
     tags: tags
   };
-  
+
   $.post(serverURL + '/save', data,function(response){
     if (response.tags_html_string){
       $('#gyc-tag-holder').html(response.tags_html_string);
@@ -212,9 +230,9 @@ function saveDrawingPost(){
       $('#gyc-timeline').val(maxIndex);
       $("#gyc-next-button").prop('disabled', true);
       $("#gyc-save-button").prop('disabled', true);
-      latestDrawing = myProject.layers[myProject.layers.length - 1].exportJSON()
-    };
-  }).fail(function(){showConfirmationPopup("ERROR WHEN SAVING")});
+      latestDrawing = myProject.layers[myProject.layers.length - 1].exportJSON();
+    }
+  }).fail(function(){showConfirmationPopup("ERROR WHEN SAVING");});
 }
 
 // displays a save confirmation message when post is succesfull
@@ -251,9 +269,15 @@ function timelineUpdate() {
     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
     myProject.activeLayer.remove();
     var newlayer = new Layer();
-    // myProject.activeLayer.removeChildren();
+    project.activeLayer.remove();
     myProject.importJSON(response);
-  });
+  }).fail(function(){showConfirmationPopup("ERROR: When Retrieving drawings")});
+}
+
+// This method validates the authenticity of a hex color string
+
+function validHex(hexString) {
+  return (/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i).test(hexString);
 }
 
 // $('#gyc-previous-button').click(function(){
