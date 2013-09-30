@@ -51,7 +51,7 @@ function loadDrawings(windowUrl){
   $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
     if (response !== "website not found") {
       project.importJSON(response.json_string);
-      $('.getyourcrayon-menubar').append(response.tags_html_string);
+      $('#gyc-tag-holder').html(response.tags_html_string);
       maxIndex = response.max_index;
       currentPosition = maxIndex;
       $("#timeline").prop('max', maxIndex);
