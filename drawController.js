@@ -223,7 +223,7 @@ function saveDrawingPost(){
       $("#gyc-next-button").prop('disabled', true);
       $("#gyc-save-button").prop('disabled', true);
       latestDrawing = myProject.layers[myProject.layers.length - 1].exportJSON()
-      $('#gyc-timeline').show();
+      $('#gyc-timeline').show(); 
     };
   }).fail(function(){showConfirmationPopup("ERROR WHEN SAVING")});
 }
