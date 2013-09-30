@@ -26,7 +26,7 @@
   z-index:1000000000 ;
 }
 
-#myCanvas {
+#gyc-canvas {
   border:dashed black 1px ;
   position: absolute ;
   top:0px ;
@@ -50,7 +50,7 @@ border-radius: 4px !important;
 background-color: #aaa !important;
 }
 
-#toolbar-header {
+#gyc-toolbar-header {
   height: 40px !important;
   /*background-color: #aaa !important;*/
   border-top-left-radius: 4px !important;
@@ -58,18 +58,18 @@ background-color: #aaa !important;
   background-color: rgba(86,86,86,0.9) !important;
 }
 
-#toolbar-toggle {
+#gyc-toolbar-toggle {
   margin-top: 0 !important;
   height: 5px !important;
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
 }
 
-#toolbar-tools {
+#gyc-toolbar-tools {
   background-color: rgba(255,255,255,0.7) !important;
 }
 
-#toggle-toolbar-arrow {
+#gyc-toggle-toolbar-arrow {
   line-height: 5px !important;
   margin: 0 !important;
   margin-right: 16px !important;

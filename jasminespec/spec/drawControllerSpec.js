@@ -13,7 +13,7 @@ describe("drawController", function(){
   // });
   describe("toggleCanvas", function() {
     it("shows the canvas when toggle button is clicked", function(){
-      $('#toolbar-toggle').trigger('click');
+      $('#gyc-toolbar-toggle').trigger('click');
       setTimeout(function() { $('#gyc-paint-button').trigger('click'); }, 100);
       setTimeout(function() {expect($('#myCanvas').css('display')).toBe('block');}, 101);
     });
@@ -24,8 +24,8 @@ describe("drawController", function(){
       $('#width').val(20);
       var newWidth = $('#width').val();
       var width = parseInt(newWidth);
-      $('#current_width').html(width);
-      expect($('#current_width').html()).toBe('20');
+      $('#gyc-current_width').html(width);
+      expect($('#gyc-current_width').html()).toBe('20');
     });
   });
 
@@ -36,13 +36,13 @@ describe("drawController", function(){
     });
 
     it("closes the save confirm dialog box if user presses confirm save", function(){
-      setTimeout(function() {$('.gyc-save-confirm-button').trigger('click');}, 100);
+      setTimeout(function() {$('.gyc-save-confirm-button').trigger('click');}, 102);
       expect($('.gyc-save-popup').css('display')).toBe('none');
     });
 
     it("closes the save confirm dialog box if user presses cancel", function(){
-      setTimeout(function() {$('#gyc-save-button').trigger('click');}, 101);
-      setTimeout(function() {$('.gyc-save-confirm-button').trigger('click');}, 101);
+      setTimeout(function() {$('#gyc-save-button').trigger('click');}, 103);
+      setTimeout(function() {$('.gyc-save-confirm-button').trigger('click');}, 104);
       expect($('.gyc-save-popup').css('display')).toBe('none');
     });
 

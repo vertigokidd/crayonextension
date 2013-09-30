@@ -11,25 +11,25 @@ initializeColorPicker();
 
 function injectToolbar() {
   $('body').append('<div class="getyourcrayon-menubar">' +
-                     '<div id="toolbar-header">' +
-                       '<input type="range" id="timeline" min="0" max="10"></input>' +
+                     '<div id="gyc-toolbar-header">' +
+                       '<input type="range" id="gyc-timeline" min="0" max="10"></input>' +
                        '<div id="gyc-tag-holder">' +
                        '</div>' +
                      '</div>' +
-                     '<div id="toolbar">' +
-                       '<div id="toolbar-toggle">' +
-                         '<p id="toggle-toolbar-arrow">&#9660</p>' +
+                     '<div id="gyc-toolbar">' +
+                       '<div id="gyc-toolbar-toggle">' +
+                         '<p id="gyc-toggle-toolbar-arrow">&#9660</p>' +
                        '</div>' +
-                       '<div id="toolbar-tools">' +
+                       '<div id="gyc-toolbar-tools">' +
                          '<button type="gyc-button" id="gyc-paint-button" class="gyc-btn gyc-btn-default">Paint</button>' +
                          '<button type="gyc-button" id="gyc-undo-button" class="gyc-btn gyc-btn-default">Undo</button>' +
                          '<button type="gyc-button" id="gyc-save-button" class="gyc-btn gyc-btn-default">Save</button>' +
-                         '<label>Width: <span id="current_width">5</span><br><input id="width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
-                         '<label>Opacity: <span id="current_opacity">100%</span><br><input id="opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
+                         '<label>Width: <span id="gyc-current_width">5</span><br><input id="width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
+                         '<label>Opacity: <span id="gyc-current_opacity">100%</span><br><input id="opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
                          '<form>' +
                            '<input type="text" id="color" name="color" value="#123456" />' +
                          '</form>' +
-                         '<div id="colorpicker"></div>' +
+                         '<div id="gyc-colorpicker"></div>' +
                        '</div>' +
                      '</div>' +
                    '</div>' +
@@ -48,7 +48,7 @@ function injectToolbar() {
 
 function injectScripts() {
   var pscriptUrl = chrome.extension.getURL("drawController.js");
-  $('body').append('<script type="text/paperscript" src="'+ pscriptUrl + '" canvas="myCanvas"></script><canvas id="myCanvas" style="display:none;" resize></canvas>');
+  $('body').append('<script type="text/paperscript" src="'+ pscriptUrl + '" canvas="gyc-canvas"></script><canvas id="gyc-canvas" style="display:none;" resize></canvas>');
 }
 
 // This listens for messages from the background script (background.js) and toggles the toolbar
@@ -72,8 +72,8 @@ function initializeMessageListener(){
 // makes the entire toolbar draggable with the header specified as the handle for dragging
 
 function initializeAccordion() {
-  $('#toolbar').accordion({
-      header: "#toolbar-toggle",
+  $('#gyc-toolbar').accordion({
+      header: "#gyc-toolbar-toggle",
       collapsible: true,
       heightStyle: 'content',
       active: false
@@ -82,7 +82,7 @@ function initializeAccordion() {
 
 function initializeDraggable() {
   $('.getyourcrayon-menubar').draggable({
-    handle: '#toolbar-header'
+    handle: '#gyc-toolbar-header'
   });
 }
 
@@ -90,7 +90,7 @@ function initializeDraggable() {
 // This initializes the color picker on the toolbar through farbtastic.js
 
 function initializeColorPicker(){
-  $('#colorpicker').farbtastic('#color');
+  $('#gyc-colorpicker').farbtastic('#color');
 }
 
 

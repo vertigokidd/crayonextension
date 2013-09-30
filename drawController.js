@@ -3,7 +3,7 @@ var color = 'blue';
 var strokeCap = 'round';
 var width = 5;
 var opacity = 1;
-var canvas = document.getElementById('myCanvas');
+var canvas = document.getElementById('gyc-canvas');
 var serverURL = 'http://localhost:3000';
 var windowUrl = window.location.href;
 myProject = project;
@@ -54,14 +54,14 @@ function loadDrawings(windowUrl){
       $('#gyc-tag-holder').html(response.tags_html_string);
       maxIndex = response.max_index;
       currentPosition = maxIndex;
-      $("#timeline").prop('max', maxIndex);
-      $('#timeline').val(maxIndex);
+      $("#gyc-timeline").prop('max', maxIndex);
+      $('#gyc-timeline').val(maxIndex);
       $("#gyc-next-button").prop('disabled', true);
     }
     else {
       maxIndex = 0;
       currentPosition = maxIndex;
-      $('#timeline').hide();
+      $('#gyc-timeline').hide();
       $("#gyc-next-button").prop('disabled', true);
     }
   });
@@ -69,12 +69,12 @@ function loadDrawings(windowUrl){
 
 // Listens to a click on the dropdown bar and toggles the arrow up and down.
 function toggleDropdownArrow(){
-  $('#toolbar-toggle').on('click', function() {
+  $('#gyc-toolbar-toggle').on('click', function() {
     if ($(this).hasClass('ui-state-active')) {
-      $('#toggle-toolbar-arrow').html('&#9650');
+      $('#gyc-toggle-toolbar-arrow').html('&#9650');
     }
     else {
-      $('#toggle-toolbar-arrow').html('&#9660');
+      $('#gyc-toggle-toolbar-arrow').html('&#9660');
     }
   });
 }
@@ -83,7 +83,7 @@ function toggleDropdownArrow(){
 // TESTED
 function toggleCanvas(){
   $('#gyc-paint-button').click(function(){
-    $('#myCanvas').toggle();
+    $('#gyc-canvas').toggle();
   });
 }
 
@@ -105,7 +105,7 @@ function updateWidth(){
   $('#width').change(function() {
     var newWidth = $(this).val();
     width = parseInt(newWidth);
-    $('#current_width').html(width);
+    $('#gyc-current_width').html(width);
   });
 }
 
@@ -115,7 +115,7 @@ function updateOpacity(){
   $('#opacity').change(function() {
     var newOpacity = $(this).val();
     opacity = parseFloat(newOpacity)/100;
-    $('#current_opacity').html(newOpacity + "%");
+    $('#gyc-current_opacity').html(newOpacity + "%");
   });
 }
 
@@ -169,8 +169,8 @@ function saveDrawingPost(){
       $('#drawingTags').val('');
       maxIndex += 1;
       currentPosition = maxIndex;
-      $("#timeline").prop('max', maxIndex);
-      $('#timeline').val(maxIndex);
+      $("#gyc-timeline").prop('max', maxIndex);
+      $('#gyc-timeline').val(maxIndex);
       $("#gyc-next-button").prop('disabled', true);
     }
     else {
@@ -197,7 +197,7 @@ function showConfirmationPopup(){
 // Listens for a change on the timeline slider
 // updates the current position and updates the time line
 function updateTimeline(){
-  $('#timeline').change(function() {
+  $('#gyc-timeline').change(function() {
     currentPosition = $(this).val();
     timelineUpdate();
   });
