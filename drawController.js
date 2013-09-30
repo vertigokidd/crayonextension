@@ -10,10 +10,6 @@ var latestDrawing;
 myProject = project;
 
 
-$(body).mousemove(function(){console.log("NUM OF LAYERS: " + myProject.layers.length)})
-
-
-
 // This loads the color picker images
 var farbtasticWheel = chrome.extension.getURL("wheel.png");
 var farbtasticMask = chrome.extension.getURL("mask.png");
@@ -57,6 +53,7 @@ function loadDrawings(windowUrl){
   $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
     if (response !== "website not found") {
       latestDrawing = response.json_string
+      project.activeLayer.remove();
       project.importJSON(response.json_string);
       $('#gyc-tag-holder').html(response.tags_html_string);
       maxIndex = response.max_index;
@@ -248,9 +245,8 @@ function timelineUpdate() {
     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
     myProject.activeLayer.remove();
     var newlayer = new Layer();
-    // myProject.activeLayer.removeChildren();
+    project.activeLayer.remove();
     myProject.importJSON(response);
-    console.log("NUM OF LAYERS: " + myProject.layers.length)
   }).fail(function(){showConfirmationPopup("ERROR: When Retrieving drawings")});
 }
 
