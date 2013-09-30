@@ -14,9 +14,9 @@ var farbtasticWheel = chrome.extension.getURL("wheel.png");
 var farbtasticMask = chrome.extension.getURL("mask.png");
 var farbtasticMarker = chrome.extension.getURL("marker.png");
 
-$('.farbtastic .wheel').css("background", "url('" + farbtasticWheel + "') no-repeat");
-$('.farbtastic .overlay').css("background", "url('" + farbtasticMask + "') no-repeat");
-$('.farbtastic .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
+$('.farbtastic-gyc .wheel').css("background", "url('" + farbtasticWheel + "') no-repeat");
+$('.farbtastic-gyc .overlay').css("background", "url('" + farbtasticMask + "') no-repeat");
+$('.farbtastic-gyc .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
 
 
 // This is the Painting Functionality, method names are required by paper.js
