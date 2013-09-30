@@ -71,7 +71,9 @@ function loadDrawings(windowUrl){
       $("#gyc-next-button").prop('disabled', true);
       $('#gyc-save-button').prop('disabled', true);
     }
-  }).fail(function(){showConfirmationPopup("Error: server conection problem");});
+  }).fail(function(){showConfirmationPopup("Error: server conection problem");
+       $('#gyc-timeline').hide(); 
+     });
 }
 
 //listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
@@ -240,7 +242,10 @@ function saveDrawingPost(){
         $('#gyc-timeline').show(); 
       }
     };
-  }).fail(function(){showConfirmationPopup("ERROR WHEN SAVING")});
+  }).fail(function(){
+    showConfirmationPopup("ERROR WHEN SAVING");
+    $('#gyc-timeline').hide(); 
+     });
 }
 
 // displays a save confirmation message when post is succesfull
