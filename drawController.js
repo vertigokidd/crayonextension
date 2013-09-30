@@ -6,7 +6,7 @@ var opacity = 1;
 var canvas = document.getElementById('gyc-canvas');
 var serverURL = 'http://localhost:3000';
 var windowUrl = window.location.href;
-// var latestDrawing;
+var latestDrawing;
 myProject = project;
 
 
@@ -69,7 +69,7 @@ function loadDrawings(windowUrl){
       $("#gyc-next-button").prop('disabled', true);
       $('#gyc-save-button').prop('disabled', true);
     }
-  });
+  }).fail(function(){showConfirmationPopup("Error: server conection problem")});
 }
 
 //listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
@@ -82,7 +82,7 @@ function toggleSaveButton(){
     else{
       $('#gyc-save-button').prop('disabled', true);
     }
-  }).fail(function(){showConfirmationPopup("Error: server conection problem")});
+  });
 }
 
 // Listens to a click on the dropdown bar and toggles the arrow up and down.
