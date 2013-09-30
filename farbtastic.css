@@ -16,32 +16,32 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-.farbtastic {
+.farbtastic-gyc {
   position: relative;
 }
-.farbtastic * {
+.farbtastic-gyc * {
   position: absolute;
   cursor: crosshair;
 }
-.farbtastic, .farbtastic .wheel {
+.farbtastic-gyc, .farbtastic-gyc .wheel {
   width: 195px;
   height: 195px;
 }
-.farbtastic .color, .farbtastic .overlay {
+.farbtastic-gyc .color, .farbtastic-gyc .overlay {
   top: 47px;
   left: 47px;
   width: 101px;
   height: 101px;
 }
-.farbtastic .wheel {
+.farbtastic-gyc .wheel {
 /*  background: url('chrome-extension://gihnhlpljaeoehnmmefcaamgjgoojjha/wheel.png') no-repeat;*/
   width: 195px;
   height: 195px;
 }
-.farbtastic .overlay {
+.farbtastic-gyc .overlay {
   /*background: url('chrome-extension://gihnhlpljaeoehnmmefcaamgjgoojjha/mask.png') no-repeat;*/
 }
-.farbtastic .marker {
+.farbtastic-gyc .marker {
   width: 17px;
   height: 17px;
   margin: -8px 0 0 -8px;
