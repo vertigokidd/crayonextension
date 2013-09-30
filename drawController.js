@@ -163,8 +163,12 @@ function updateOpacity(){
 
 // Listens for a click on the undo button and removes the last stroke
 function undo(){
-  $('#gyc-undo-button').click(function() {
-    myProject.layers[1].children[myProject.layers[1].children.length -1].remove();
+  $('#gyc-undo-button').click(function(event) {
+    if (myProject.layers[1].children.length >= 1) {
+      myProject.layers[1].children[myProject.layers[1].children.length -1].visible = false;
+      myProject.layers[1].children[myProject.layers[1].children.length -1].remove();
+      myProject.view.draw();
+    }
   });
 }
 
@@ -304,6 +308,7 @@ function validHex(hexString) {
 //     if (currentPosition == 0) {
 //       $("#gyc-previous-button").prop('disabled', true);
 //     }
+      // myProject.view.draw();
 //   });
 // });
 
@@ -317,5 +322,6 @@ function validHex(hexString) {
 //     if (currentPosition == maxIndex) {
 //       $("#gyc-next-button").prop('disabled', true);
 //     }
+      // myProject.view.draw();
 //   });
 // });
