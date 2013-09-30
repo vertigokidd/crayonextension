@@ -165,6 +165,8 @@ function saveDrawingPost(){
 
   $.post(serverURL + '/save', data,function(response){
     if (response.tags_html_string){
+      console.log(response.tags_html_string);
+      $('#gyc-tag-holder').html(response.tags_html_string);
       showConfirmationPopup();
       $('#drawingTags').val('');
       maxIndex += 1;
