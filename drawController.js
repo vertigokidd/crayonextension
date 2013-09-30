@@ -207,7 +207,7 @@ function timelineUpdate() {
     var newlayer = new Layer();
     // myProject.activeLayer.removeChildren();
     myProject.importJSON(response);
-  });
+  }).fail(function(){showConfirmationPopup("ERROR: When Retrieving drawings")});
 }
 
 // $('#gyc-previous-button').click(function(){
