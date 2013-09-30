@@ -156,7 +156,7 @@ function initializePopupForm(){
 // Makes a post that saves the drwaing and is triggered
 // by the PopupForm Confirm-Save button
 function saveDrawingPost(){
-  var tags = $('#drawingTags').val();
+  var tags = $('#gyc-drawingTags').val();
   var data = {
     url: windowUrl,
     json_string: myProject.layers[myProject.layers.length - 1].exportJSON(),
@@ -166,7 +166,7 @@ function saveDrawingPost(){
   $.post(serverURL + '/save', data,function(response){
     if (response === 'Success'){
       showConfirmationPopup();
-      $('#drawingTags').val('');
+      $('#gyc-drawingTags').val('');
       maxIndex += 1;
       currentPosition = maxIndex;
       $("#gyc-timeline").prop('max', maxIndex);
