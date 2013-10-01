@@ -23,7 +23,7 @@
     }
   ],
 
-  "web_accessible_resources": ["drawController.js", "wheel.png", "marker.png", "mask.png"],
+  "web_accessible_resources": ["drawController.js", "wheel.png", "marker.png", "mask.png", "gyc-off.png", "gyc-on.png"],
 
   "browser_action": {
     "default_icon": "eyeopen19.png",

@@ -1,5 +1,5 @@
 .getyourcrayon-menubar {
-  width:260px !important;
+  width:240px !important;
   position: absolute !important;
   top: 20px ;
   right:20px ;
@@ -14,6 +14,7 @@
   z-index:1000000000 !important;
 }
 
+
 #gyc-confirmation-popup {
   background-color: orange ;
   position:absolute ;
@@ -27,7 +28,7 @@
 }
 
 #gyc-canvas {
-  border:dashed black 1px ;
+  /*border:dashed black 1px ;*/
   position: absolute ;
   top:0px ;
   left:0px ;
@@ -35,19 +36,18 @@
 }
 
 .gyc-btn {
-display: inline-block !important;
-padding: 6px 12px !important;
-margin-bottom: 0 !important;
-font-size: 14px !important;
-font-weight: normal !important;
-line-height: 1.428571429 !important;
-text-align: center !important;
-white-space: nowrap !important;
-vertical-align: middle !important;
-cursor: pointer !important;
-border: 1px solid rgba(0, 0, 0, 0) !important;
-border-radius: 4px !important;
-background-color: #aaa !important;
+  display: inline-block !important;
+  margin-bottom: 0 !important;
+  font-size: 14px !important;
+  font-weight: normal !important;
+  line-height: 1.428571429 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+  cursor: pointer !important;
+  background-color: #aaa !important;
+  width: 60px !important;
+  height: 60px !important;
 }
 
 #gyc-toolbar-header {
@@ -60,7 +60,7 @@ background-color: #aaa !important;
 
 #gyc-toolbar-toggle {
   margin-top: 0 !important;
-  height: 5px !important;
+  height: 10px !important;
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
 }
@@ -70,7 +70,7 @@ background-color: #aaa !important;
 }
 
 #gyc-toggle-toolbar-arrow {
-  line-height: 5px !important;
+  line-height: 10px !important;
   margin: 0 !important;
   margin-right: 16px !important;
   padding: 0 !important;

@@ -20,6 +20,13 @@ $('.farbtastic-gyc .overlay').css("background", "url('" + farbtasticMask + "') n
 $('.farbtastic-gyc .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
 
 
+// Load the button images on toolbar //
+
+var gycOn = chrome.extension.getURL("gyc-on.png");
+var gycOff = chrome.extension.getURL("gyc-off.png");
+
+$('#gyc-paint-button').css("background", "url('" + gycOff + "') no-repeat");
+
 // This is the Painting Functionality, method names are required by paper.js
 function onMouseDown(event) {
   myPath = new Path();
@@ -35,6 +42,7 @@ function onMouseDrag(event) {
 }
 
 // This are all the Painting Functionality Listeners
+// initializeMsgListener();
 loadDrawings(windowUrl);
 toggleDropdownArrow();
 toggleCanvas();
@@ -122,6 +130,13 @@ function toggleDropdownArrow(){
 function toggleCanvas(){
   $('#gyc-paint-button').click(function(){
     $('#gyc-canvas').toggle();
+    if ($('#gyc-canvas').css("display") === 'none') {
+      $('#gyc-paint-button').css("background", "url('" + gycOff + "') no-repeat");
+    }
+    else {
+      $('#gyc-paint-button').css("background", "url('" + gycOn + "') no-repeat");
+    }
+
   });
 }
 
@@ -353,3 +368,17 @@ function initializeNext() {
     });
   });
 }
+
+// function initializeMsgListener(){
+//   chrome.extension.onMessage.addListener(
+//     function(request, sender, sendResponse) {
+//       console.log(request);
+//       console.log(sender.tab ?
+//                   "from a content script:" + sender.tab.url :
+//                   "from the extension");
+//       if (request.task == "toggle") {
+//         console.log('receieved message in drawController.js');
+//         myProject.view.draw();
+//       }
+//     });
+// }

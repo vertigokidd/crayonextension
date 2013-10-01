@@ -14,24 +14,26 @@ function injectToolbar() {
   $('body').append('<div class="getyourcrayon-menubar">' +
                      '<div id="gyc-toolbar-header">' +
                        '<a id="gyc-previous-button" href="">Previous</a><input type="range" id="gyc-timeline" min="0" max="10"></input><a id="gyc-next-button" href="">Next</a>' +
-                       '<div id="gyc-tag-holder">' +
-                       '</div>' +
+                     '</div>' +
+                     '<div id="gyc-toolbar-buttons">' +
+                       '<div id="gyc-paint-button" class="gyc-btn gyc-btn-default"></div>' +
+                       '<div id="gyc-undo-button" class="gyc-btn gyc-btn-default">Undo</div>' +
+                       '<div id="gyc-save-button" class="gyc-btn gyc-btn-default">Save</div>' +
+                       '<div id="gyc-clean-slate-button" class="gyc-btn gyc-btn-default">Clean Slate</div>' +
                      '</div>' +
                      '<div id="gyc-toolbar">' +
                        '<div id="gyc-toolbar-toggle">' +
                          '<p id="gyc-toggle-toolbar-arrow">&#9660</p>' +
                        '</div>' +
                        '<div id="gyc-toolbar-tools">' +
-                         '<button type="gyc-button" id="gyc-paint-button" class="gyc-btn gyc-btn-default">Paint</button>' +
-                         '<button type="gyc-button" id="gyc-undo-button" class="gyc-btn gyc-btn-default">Undo</button>' +
-                         '<button type="button" id="gyc-save-button" class="gyc-btn gyc-btn-default">Save</button>' +
-                         '<button type="gyc-button" id="gyc-clean-slate-button" class="gyc-btn gyc-btn-default">Clean Slate</button>' +
                          '<label>Width: <span id="gyc-current_width">5</span><br><input id="width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
                          '<label>Opacity: <span id="gyc-current_opacity">100%</span><br><input id="opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
                          '<form>' +
                            '<input type="text" id="gyc-color" name="color" value="#123456" />' +
                          '</form>' +
                          '<div id="gyc-colorpicker"></div>' +
+                         '<div id="gyc-tag-holder">' +
+                       '</div>' +
                        '</div>' +
                      '</div>' +
                    '</div>' +
