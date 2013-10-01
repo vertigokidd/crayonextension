@@ -13,7 +13,7 @@ initializeColorPicker();
 function injectToolbar() {
   $('body').append('<div class="getyourcrayon-menubar">' +
                      '<div id="gyc-toolbar-header">' +
-                       '<input type="range" id="gyc-timeline" min="0" max="10"></input>' +
+                       '<a id="gyc-previous-button" href="">Previous</a><input type="range" id="gyc-timeline" min="0" max="10"></input><a id="gyc-next-button" href="">Next</a>' +
                        '<div id="gyc-tag-holder">' +
                        '</div>' +
                      '</div>' +
