@@ -32,7 +32,6 @@ function onMouseDown(event) {
 function onMouseDrag(event) {
   myPath.add(event.point);
   myPath.smooth();
-  console.log(myProject);
 }
 
 // This are all the Painting Functionality Listeners
@@ -48,6 +47,8 @@ openSaveForm();
 initializePopupForm();
 updateTimeline();
 toggleSaveButton();
+initializePrevious();
+initializeNext();
 
 
 // Creates a request for latest drawing on initial page load
@@ -68,7 +69,7 @@ function loadDrawings(windowUrl){
       currentPosition = maxIndex;
       $('#gyc-timeline').hide();
     }
-    $("#gyc-next-button").prop('disabled', true);
+    $("#gyc-next-button").css('visibility', 'hidden');
     $('#gyc-save-button').prop('disabled', true);
   }).fail(function(){showConfirmationPopup("Error: server conection problem");
        $('#gyc-timeline').hide();
@@ -243,7 +244,7 @@ function saveDrawingPost(){
       currentPosition = maxIndex;
       $("#gyc-timeline").prop('max', maxIndex);
       $('#gyc-timeline').val(maxIndex);
-      $("#gyc-next-button").prop('disabled', true);
+      $("#gyc-next-button").css('visibility', 'hidden');
       $("#gyc-save-button").prop('disabled', true);
       latestDrawing = myProject.layers[myProject.layers.length - 1].exportJSON();
       if(maxIndex >= 1){
@@ -274,6 +275,19 @@ function updateTimeline(){
   $('#gyc-timeline').change(function() {
     currentPosition = $(this).val();
     timelineUpdate();
+    if (currentPosition == maxIndex) {
+      $("#gyc-next-button").css('visibility', 'hidden');
+    }
+    else {
+      $("#gyc-next-button").css('visibility', 'visible');
+    }
+    if (currentPosition == 0) {
+      $("#gyc-previous-button").css('visibility', 'hidden');
+    }
+    else {
+      $("#gyc-previous-button").css('visibility', 'visible');
+    }
+
     if(currentPosition != maxIndex){
       $("#gyc-save-button").prop('disabled', false);
     }
@@ -292,6 +306,7 @@ function timelineUpdate() {
     var newlayer = new Layer();
     project.activeLayer.remove();
     myProject.importJSON(response);
+    myProject.view.draw();
   }).fail(function(){showConfirmationPopup("ERROR: When Retrieving drawings");});
 }
 
@@ -301,30 +316,40 @@ function validHex(hexString) {
   return (/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i).test(hexString);
 }
 
-// $('#gyc-previous-button').click(function(){
-//   currentPosition -= 1;
-//   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
-//     $("#gyc-next-button").prop('disabled', false);
-//     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
-//     myProject.activeLayer.removeChildren();
-//     myProject.importJSON(response);
-//     if (currentPosition == 0) {
-//       $("#gyc-previous-button").prop('disabled', true);
-//     }
-      // myProject.view.draw();
-//   });
-// });
+// These two methods initialize the next and previous buttons for the timeline
 
-// $('#gyc-next-button').click(function(){
-//   currentPosition += 1;
-//   $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
-//     $("#gyc-previous-button").prop('disabled', false);
-//     canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
-//     myProject.activeLayer.removeChildren();
-//     myProject.importJSON(response);
-//     if (currentPosition == maxIndex) {
-//       $("#gyc-next-button").prop('disabled', true);
-//     }
-      // myProject.view.draw();
-//   });
-// });
+function initializePrevious() {
+  $('#gyc-previous-button').click(function(event){
+    event.preventDefault();
+    currentPosition -= 1;
+    $('#gyc-timeline').val(currentPosition);
+    $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
+      $("#gyc-next-button").css('visibility', 'visible');
+      canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
+      myProject.activeLayer.removeChildren();
+      myProject.importJSON(response);
+      if (currentPosition == 0) {
+        $("#gyc-previous-button").css('visibility', 'hidden');
+      }
+      myProject.view.draw();
+    });
+  });
+}
+
+function initializeNext() {
+  $('#gyc-next-button').click(function(event){
+    event.preventDefault();
+    currentPosition += 1;
+    $('#gyc-timeline').val(currentPosition);
+    $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
+      $("#gyc-previous-button").css('visibility', 'visible');
+      canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
+      myProject.activeLayer.removeChildren();
+      myProject.importJSON(response);
+      if (currentPosition == maxIndex) {
+        $("#gyc-next-button").css('visibility', 'hidden');
+      }
+      myProject.view.draw();
+    });
+  });
+}
