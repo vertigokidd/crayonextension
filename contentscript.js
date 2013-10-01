@@ -18,8 +18,8 @@ function injectToolbar() {
                      '<div id="gyc-toolbar-buttons">' +
                        '<div id="gyc-paint-button" class="gyc-btn gyc-btn-default"></div>' +
                        '<div id="gyc-undo-button" class="gyc-btn gyc-btn-default">Undo</div>' +
-                       '<div id="gyc-save-button" class="gyc-btn gyc-btn-default">Save</div>' +
                        '<div id="gyc-clean-slate-button" class="gyc-btn gyc-btn-default">Clean Slate</div>' +
+                       '<div id="gyc-save-button" class="gyc-btn gyc-btn-default">Save</div>' +
                      '</div>' +
                      '<div id="gyc-toolbar">' +
                        '<div id="gyc-toolbar-toggle">' +
