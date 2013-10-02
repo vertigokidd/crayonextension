@@ -9,20 +9,11 @@ function Graffiti() {
   this.windowUrl = window.location.href;
   this.latestDrawing = null;
   this.project = project;
+  this.maxIndex = null;
+  this.currentPosition = null;
 }
 
 var graffiti = new Graffiti();
-
-// var myPath;
-// var color = 'blue';
-// var strokeCap = 'round';
-// var width = 5;
-// var opacity = 1;
-// var canvas = document.getElementById('gyc-canvas');
-// var serverURL = 'http://localhost:3000';
-// var windowUrl = window.location.href;
-// var latestDrawing;
-// myProject = project;
 
 
 // This loads the color picker images
@@ -45,55 +36,28 @@ function onMouseDown(event) {
   graffiti.path.opacity = graffiti.opacity;
 }
 
-
-// function onMouseDown(event) {
-//   myPath = new Path();
-//   myPath.strokeColor = color;
-//   myPath.strokeWidth = width;
-//   myPath.strokeCap = strokeCap;
-//   myPath.opacity = opacity;
-// }
-
 function onMouseDrag(event) {
-  myPath.add(event.point);
-  myPath.smooth();
+  graffiti.path.add(event.point);
+  graffiti.path.smooth();
 }
-
-// This are all the Painting Functionality Listeners
-// initializeMsgListener();
-loadDrawings(windowUrl);
-toggleDropdownArrow();
-toggleCanvas();
-updateColor();
-updateWidth();
-updateOpacity();
-undo();
-cleanSlate();
-openSaveForm();
-initializePopupForm();
-initializeTwitterPopup();
-updateTimeline();
-toggleSaveButton();
-initializePrevious();
-initializeNext();
 
 
 // Creates a request for latest drawing on initial page load
-function loadDrawings(windowUrl){
-  $.get(serverURL + '/retrieve', {'url': windowUrl}, function(response) {
+Graffiti.prototype.loadDrawings = function(windowUrl) {
+  $.get(this.serverURL + '/retrieve', {'url': windowUrl}, function(response) {
     if (response !== "website not found") {
-      latestDrawing = response.json_string;
-      project.activeLayer.remove();
-      project.importJSON(response.json_string);
+      this.latestDrawing = response.json_string;
+      this.project.activeLayer.remove();
+      this.project.importJSON(response.json_string);
       $('#gyc-tag-holder').html(response.tags_html_string);
-      maxIndex = response.max_index;
-      currentPosition = maxIndex;
+      this.maxIndex = response.max_index;
+      this.currentPosition = this.maxIndex;
       $("#gyc-timeline").prop('max', maxIndex);
       $('#gyc-timeline').val(maxIndex);
     }
     else {
-      maxIndex = null;
-      currentPosition = maxIndex;
+      this.maxIndex = null;
+      this.currentPosition = this.maxIndex;
       $('#gyc-timeline').hide();
     }
     $("#gyc-next-button").css('visibility', 'hidden');
@@ -101,18 +65,18 @@ function loadDrawings(windowUrl){
   }).fail(function(){showConfirmationPopup("body","Error: server conection problem");
        $('#gyc-timeline').hide();
      });
-}
+};
 
 // listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
 
-function toggleSaveButton(){
+Graffiti.prototype.toggleSaveButton = function(){
   var undoCounter = 0;
-
+  var self = this;
 
   $('#gyc-canvas').on('mouseup', function(){
     undoCounter += 1;
-    var currentDrawing = myProject.layers[myProject.layers.length - 1].exportJSON();
-    if(latestDrawing != currentDrawing){
+    var currentDrawing = self.project.layers[self.project.layers.length - 1].exportJSON();
+    if(self.latestDrawing != currentDrawing){
       $('#gyc-save-button').prop('disabled', false);
     }
     else{
@@ -130,10 +94,10 @@ function toggleSaveButton(){
       $('#gyc-save-button').prop('disabled', false);
     }
   });
-}
+};
 
 // Listens to a click on the dropdown bar and toggles the arrow up and down.
-function toggleDropdownArrow(){
+Graffiti.prototype.toggleDropdownArrow = function(){
   $('#gyc-toolbar-toggle').on('click', function() {
     $(this).focus('false');
     if ($(this).hasClass('ui-state-active')) {
@@ -144,11 +108,11 @@ function toggleDropdownArrow(){
       $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-up').addClass('icon-chevron-sign-down');
     }
   });
-}
+};
 
 // Listens for a click on the paint button and hides or displays the canvas
 // TESTED
-function toggleCanvas(){
+Graffiti.prototype.toggleCanvas = function(){
   $('#gyc-paint-button').click(function(){
     $('#gyc-canvas').toggle();
     if ($('#gyc-canvas').css("display") === 'none') {
@@ -159,76 +123,82 @@ function toggleCanvas(){
     }
 
   });
-}
+};
 
 // Listens for mouse events on the color picker image to change
 // the stroke color by updating the color variable
-function updateColor(){
+Graffiti.prototype.updateColor = function(){
+  var self = this;
   $('.marker').on('mouseup', function(){
-    color = $('#gyc-color').val();
+    self.color = $('#gyc-color').val();
   });
 
   $('.marker').on('mouseleave', function(){
-    color = $('#gyc-color').val();
+    self.color = $('#gyc-color').val();
   });
 
   $('#gyc-color').on('keyup', function() {
     if (validHex($('#gyc-color').val())) {
-      color = $('#gyc-color').val();
+      self.color = $('#gyc-color').val();
     }
   });
-}
+};
 
 // Listens for a change on the width slider to change
 // the stroke width by updating the width variable
-function updateWidth(){
+Graffiti.prototype.updateWidth = function(){
+  var self = this;
   $('#gyc-width').change(function() {
     var newWidth = $(this).val();
-    width = parseInt(newWidth);
-    $('#gyc-current_width').html(width);
+    self.width = parseInt(newWidth);
+    $('#gyc-current_width').html(self.width);
   });
-}
+};
 
 // Listens for a change on the opacity slider to change
 // the stroke opacity by updating the opacity variable
-function updateOpacity(){
+Graffiti.prototype.updateOpacity = function(){
+  var self = this;
   $('#gyc-opacity').change(function() {
     var newOpacity = $(this).val();
-    opacity = parseFloat(newOpacity)/100;
+    self.opacity = parseFloat(newOpacity)/100;
     $('#gyc-current_opacity').html(newOpacity + "%");
   });
-}
+};
 
 // Listens for a click on the undo button and removes the last stroke
-function undo(){
+Graffiti.prototype.undo = function(){
+  var self = this;
   $('#gyc-undo-button').click(function(event) {
-    if (myProject.layers[0].children.length >= 1) {
-      myProject.layers[0].children[myProject.layers[0].children.length -1].visible = false;
-      myProject.layers[0].children[myProject.layers[0].children.length -1].remove();
-      myProject.view.draw();
+    if (self.project.layers[0].children.length >= 1) {
+      self.project.layers[0].children[self.project.layers[0].children.length -1].visible = false;
+      self.project.layers[0].children[self.project.layers[0].children.length -1].remove();
+      self.project.view.draw();
     }
   });
-}
+};
 
 // Listens for a click on the clean slate button and clears the entire canvas
 
-function cleanSlate() {
+Graffiti.prototype.cleanSlate = function() {
+  var self = this;
   $('#gyc-clean-slate-button').click(function() {
-    canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
-    myProject.activeLayer.remove();
+    self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
+    self.project.activeLayer.remove();
     var newlayer = new Layer();
   });
-}
+};
 
 // Listens for a click on the save button and opens the dialog save form
-function openSaveForm(){
+Graffiti.prototype.openSaveForm = function(){
   $('#gyc-save-button').click(function(){
     $('#gyc-save-confirm').dialog("open");
   });
-}
+};
 
 // Initializes pop-up Save form and listens
-function initializePopupForm(){
+Graffiti.prototype.initializePopupForm = function(){
+  var self = this;
   $('#gyc-save-confirm').dialog({
     autoOpen: false,
     height: 100,
@@ -244,7 +214,7 @@ function initializePopupForm(){
     },
     buttons: {
       "Confirm Save": {class: 'gyc-save-confirm-button', text: 'Confirm Save', click: function(){
-        saveDrawingPost();
+        self.saveDrawingPost();
         $('#gyc-twitter').dialog("open");
         $(this).dialog('close');
         }},
@@ -253,12 +223,12 @@ function initializePopupForm(){
         }
       }}
   });
-}
+};
 
 
 // Initializes Twitter pop-up and listens
 // This is called on the save form confirmation button
-function initializeTwitterPopup(){
+Graffiti.prototype.initializeTwitterPopup = function(){
   $('#gyc-twitter').dialog({
     autoOpen: false,
     height: 100,
@@ -267,48 +237,49 @@ function initializeTwitterPopup(){
     modal: false,
     close: function() { console.log("CLOSE");$('#gyc-twitter-bttn').html(""); }
   });
-}
+};
 
 // Makes a post that saves the drawing and is triggered
 // by the PopupForm Confirm-Save button
-function saveDrawingPost(){
+Graffiti.prototype.saveDrawingPost = function(){
+  var self = this;
   var tags = $('#gyc-drawingTags').val();
   var data = {
-    url: windowUrl,
-    json_string: myProject.layers[myProject.layers.length - 1].exportJSON(),
+    url: self.windowUrl,
+    json_string: self.project.layers[self.project.layers.length - 1].exportJSON(),
     tags: tags
   };
 
 
-  $.post(serverURL + '/save', data,function(response){
+  $.post(self.serverURL + '/save', data,function(response){
     if (response.tags_html_string){
       var twitter_html = '<a href="https://twitter.com/share" data-url="/" class="twitter-share-button" data-hashtags="GetYourCrayon" data-text="I created this amazing drawing see it on => '+response.unique_url+'" data-lang="en" data-size="large" data-count="none">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>'
       $('#gyc-twitter-bttn').html(twitter_html);
       $('#gyc-tag-holder').html(response.tags_html_string);
       $('#gyc-drawingTags').val('');
-      if(maxIndex === null){
-        maxIndex = 0;
-        $("#gyc-timeline").prop('max', maxIndex);
-        $('#gyc-timeline').val(maxIndex);
+      if(self.maxIndex === null){
+        self.maxIndex = 0;
+        $("#gyc-timeline").prop('max', self.maxIndex);
+        $('#gyc-timeline').val(self.maxIndex);
       }
       else{
-        maxIndex += 1;
+        self.maxIndex += 1;
       }
-      currentPosition = maxIndex;
-      $("#gyc-timeline").prop('max', maxIndex);
-      $('#gyc-timeline').val(maxIndex);
+      self.currentPosition = self.maxIndex;
+      $("#gyc-timeline").prop('max', self.maxIndex);
+      $('#gyc-timeline').val(self.maxIndex);
       $("#gyc-next-button").css('visibility', 'hidden');
       $("#gyc-save-button").prop('disabled', true);
-      latestDrawing = myProject.layers[myProject.layers.length - 1].exportJSON();
-      if(maxIndex >= 1){
+      self.latestDrawing = self.project.layers[self.project.layers.length - 1].exportJSON();
+      if(self.maxIndex >= 1){
         $('#gyc-timeline').show();
       }
     }
   }).fail(function(){
-    showConfirmationPopup("body","ERROR WHEN SAVING");
+    self.showConfirmationPopup("body","ERROR WHEN SAVING");
     $('#gyc-timeline').hide();
      });
-}
+};
 
 // displays a save confirmation message when post is succesfull
 // this is called from the post
@@ -407,16 +378,20 @@ function initializeNext() {
   });
 }
 
-// function initializeMsgListener(){
-//   chrome.extension.onMessage.addListener(
-//     function(request, sender, sendResponse) {
-//       console.log(request);
-//       console.log(sender.tab ?
-//                   "from a content script:" + sender.tab.url :
-//                   "from the extension");
-//       if (request.task == "toggle") {
-//         console.log('receieved message in drawController.js');
-//         myProject.view.draw();
-//       }
-//     });
-// }
+
+// This are all the Painting Functionality Listeners
+graffiti.loadDrawings(graffiti.windowUrl);
+graffiti.toggleDropdownArrow();
+graffiti.toggleCanvas();
+graffiti.updateColor();
+graffiti.updateWidth();
+graffiti.updateOpacity();
+graffiti.undo();
+graffiti.cleanSlate();
+graffiti.openSaveForm();
+graffiti.initializePopupForm();
+graffiti.initializeTwitterPopup();
+graffiti.updateTimeline();
+graffiti.toggleSaveButton();
+graffiti.initializePrevious();
+graffiti.initializeNext();
