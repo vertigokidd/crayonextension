@@ -57,10 +57,6 @@ function injectScripts() {
 
 // Inject font awesome //
 
-var fontawesomeFile = chrome.extension.getURL("/font-awesome/css/font-awesome.min.css");
-
-console.log(fontawesomeFile);
-
 function injectFonts() {
   $('body').append('<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">');
 }

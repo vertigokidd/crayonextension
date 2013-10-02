@@ -23,7 +23,7 @@
     }
   ],
 
-  "web_accessible_resources": ["drawController.js", "wheel.png", "marker.png", "mask.png", "font-awesome.min.css", "fontawesome-webfont.ttf"],
+  "web_accessible_resources": ["drawController.js", "wheel.png", "marker.png", "mask.png"],
 
   "browser_action": {
     "default_icon": "eyeopen19.png",
