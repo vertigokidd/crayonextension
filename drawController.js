@@ -1,13 +1,28 @@
-var myPath;
-var color = 'blue';
-var strokeCap = 'round';
-var width = 5;
-var opacity = 1;
-var canvas = document.getElementById('gyc-canvas');
-var serverURL = 'http://localhost:3000';
-var windowUrl = window.location.href;
-var latestDrawing;
-myProject = project;
+function Graffiti() {
+  this.path = null;
+  this.color = 'blue';
+  this.strokeCap = 'round';
+  this.width = 5;
+  this.opacity = 1;
+  this.canvas = document.getElementById('gyc-canvas');
+  this.serverUrl = 'http://localhost:3000';
+  this.windowUrl = window.location.href;
+  this.latestDrawing = null;
+  this.project = project;
+}
+
+var graffiti = new Graffiti();
+
+// var myPath;
+// var color = 'blue';
+// var strokeCap = 'round';
+// var width = 5;
+// var opacity = 1;
+// var canvas = document.getElementById('gyc-canvas');
+// var serverURL = 'http://localhost:3000';
+// var windowUrl = window.location.href;
+// var latestDrawing;
+// myProject = project;
 
 
 // This loads the color picker images
@@ -21,13 +36,23 @@ $('.farbtastic-gyc .marker').css("background", "url('" + farbtasticMarker + "') 
 
 
 // This is the Painting Functionality, method names are required by paper.js
+
 function onMouseDown(event) {
-  myPath = new Path();
-  myPath.strokeColor = color;
-  myPath.strokeWidth = width;
-  myPath.strokeCap = strokeCap;
-  myPath.opacity = opacity;
+  graffiti.path = new Path();
+  graffiti.path.strokeColor = graffiti.color;
+  graffiti.path.strokeWidth = graffiti.width;
+  graffiti.path.strokeCap = graffiti.strokeCap;
+  graffiti.path.opacity = graffiti.opacity;
 }
+
+
+// function onMouseDown(event) {
+//   myPath = new Path();
+//   myPath.strokeColor = color;
+//   myPath.strokeWidth = width;
+//   myPath.strokeCap = strokeCap;
+//   myPath.opacity = opacity;
+// }
 
 function onMouseDrag(event) {
   myPath.add(event.point);
