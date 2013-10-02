@@ -4,7 +4,7 @@ var strokeCap = 'round';
 var width = 5;
 var opacity = 1;
 var canvas = document.getElementById('gyc-canvas');
-var serverURL = 'http://localhost:3000';
+var serverURL = 'http://www.getyourcrayon.com';
 var windowUrl = window.location.href;
 var latestDrawing;
 myProject = project;
