@@ -109,11 +109,12 @@ function toggleSaveButton(){
 // Listens to a click on the dropdown bar and toggles the arrow up and down.
 function toggleDropdownArrow(){
   $('#gyc-toolbar-toggle').on('click', function() {
+    $(this).focus('false');
     if ($(this).hasClass('ui-state-active')) {
-      $('#gyc-toggle-toolbar-arrow').html('&#9650');
+      $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-down').addClass('icon-chevron-sign-up');
     }
     else {
-      $('#gyc-toggle-toolbar-arrow').html('&#9660');
+      $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-up').addClass('icon-chevron-sign-down');
     }
   });
 }
@@ -124,10 +125,10 @@ function toggleCanvas(){
   $('#gyc-paint-button').click(function(){
     $('#gyc-canvas').toggle();
     if ($('#gyc-canvas').css("display") === 'none') {
-      $('#gyc-paint-button').removeClass("icon-eye-close").addClass("icon-eye-open");
+      $('#gyc-paint-button').removeClass("icon-eye-open").addClass("icon-eye-close");
     }
     else {
-      $('#gyc-paint-button').removeClass("icon-eye-open").addClass("icon-eye-close");
+      $('#gyc-paint-button').removeClass("icon-eye-close").addClass("icon-eye-open");
     }
 
   });

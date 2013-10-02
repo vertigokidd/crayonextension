@@ -27,7 +27,7 @@ function injectToolbar() {
                      '</div>' +
                      '<div id="gyc-toolbar">' +
                        '<div id="gyc-toolbar-toggle">' +
-                         '<p id="gyc-toggle-toolbar-arrow">&#9660</p>' +
+                         '<i id="gyc-toggle-toolbar-arrow" class="icon-chevron-sign-down"></i>' +
                        '</div>' +
                        '<div id="gyc-toolbar-tools">' +
                          '<label>Width: <span id="gyc-current_width">5</span><br><input id="width" type="range" name="points" min="1" max="40" value="5"></label><br>' +

@@ -79,7 +79,7 @@
 
 #gyc-toolbar-toggle {
   margin-top: 0 !important;
-  height: 10px !important;
+  height: 13px !important;
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
   background-color:rgba(224,224,224,0.7)
@@ -90,10 +90,8 @@
 }
 
 #gyc-toggle-toolbar-arrow {
-  line-height: 10px !important;
-  margin: 0 !important;
-  margin-right: 16px !important;
-  padding: 0 !important;
+  line-height: 13px !important;
   text-align: center !important;
+  margin-left: 110px;
 }
 
