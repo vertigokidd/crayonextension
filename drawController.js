@@ -11,19 +11,8 @@ function Graffiti() {
   this.project = project;
   this.maxIndex = null;
   this.currentPosition = null;
+  this.undoCounter = 0;
 }
-
-var graffiti = new Graffiti();
-
-
-// This loads the color picker images
-var farbtasticWheel = chrome.extension.getURL("wheel.png");
-var farbtasticMask = chrome.extension.getURL("mask.png");
-var farbtasticMarker = chrome.extension.getURL("marker.png");
-
-$('.farbtastic-gyc .wheel').css("background", "url('" + farbtasticWheel + "') no-repeat");
-$('.farbtastic-gyc .overlay').css("background", "url('" + farbtasticMask + "') no-repeat");
-$('.farbtastic-gyc .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
 
 
 // This is the Painting Functionality, method names are required by paper.js
@@ -40,7 +29,6 @@ function onMouseDrag(event) {
   graffiti.path.add(event.point);
   graffiti.path.smooth();
 }
-
 
 // Creates a request for latest drawing on initial page load
 Graffiti.prototype.loadDrawings = function(windowUrl) {
@@ -62,7 +50,7 @@ Graffiti.prototype.loadDrawings = function(windowUrl) {
       $('#gyc-timeline').hide();
     }
     $("#gyc-next-button").css('visibility', 'hidden');
-    $('#gyc-save-button').prop('disabled', true);
+    $('#gyc-save-button').css('color', 'gray');
   }).fail(function(){self.showConfirmationPopup("body","Error: server conection problem");
        $('#gyc-timeline').hide();
      });
@@ -71,50 +59,55 @@ Graffiti.prototype.loadDrawings = function(windowUrl) {
 // listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
 
 Graffiti.prototype.toggleSaveButton = function(){
-  var undoCounter = 0;
-  var self = this;
-
-  $('#gyc-canvas').on('mouseup', function(){
-    undoCounter += 1;
-    var currentDrawing = self.project.layers[self.project.layers.length - 1].exportJSON();
-    if(self.latestDrawing != currentDrawing){
-      $('#gyc-save-button').prop('disabled', false);
-    }
-    else{
-      $('#gyc-save-button').prop('disabled', true);
-    }
-  });
-
-
-  $('#gyc-undo-button').on('click', function() {
-    undoCounter -= 1;
-    if (undoCounter === 0) {
-      $('#gyc-save-button').prop('disabled', true);
-    }
-    else {
-      $('#gyc-save-button').prop('disabled', false);
-    }
-  });
+  if(this.checkUndoCounter() && this.checkDrawingFreshness()){
+    $('#gyc-save-button').removeClass('gyc-button-active');
+    $('#gyc-save-button').css('color', 'gray');
+  }
+  else{
+    $('#gyc-save-button').addClass('gyc-button-active');
+    $('#gyc-save-button').css('color', '');
+  }
 };
+
+Graffiti.prototype.decrementUndoCounter = function() {
+  this.undoCounter -= 1;
+};
+
+Graffiti.prototype.incrementUndoCounter = function() {
+  this.undoCounter += 1;
+};
+
+Graffiti.prototype.checkUndoCounter = function() {
+  return this.undoCounter === 0;
+};
+
+Graffiti.prototype.checkDrawingFreshness = function() {
+  var currentDrawing = this.project.layers[this.project.layers.length - 1].exportJSON();
+  return this.latestDrawing == currentDrawing;
+};
+
+
+
 
 // Listens to a click on the dropdown bar and toggles the arrow up and down.
+
 Graffiti.prototype.toggleDropdownArrow = function(){
-  $('#gyc-toolbar-toggle').on('click', function() {
-    $(this).focus('false');
-    if ($(this).hasClass('ui-state-active')) {
-      $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-down').addClass('icon-chevron-sign-up').css('border-radius', '0px');
-      $('#gyc-toolbar-toggle').css('border-radius', '0px');
-    }
-    else {
-      $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-up').addClass('icon-chevron-sign-down');
-    }
-  });
+  var toolbar = $('#gyc-toolbar-toggle');
+  toolbar.focus('false');
+  if (toolbar.hasClass('ui-state-active')) {
+    $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-down').addClass('icon-chevron-sign-up');
+  }
+  else {
+    $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-up').addClass('icon-chevron-sign-down');
+  }
 };
 
+
 // Listens for a click on the paint button and hides or displays the canvas
-// TESTED
+
+
+
 Graffiti.prototype.toggleCanvas = function(){
-  $('#gyc-paint-button').click(function(){
     $('#gyc-canvas').toggle();
     if ($('#gyc-canvas').css("display") === 'none') {
       $('#gyc-paint-button').removeClass("icon-eye-open").addClass("icon-eye-close");
@@ -122,28 +115,16 @@ Graffiti.prototype.toggleCanvas = function(){
     else {
       $('#gyc-paint-button').removeClass("icon-eye-close").addClass("icon-eye-open");
     }
-
-  });
 };
 
 // Listens for mouse events on the color picker image to change
 // the stroke color by updating the color variable
 Graffiti.prototype.updateColor = function(){
-  var self = this;
-  $('.marker').on('mouseup', function(){
-    self.color = $('#gyc-color').val();
-  });
-
-  $('.marker').on('mouseleave', function(){
-    self.color = $('#gyc-color').val();
-  });
-
-  $('#gyc-color').on('keyup', function() {
-    if (validHex($('#gyc-color').val())) {
-      self.color = $('#gyc-color').val();
-    }
-  });
+  if (validHex($('#gyc-color').val())) {
+    graffiti.color = $('#gyc-color').val();
+  }
 };
+
 
 // Listens for a change on the width slider to change
 // the stroke width by updating the width variable
@@ -192,10 +173,12 @@ Graffiti.prototype.cleanSlate = function() {
 
 // Listens for a click on the save button and opens the dialog save form
 Graffiti.prototype.openSaveForm = function(){
-  $('#gyc-save-button').click(function(){
+  if ($('#gyc-save-button').hasClass('gyc-button-active')) {
     $('#gyc-save-confirm').dialog("open");
-  });
+  }
 };
+
+
 
 // Initializes pop-up Save form and listens
 Graffiti.prototype.initializePopupForm = function(){
@@ -383,20 +366,67 @@ Graffiti.prototype.initializeNext = function() {
   });
 };
 
+function initGraffiti() {
 
-// This are all the Painting Functionality Listeners
-graffiti.loadDrawings(graffiti.windowUrl);
-graffiti.toggleDropdownArrow();
-graffiti.toggleCanvas();
-graffiti.updateColor();
-graffiti.updateWidth();
-graffiti.updateOpacity();
-graffiti.undo();
-graffiti.cleanSlate();
-graffiti.openSaveForm();
-graffiti.initializePopupForm();
-graffiti.initializeTwitterPopup();
-graffiti.updateTimeline();
-graffiti.toggleSaveButton();
-graffiti.initializePrevious();
-graffiti.initializeNext();
+  // This loads the color picker images
+  var farbtasticWheel = chrome.extension.getURL("wheel.png");
+  var farbtasticMask = chrome.extension.getURL("mask.png");
+  var farbtasticMarker = chrome.extension.getURL("marker.png");
+
+  $('.farbtastic-gyc .wheel').css("background", "url('" + farbtasticWheel + "') no-repeat");
+  $('.farbtastic-gyc .overlay').css("background", "url('" + farbtasticMask + "') no-repeat");
+  $('.farbtastic-gyc .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
+
+  graffiti = new Graffiti();
+
+  // This are all the Painting Functionality Listeners
+  graffiti.loadDrawings(graffiti.windowUrl);
+  // graffiti.toggleDropdownArrow();
+  // graffiti.toggleCanvas();
+  // graffiti.updateColor();
+  graffiti.updateWidth();
+  graffiti.updateOpacity();
+  graffiti.undo();
+  graffiti.cleanSlate();
+  // graffiti.openSaveForm();
+  graffiti.initializePopupForm();
+  graffiti.initializeTwitterPopup();
+  graffiti.updateTimeline();
+  // graffiti.toggleSaveButton();
+  graffiti.initializePrevious();
+  graffiti.initializeNext();
+}
+
+initGraffiti();
+
+$('#gyc-undo-button').on('click', function() {
+  graffiti.decrementUndoCounter();
+  graffiti.toggleSaveButton();
+});
+
+$('#gyc-canvas').on('mouseup', function() {
+  graffiti.incrementUndoCounter();
+  graffiti.toggleSaveButton();
+});
+
+$('#gyc-save-button').click(graffiti.openSaveForm);
+
+$('#gyc-toolbar-toggle').click(graffiti.toggleDropdownArrow);
+
+$('#gyc-paint-button').click(graffiti.toggleCanvas);
+
+$('.marker').on('mouseup', graffiti.updateColor);
+$('.marker').on('mouseleave', graffiti.updateColor);
+$('#gyc-color').on('keyup', graffiti.updateColor);
+
+
+// Model (Grafitti drawing)
+  // has ZERO knowledge of the page. Does NOT use jQuery at *all*
+  // track data
+  // state changes
+  // rules
+// View (GrafittiView)
+  // has a reference to the MODEL
+  // event handling
+  // redraws
+  // presentation (Title - Artist)

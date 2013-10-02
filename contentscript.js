@@ -71,10 +71,6 @@ function injectFonts() {
 function initializeMessageListener(){
   chrome.extension.onMessage.addListener(
     function(request, sender, sendResponse) {
-      console.log(request);
-      console.log(sender.tab ?
-                  "from a content script:" + sender.tab.url :
-                  "from the extension");
       if (request.task == "toggle") {
         sendResponse({status: "toggled"});
         $('.getyourcrayon-menubar').toggle();
