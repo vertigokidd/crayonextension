@@ -6,7 +6,10 @@
   z-index:3129484650 !important;
 }
 
-.gyc-save-popup {
+
+
+.gyc-popup {
+  border: solid black 1px;
   position:absolute;
   display:block;
   background-color: rgba(63,141,143, 1);
