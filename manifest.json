@@ -2,8 +2,8 @@
   "manifest_version": 2,
 
   "name": "Get Your Crayon",
-  "description": "Painting",
-  "version": "1.0",
+  "description": "Paint on the web",
+  "version": "0.1.0",
   "permissions": [
     "activeTab"
   ],
@@ -17,7 +17,6 @@
     "jquery-ui.js",
     "paper.js",
     "farbtastic.js",
-    // "drawController.js",
     "colorpicker.js",
     "contentscript.js"],
     "css": ["contentscript.css", "farbtastic.css"]
