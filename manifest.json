@@ -16,7 +16,6 @@
     "jquery-ui.js",
     "paper.js",
     "farbtastic.js",
-    "colorpicker.js",
     "contentscript.js"],
     "css": ["contentscript.css", "farbtastic.css"]
     }

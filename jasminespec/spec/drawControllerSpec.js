@@ -35,16 +35,6 @@ describe("drawController", function(){
       setTimeout(function() {expect($('.ui-front').css('display')).toBe('block');}, 101);
     });
 
-    it("closes the save confirm dialog box if user presses confirm save", function(){
-      setTimeout(function() {$('.gyc-save-confirm-button').trigger('click');}, 102);
-      expect($('.gyc-save-popup').css('display')).toBe('none');
-    });
-
-    it("closes the save confirm dialog box if user presses cancel", function(){
-      setTimeout(function() {$('#gyc-save-button').trigger('click');}, 103);
-      setTimeout(function() {$('.gyc-save-confirm-button').trigger('click');}, 104);
-      expect($('.gyc-save-popup').css('display')).toBe('none');
-    });
 
   });
 });
