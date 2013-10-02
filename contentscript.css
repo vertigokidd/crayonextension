@@ -112,6 +112,7 @@
   background-color:rgba(224,224,224,0.7);
   border-bottom-left-radius: 4px !important;
   border-bottom-right-radius: 4px !important;
+  border-top: 1px solid #ccc;
 }
 
 .ui-state-active {
