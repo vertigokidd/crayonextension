@@ -14,3 +14,10 @@ Clone the repo to your local machine. In the Chrome browser, open 'Extensions' a
 <a href="http://thenounproject.com/noun/undo/#icon-No14157" target="_blank">Undo</a> designed by <a href="http://thenounproject.com/furtaev" target="_blank">Sergey Furtaev</a> from The Noun Project
 <a href="http://thenounproject.com/noun/next/#icon-No8555" target="_blank">Next</a> designed by <a href="http://thenounproject.com/jardsonaraujo" target="_blank">Jardson Araújo</a> from The Noun Project
 <a href="http://thenounproject.com/noun/time/#icon-No7383" target="_blank">Time</a> designed by <a href="http://thenounproject.com/Wayne25uk" target="_blank">wayne25uk</a> from The Noun Project
+
+#0B88BE BLUE
+#EE094C RED
+#FC4A04 ORANGE
+#FFA205 YELLOW
+#35AB95 AQUA
+#2F9885 DARKER AQUA

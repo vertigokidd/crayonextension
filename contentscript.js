@@ -1,6 +1,7 @@
 // Calls all initialize methods
 injectScripts();
 injectToolbar();
+injectFonts();
 getToolbarStatus();
 initializeMessageListener();
 initializeAccordion();
@@ -16,10 +17,13 @@ function injectToolbar() {
                        '<a id="gyc-previous-button" href="">Previous</a><input type="range" id="gyc-timeline" min="0" max="10"></input><a id="gyc-next-button" href="">Next</a>' +
                      '</div>' +
                      '<div id="gyc-toolbar-buttons">' +
-                       '<div id="gyc-paint-button" class="gyc-btn gyc-btn-default"></div>' +
-                       '<div id="gyc-undo-button" class="gyc-btn gyc-btn-default">Undo</div>' +
-                       '<div id="gyc-clean-slate-button" class="gyc-btn gyc-btn-default">Clean Slate</div>' +
-                       '<div id="gyc-save-button" class="gyc-btn gyc-btn-default">Save</div>' +
+                       '<i id="gyc-paint-button" class="icon-eye-close gyc-button"></i>' +
+                       '<i id="gyc-undo-button" class="icon-undo gyc-button"></i>' +
+                       '<i id="gyc-clean-slate-button" class="icon-remove-circle gyc-button"></i>' +
+                       '<i id="gyc-save-button" class="icon-cloud-upload gyc-button"></i>' +
+                       // '<button id="gyc-undo-button" class="gyc-btn gyc-btn-default"></button>' +
+                       // '<button id="gyc-clean-slate-button" class="gyc-btn gyc-btn-default"></button>' +
+                       // '<button id="gyc-save-button" class="gyc-btn gyc-btn-default"></button>' +
                      '</div>' +
                      '<div id="gyc-toolbar">' +
                        '<div id="gyc-toolbar-toggle">' +
@@ -49,6 +53,16 @@ function injectToolbar() {
 function injectScripts() {
   var pscriptUrl = chrome.extension.getURL("drawController.js");
   $('body').append('<script type="text/paperscript" src="'+ pscriptUrl + '" canvas="gyc-canvas"></script><canvas id="gyc-canvas" style="display:none;" resize></canvas>');
+}
+
+// Inject font awesome //
+
+var fontawesomeFile = chrome.extension.getURL("/font-awesome/css/font-awesome.min.css");
+
+console.log(fontawesomeFile);
+
+function injectFonts() {
+  $('head').append('<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">');
 }
 
 // This listens for messages from the background script (background.js) and toggles the toolbar

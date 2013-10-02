@@ -20,17 +20,6 @@ $('.farbtastic-gyc .overlay').css("background", "url('" + farbtasticMask + "') n
 $('.farbtastic-gyc .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
 
 
-// Load the button images on toolbar //
-
-var gycOn = chrome.extension.getURL("gyc-on.png");
-var gycOff = chrome.extension.getURL("gyc-off.png");
-var gycUndo = chrome.extension.getURL("gyc-undo.png");
-var gycClear = chrome.extension.getURL("gyc-clear.png");
-
-$('#gyc-paint-button').css("background", "url('" + gycOff + "') no-repeat");
-$('#gyc-undo-button').css("background", "url('" + gycUndo + "') no-repeat");
-$('#gyc-clean-slate-button').css("background", "url('" + gycClear + "') no-repeat");
-
 // This is the Painting Functionality, method names are required by paper.js
 function onMouseDown(event) {
   myPath = new Path();
@@ -135,10 +124,10 @@ function toggleCanvas(){
   $('#gyc-paint-button').click(function(){
     $('#gyc-canvas').toggle();
     if ($('#gyc-canvas').css("display") === 'none') {
-      $('#gyc-paint-button').css("background", "url('" + gycOff + "') no-repeat");
+      $('#gyc-paint-button').removeClass("icon-eye-close").addClass("icon-eye-open");
     }
     else {
-      $('#gyc-paint-button').css("background", "url('" + gycOn + "') no-repeat");
+      $('#gyc-paint-button').removeClass("icon-eye-open").addClass("icon-eye-close");
     }
 
   });
