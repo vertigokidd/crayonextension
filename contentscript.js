@@ -87,9 +87,7 @@ function initializeMessageListener(){
 
 function getToolbarStatus() {
   chrome.runtime.sendMessage({task: "get status"}, function(response) {
-    console.log(response.onOff);
     if (response.onOff === "off") {
-      console.log('got in here');
       $('.getyourcrayon-menubar').hide();
     }
   });

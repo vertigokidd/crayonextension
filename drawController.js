@@ -44,25 +44,26 @@ function onMouseDrag(event) {
 
 // Creates a request for latest drawing on initial page load
 Graffiti.prototype.loadDrawings = function(windowUrl) {
-  $.get(this.serverURL + '/retrieve', {'url': windowUrl}, function(response) {
+  var self = this;
+  $.get(self.serverUrl + '/retrieve', {'url': windowUrl}, function(response) {
     if (response !== "website not found") {
-      this.latestDrawing = response.json_string;
-      this.project.activeLayer.remove();
-      this.project.importJSON(response.json_string);
+      self.latestDrawing = response.json_string;
+      self.project.activeLayer.remove();
+      self.project.importJSON(response.json_string);
       $('#gyc-tag-holder').html(response.tags_html_string);
-      this.maxIndex = response.max_index;
-      this.currentPosition = this.maxIndex;
-      $("#gyc-timeline").prop('max', maxIndex);
-      $('#gyc-timeline').val(maxIndex);
+      self.maxIndex = response.max_index;
+      self.currentPosition = self.maxIndex;
+      $("#gyc-timeline").prop('max', self.maxIndex);
+      $('#gyc-timeline').val(self.maxIndex);
     }
     else {
-      this.maxIndex = null;
-      this.currentPosition = this.maxIndex;
+      self.maxIndex = null;
+      self.currentPosition = self.maxIndex;
       $('#gyc-timeline').hide();
     }
     $("#gyc-next-button").css('visibility', 'hidden');
     $('#gyc-save-button').prop('disabled', true);
-  }).fail(function(){showConfirmationPopup("body","Error: server conection problem");
+  }).fail(function(){self.showConfirmationPopup("body","Error: server conection problem");
        $('#gyc-timeline').hide();
      });
 };
@@ -283,7 +284,7 @@ Graffiti.prototype.saveDrawingPost = function(){
 
 // displays a save confirmation message when post is succesfull
 // this is called from the post
-function showConfirmationPopup(element,message){
+Graffiti.prototype.showConfirmationPopup = function(element,message){
   $(element).prepend("<div id='gyc-confirmation-popup'>"+message+"</div>");
   $('#gyc-confirmation-popup').slideDown('slow');
   setTimeout(function(){
@@ -291,48 +292,50 @@ function showConfirmationPopup(element,message){
       $('#gyc-confirmation-popup').remove();
     });
   }, 3000);
-}
+};
 
 // Listens for a change on the timeline slider
 // updates the current position and updates the time line
-function updateTimeline(){
+Graffiti.prototype.updateTimeline = function(){
+  var self = this;
   $('#gyc-timeline').change(function() {
-    currentPosition = $(this).val();
-    timelineUpdate();
-    if (currentPosition == maxIndex) {
+    self.currentPosition = $(this).val();
+    self.timelineUpdate();
+    if (self.currentPosition == self.maxIndex) {
       $("#gyc-next-button").css('visibility', 'hidden');
     }
     else {
       $("#gyc-next-button").css('visibility', 'visible');
     }
-    if (currentPosition == 0) {
+    if (self.currentPosition == 0) {
       $("#gyc-previous-button").css('visibility', 'hidden');
     }
     else {
       $("#gyc-previous-button").css('visibility', 'visible');
     }
 
-    if(currentPosition != maxIndex){
+    if(self.currentPosition != self.maxIndex){
       $("#gyc-save-button").prop('disabled', false);
     }
     else{
       $("#gyc-save-button").prop('disabled', true);
     }
   });
-}
+};
 
 // triggers a get requests that rettrives drwaings
 // clears the canvas and imports the response to the canvas
-function timelineUpdate() {
-  $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
-    canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
-    myProject.activeLayer.remove();
+Graffiti.prototype.timelineUpdate = function() {
+  var self = this;
+  $.get( self.serverURL + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
+    self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
+    self.project.activeLayer.remove();
     var newlayer = new Layer();
-    project.activeLayer.remove();
-    myProject.importJSON(response);
-    myProject.view.draw();
-  }).fail(function(){showConfirmationPopup("ERROR: When Retrieving drawings");});
-}
+    self.project.activeLayer.remove();
+    self.project.importJSON(response);
+    self.project.view.draw();
+  }).fail(function(){self.showConfirmationPopup("ERROR: When Retrieving drawings");});
+};
 
 // This method validates the authenticity of a hex color string
 
@@ -342,41 +345,43 @@ function validHex(hexString) {
 
 // These two methods initialize the next and previous buttons for the timeline
 
-function initializePrevious() {
+Graffiti.prototype.initializePrevious = function() {
+  var self = this;
   $('#gyc-previous-button').click(function(event){
     event.preventDefault();
-    currentPosition -= 1;
-    $('#gyc-timeline').val(currentPosition);
-    $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
+    self.currentPosition -= 1;
+    $('#gyc-timeline').val(self.currentPosition);
+    $.get( self.serverURL + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
       $("#gyc-next-button").css('visibility', 'visible');
-      canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
-      myProject.activeLayer.removeChildren();
-      myProject.importJSON(response);
-      if (currentPosition == 0) {
+      self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
+      self.project.activeLayer.removeChildren();
+      self.project.importJSON(response);
+      if (self.currentPosition == 0) {
         $("#gyc-previous-button").css('visibility', 'hidden');
       }
-      myProject.view.draw();
+      self.project.view.draw();
     });
   });
-}
+};
 
-function initializeNext() {
+Graffiti.prototype.initializeNext = function() {
+  var self = this;
   $('#gyc-next-button').click(function(event){
     event.preventDefault();
-    currentPosition += 1;
-    $('#gyc-timeline').val(currentPosition);
-    $.get( serverURL + '/retrieve',{'url': windowUrl, 'id': currentPosition},function(response){
+    self.currentPosition += 1;
+    $('#gyc-timeline').val(self.currentPosition);
+    $.get( self.serverURL + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
       $("#gyc-previous-button").css('visibility', 'visible');
-      canvas.getContext('2d').clearRect(0,0,canvas.width, canvas.height);
-      myProject.activeLayer.removeChildren();
-      myProject.importJSON(response);
-      if (currentPosition == maxIndex) {
+      self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
+      self.project.activeLayer.removeChildren();
+      self.project.importJSON(response);
+      if (self.currentPosition == self.maxIndex) {
         $("#gyc-next-button").css('visibility', 'hidden');
       }
-      myProject.view.draw();
+      self.project.view.draw();
     });
   });
-}
+};
 
 
 // This are all the Painting Functionality Listeners
