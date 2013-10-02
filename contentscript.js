@@ -14,7 +14,7 @@ initializeColorPicker();
 function injectToolbar() {
   $('body').append('<div class="getyourcrayon-menubar">' +
                      '<div id="gyc-toolbar-header">' +
-                       '<a id="gyc-previous-button" href="">Previous</a><input type="range" id="gyc-timeline" min="0" max="10"></input><a id="gyc-next-button" href="">Next</a>' +
+                       '<i id="gyc-previous-button" class="icon-chevron-left"></i><input type="range" id="gyc-timeline" min="0" max="10"></input><i id="gyc-next-button" class="icon-chevron-right"></i>' +
                      '</div>' +
                      '<div id="gyc-toolbar-buttons">' +
                        '<i id="gyc-paint-button" class="icon-eye-close gyc-button"></i>' +
@@ -30,14 +30,14 @@ function injectToolbar() {
                          '<i id="gyc-toggle-toolbar-arrow" class="icon-chevron-sign-down"></i>' +
                        '</div>' +
                        '<div id="gyc-toolbar-tools">' +
-                         '<label>Width: <span id="gyc-current_width">5</span><br><input id="width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
-                         '<label>Opacity: <span id="gyc-current_opacity">100%</span><br><input id="opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
+                         '<label class="gyc-toolbar-value">Width: <span id="gyc-current_width">5</span><br><input id="gyc-width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
+                         '<label class="gyc-toolbar-value">Opacity: <span id="gyc-current_opacity">100%</span><br><input id="gyc-opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
                          '<form>' +
                            '<input type="text" id="gyc-color" name="color" value="#123456" />' +
                          '</form>' +
                          '<div id="gyc-colorpicker"></div>' +
                          '<div id="gyc-tag-holder">' +
-                       '</div>' +
+                         '</div>' +
                        '</div>' +
                      '</div>' +
                    '</div>' +
@@ -62,7 +62,7 @@ var fontawesomeFile = chrome.extension.getURL("/font-awesome/css/font-awesome.mi
 console.log(fontawesomeFile);
 
 function injectFonts() {
-  $('head').append('<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">');
+  $('body').append('<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">');
 }
 
 // This listens for messages from the background script (background.js) and toggles the toolbar

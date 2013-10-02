@@ -111,7 +111,8 @@ function toggleDropdownArrow(){
   $('#gyc-toolbar-toggle').on('click', function() {
     $(this).focus('false');
     if ($(this).hasClass('ui-state-active')) {
-      $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-down').addClass('icon-chevron-sign-up');
+      $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-down').addClass('icon-chevron-sign-up').css('border-radius', '0px');
+      $('#gyc-toolbar-toggle').css('border-radius', '0px');
     }
     else {
       $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-up').addClass('icon-chevron-sign-down');
@@ -155,7 +156,7 @@ function updateColor(){
 // Listens for a change on the width slider to change
 // the stroke width by updating the width variable
 function updateWidth(){
-  $('#width').change(function() {
+  $('#gyc-width').change(function() {
     var newWidth = $(this).val();
     width = parseInt(newWidth);
     $('#gyc-current_width').html(width);
@@ -165,7 +166,7 @@ function updateWidth(){
 // Listens for a change on the opacity slider to change
 // the stroke opacity by updating the opacity variable
 function updateOpacity(){
-  $('#opacity').change(function() {
+  $('#gyc-opacity').change(function() {
     var newOpacity = $(this).val();
     opacity = parseFloat(newOpacity)/100;
     $('#gyc-current_opacity').html(newOpacity + "%");
