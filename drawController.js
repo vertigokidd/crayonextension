@@ -33,6 +33,48 @@ GraffitiView.prototype.toggleSaveButton = function(){
   }
 };
 
+// Creates a request for latest drawing on initial page load
+GraffitiView.prototype.setupPage = function(windowUrl) {
+  var self = this;
+  $.get(self.model.serverUrl + '/retrieve', {'url': windowUrl}, function(response) {
+    if (response !== "website not found") {
+      self.loadDrawings(response);
+      self.insertTags(response);
+      self.setupTimeline(response.max_index);
+    }
+    else {
+      self.setupTimeline(null);
+    }
+    $("#gyc-next-button").css('visibility', 'hidden');
+    self.toggleSaveButton();
+  }).fail(function(){self.showConfirmationPopup("body","Error: server conection problem");
+      $('#gyc-timeline').hide();
+    });
+};
+
+GraffitiView.prototype.setupTimeline = function(maxIndex) {
+  var self = this;
+  self.model.maxIndex = maxIndex;
+  self.model.currentPosition = maxIndex;
+  if (maxIndex === null) {
+    $('#gyc-timeline').hide();
+  }
+  else {
+    $("#gyc-timeline").prop('max', self.model.maxIndex);
+    $('#gyc-timeline').val(self.model.maxIndex);
+  }
+};
+
+GraffitiView.prototype.loadDrawings = function(response) {
+  this.model.latestDrawing = response.json_string;
+  this.model.project.activeLayer.remove();
+  this.model.project.importJSON(response.json_string);
+};
+
+GraffitiView.prototype.insertTags = function(response) {
+  $('#gyc-tag-holder').html(response.tags_html_string);
+};
+
 // MODEL METHODS ##############################################################
 
 Graffiti.prototype.decrementUndoCounter = function() {
@@ -66,35 +108,6 @@ function onMouseDrag(event) {
   graffiti.path.add(event.point);
   graffiti.path.smooth();
 }
-
-// Creates a request for latest drawing on initial page load
-Graffiti.prototype.loadDrawings = function(windowUrl) {
-  var self = this;
-  $.get(self.serverUrl + '/retrieve', {'url': windowUrl}, function(response) {
-    if (response !== "website not found") {
-      self.latestDrawing = response.json_string;
-      self.project.activeLayer.remove();
-      self.project.importJSON(response.json_string);
-      $('#gyc-tag-holder').html(response.tags_html_string);
-      self.maxIndex = response.max_index;
-      self.currentPosition = self.maxIndex;
-      $("#gyc-timeline").prop('max', self.maxIndex);
-      $('#gyc-timeline').val(self.maxIndex);
-    }
-    else {
-      self.maxIndex = null;
-      self.currentPosition = self.maxIndex;
-      $('#gyc-timeline').hide();
-    }
-    $("#gyc-next-button").css('visibility', 'hidden');
-    $('#gyc-save-button').css('color', 'gray');
-  }).fail(function(){self.showConfirmationPopup("body","Error: server conection problem");
-       $('#gyc-timeline').hide();
-     });
-};
-
-
-
 
 
 
@@ -244,7 +257,7 @@ Graffiti.prototype.saveDrawingPost = function(){
   };
 
 
-  $.post(self.serverURL + '/save', data,function(response){
+  $.post(self.serverUrl + '/save', data,function(response){
     if (response.tags_html_string){
       var twitter_html = '<a href="https://twitter.com/share" data-url="/" class="twitter-share-button" data-hashtags="GetYourCrayon" data-text="I created this amazing drawing see it on => '+response.unique_url+'" data-lang="en" data-size="large" data-count="none">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>'
       $('#gyc-twitter-bttn').html(twitter_html);
@@ -269,14 +282,14 @@ Graffiti.prototype.saveDrawingPost = function(){
       }
     }
   }).fail(function(){
-    self.showConfirmationPopup("body","ERROR WHEN SAVING");
+    graffitiView.showConfirmationPopup("body","ERROR WHEN SAVING");
     $('#gyc-timeline').hide();
      });
 };
 
 // displays a save confirmation message when post is succesfull
 // this is called from the post
-Graffiti.prototype.showConfirmationPopup = function(element,message){
+GraffitiView.prototype.showConfirmationPopup = function(element,message){
   $(element).prepend("<div id='gyc-confirmation-popup'>"+message+"</div>");
   $('#gyc-confirmation-popup').slideDown('slow');
   setTimeout(function(){
@@ -319,14 +332,14 @@ Graffiti.prototype.updateTimeline = function(){
 // clears the canvas and imports the response to the canvas
 Graffiti.prototype.timelineUpdate = function() {
   var self = this;
-  $.get( self.serverURL + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
+  $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
     self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
     self.project.activeLayer.remove();
     var newlayer = new Layer();
     self.project.activeLayer.remove();
     self.project.importJSON(response);
     self.project.view.draw();
-  }).fail(function(){self.showConfirmationPopup("ERROR: When Retrieving drawings");});
+  }).fail(function(){graffitiView.showConfirmationPopup("ERROR: When Retrieving drawings");});
 };
 
 // This method validates the authenticity of a hex color string
@@ -390,7 +403,7 @@ function initGraffiti() {
   graffitiView = new GraffitiView(graffiti);
 
   // This are all the Painting Functionality Listeners
-  graffiti.loadDrawings(graffiti.windowUrl);
+  graffitiView.setupPage(graffiti.windowUrl);
   // graffiti.toggleDropdownArrow();
   // graffiti.toggleCanvas();
   // graffiti.updateColor();
