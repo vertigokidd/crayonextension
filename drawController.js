@@ -14,6 +14,10 @@ function Graffiti() {
   this.undoCounter = 0;
 }
 
+function GraffitiView(graffitiModel) {
+  this.model = graffitiModel;
+}
+
 
 // This is the Painting Functionality, method names are required by paper.js
 
@@ -59,7 +63,7 @@ Graffiti.prototype.loadDrawings = function(windowUrl) {
 // listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
 
 Graffiti.prototype.toggleSaveButton = function(){
-  if(this.checkUndoCounter() && this.checkDrawingFreshness()){
+  if(this.model.checkUndoCounter() && this.model.checkDrawingFreshness()){
     $('#gyc-save-button').removeClass('gyc-button-active');
     $('#gyc-save-button').css('color', 'gray');
   }
@@ -378,6 +382,7 @@ function initGraffiti() {
   $('.farbtastic-gyc .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
 
   graffiti = new Graffiti();
+  graffitiView = new GraffitiView(graffiti);
 
   // This are all the Painting Functionality Listeners
   graffiti.loadDrawings(graffiti.windowUrl);
