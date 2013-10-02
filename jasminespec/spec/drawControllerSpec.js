@@ -1,12 +1,38 @@
 describe("drawController", function(){
+  describe("Graffiti Model", function() {
 
-  describe("Graffiti", function(){
-    it("can instantiate a graffiti object", function(){
-      var project = 'thing';
-      var graffiti = new Graffiti();
-      expect(graffiti).toBeTruthy();
+    project = 'Paperjsproject';
+    currentDrawing = null;
+
+    beforeEach(function() {
+      graffiti = new Graffiti();
     });
+
+    describe("decrementUndoCounter", function(){
+      it("decreases the value of the undoCounter variable by 1", function(){
+        graffiti.decrementUndoCounter();
+        expect(graffiti.undoCounter).toBe(-1);
+      });
+    });
+    describe("incrementUndoCounter", function() {
+      it("increases the value of the undoCounter variable by 1", function(){
+        graffiti.incrementUndoCounter();
+        expect(graffiti.undoCounter).toBe(1);
+      });
+    });
+    describe("checkUndoCounter", function(){
+      it("returns false when value of undoCounter is not 0", function(){
+        graffiti.incrementUndoCounter();
+        expect(graffiti.checkUndoCounter()).toBeFalsy();
+      });
+      it("returns true when value of undoCounter is 0", function(){
+        expect(graffiti.checkUndoCounter()).toBeTruthy();
+      });
+    });
+
+
   });
+});
 
   // describe("onMouseDown", function() {
   //   it("creates a new path when the canvas is clicked", function() {
@@ -54,9 +80,6 @@ describe("drawController", function(){
   //     setTimeout(function() {$('.gyc-save-confirm-button').trigger('click');}, 104);
   //     expect($('.gyc-save-popup').css('display')).toBe('none');
   //   });
-
-});
-
 
 
 

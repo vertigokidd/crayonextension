@@ -17,7 +17,40 @@ function Graffiti() {
 function GraffitiView(graffitiModel) {
   this.model = graffitiModel;
 }
+// VIEW METHODS ###############################################################
 
+
+// listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
+
+GraffitiView.prototype.toggleSaveButton = function(){
+  if(this.model.checkUndoCounter() && this.model.checkDrawingFreshness()){
+    $('#gyc-save-button').removeClass('gyc-button-active');
+    $('#gyc-save-button').css('color', 'gray');
+  }
+  else{
+    $('#gyc-save-button').addClass('gyc-button-active');
+    $('#gyc-save-button').css('color', '');
+  }
+};
+
+// MODEL METHODS ##############################################################
+
+Graffiti.prototype.decrementUndoCounter = function() {
+  this.undoCounter -= 1;
+};
+
+Graffiti.prototype.incrementUndoCounter = function() {
+  this.undoCounter += 1;
+};
+
+Graffiti.prototype.checkUndoCounter = function() {
+  return this.undoCounter === 0;
+};
+
+Graffiti.prototype.checkDrawingFreshness = function() {
+  var currentDrawing = this.project.layers[this.project.layers.length - 1].exportJSON();
+  return this.latestDrawing == currentDrawing;
+};
 
 // This is the Painting Functionality, method names are required by paper.js
 
@@ -60,35 +93,7 @@ Graffiti.prototype.loadDrawings = function(windowUrl) {
      });
 };
 
-// listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
 
-Graffiti.prototype.toggleSaveButton = function(){
-  if(this.model.checkUndoCounter() && this.model.checkDrawingFreshness()){
-    $('#gyc-save-button').removeClass('gyc-button-active');
-    $('#gyc-save-button').css('color', 'gray');
-  }
-  else{
-    $('#gyc-save-button').addClass('gyc-button-active');
-    $('#gyc-save-button').css('color', '');
-  }
-};
-
-Graffiti.prototype.decrementUndoCounter = function() {
-  this.undoCounter -= 1;
-};
-
-Graffiti.prototype.incrementUndoCounter = function() {
-  this.undoCounter += 1;
-};
-
-Graffiti.prototype.checkUndoCounter = function() {
-  return this.undoCounter === 0;
-};
-
-Graffiti.prototype.checkDrawingFreshness = function() {
-  var currentDrawing = this.project.layers[this.project.layers.length - 1].exportJSON();
-  return this.latestDrawing == currentDrawing;
-};
 
 
 
@@ -406,12 +411,12 @@ initGraffiti();
 
 $('#gyc-undo-button').on('click', function() {
   graffiti.decrementUndoCounter();
-  graffiti.toggleSaveButton();
+  graffitiView.toggleSaveButton();
 });
 
 $('#gyc-canvas').on('mouseup', function() {
   graffiti.incrementUndoCounter();
-  graffiti.toggleSaveButton();
+  graffitiView.toggleSaveButton();
 });
 
 $('#gyc-save-button').click(graffiti.openSaveForm);
