@@ -1,79 +1,157 @@
 .getyourcrayon-menubar {
-  width:260px !important;
+  width:240px !important;
   position: absolute !important;
   top: 20px ;
   right:20px ;
   z-index:3129484650 !important;
 }
 
-.gyc-save-popup {
+
+
+.gyc-popup {
   border: solid black 1px;
   position:absolute;
   display:block;
-  background-color: red;
+  background-color: rgba(63,141,143, 1);
+  padding:5px;
+  border-radius: 4px !important;
   z-index:1000000000 !important;
 }
 
+
 #gyc-confirmation-popup {
-  background-color: orange ;
+  background-color: rgba(63,141,143, 0.8);
   position:absolute ;
   text-align: center ;
   display: none ;
   top:0 ;
   left:48% ;
-  height:60px;
+  height:20px;
   width:120px ;
+  padding:10px;
+  border-bottom-left-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
   z-index:1000000000 ;
 }
 
 #gyc-canvas {
-  border:dashed black 1px ;
+  /*border:dashed black 1px ;*/
   position: absolute ;
   top:0px ;
   left:0px ;
   z-index:1000 ;
 }
 
-.gyc-btn {
-display: inline-block !important;
-padding: 6px 12px !important;
-margin-bottom: 0 !important;
-font-size: 14px !important;
-font-weight: normal !important;
-line-height: 1.428571429 !important;
-text-align: center !important;
-white-space: nowrap !important;
-vertical-align: middle !important;
-cursor: pointer !important;
-border: 1px solid rgba(0, 0, 0, 0) !important;
-border-radius: 4px !important;
-background-color: #aaa !important;
+#gyc-tag-holder {
+  display: none;
 }
+
+#gyc-previous-button {
+  display:inline-block;
+  margin-left:8px;
+}
+
+#gyc-timeline {
+  margin-top:20px;
+  /*margin-left:45px;*/
+  width: 200px;
+}
+
+#gyc-width, #gyc-opacity {
+  width: 200px !important;
+  margin-left: 20px !important;
+}
+
+.gyc-toolbar-value {
+  margin-left: 20px;
+}
+
+#gyc-paint-button, #gyc-undo-button, #gyc-clean-slate-button, #gyc-save-button {
+  display:inline-block;
+  height:40px;
+  font-size:30px;
+  font-style:normal !important;
+  width:60px;
+  line-height: 40px;
+  text-align:center;
+  color: rgba(63,141,143,0.9);
+  z-index:10000000;
+  background-color:rgba(224,224,224,0.7);
+}
+
+#gyc-paint-button:hover, #gyc-undo-button:hover, #gyc-clean-slate-button:hover, #gyc-save-button:hover {
+  color: rgba(53,171,149,0.6);
+  transition: color 0.7s linear;
+}
+
+/*.gyc-btn {
+  display: inline-block !important;
+  margin-bottom: 0 !important;
+  font-size: 14px !important;
+  font-weight: normal !important;
+  line-height: 1.428571429 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+  cursor: pointer !important;
+  background-color: rgba(255,255,255,0.7) !important;
+  width: 60px !important;
+  height: 40px !important;
+  border: none;
+  border-right: 2px solid black;
+}*/
 
 #gyc-toolbar-header {
   height: 40px !important;
   /*background-color: #aaa !important;*/
   border-top-left-radius: 4px !important;
   border-top-right-radius: 4px !important;
-  background-color: rgba(86,86,86,0.9) !important;
+  background-color: rgba(63,141,143, 0.8) !important;
 }
 
 #gyc-toolbar-toggle {
   margin-top: 0 !important;
-  height: 5px !important;
-  border-top-left-radius: 0px !important;
-  border-top-right-radius: 0px !important;
+  height: 15px !important;
+  background-color:rgba(224,224,224,0.7);
+  border-bottom-left-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+  border-top: 1px solid #ccc;
+}
+
+.ui-state-active {
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
 }
 
 #gyc-toolbar-tools {
-  background-color: rgba(255,255,255,0.7) !important;
+  background-color:rgba(224,224,224,0.7) !important;
+  border-bottom-left-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+  padding-bottom: 10px;
 }
 
 #gyc-toggle-toolbar-arrow {
-  line-height: 5px !important;
-  margin: 0 !important;
-  margin-right: 16px !important;
-  padding: 0 !important;
+  line-height: 15px !important;
   text-align: center !important;
+  margin-left: 115px;
+  margin-right: 115px;
+  color: rgba(63,141,143,0.9);
 }
 
+#gyc-toggle-toolbar-arrow:hover {
+  color: rgba(53,171,149,0.6);
+  transition: color 0.7s linear;
+}
+
+.ui-state-focus{
+  outline: none;
+}
+
+#gyc-colorpicker {
+  margin-left:22px;
+}
+
+#gyc-color {
+  width: 100px;
+  margin-left: 70px;
+}
