@@ -356,7 +356,7 @@ Graffiti.prototype.initializePrevious = function() {
     event.preventDefault();
     self.currentPosition -= 1;
     $('#gyc-timeline').val(self.currentPosition);
-    $.get( self.serverURL + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
+    $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
       $("#gyc-next-button").css('visibility', 'visible');
       self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
       self.project.activeLayer.removeChildren();
@@ -375,7 +375,7 @@ Graffiti.prototype.initializeNext = function() {
     event.preventDefault();
     self.currentPosition += 1;
     $('#gyc-timeline').val(self.currentPosition);
-    $.get( self.serverURL + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
+    $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
       $("#gyc-previous-button").css('visibility', 'visible');
       self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
       self.project.activeLayer.removeChildren();
