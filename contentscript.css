@@ -35,7 +35,7 @@
 }
 
 #gyc-canvas {
-  /*border:dashed black 1px ;*/
+  border:dashed rgba(63,141,143, 0.8) 3px ;
   position: absolute ;
   top:0px ;
   left:0px ;

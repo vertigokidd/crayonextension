@@ -8,7 +8,9 @@ This extension is designed to be used in tandem with the GetYourCrayon Rails app
 
 Clone the repo to your local machine. In the Chrome browser, open 'Extensions' and switch to developer mode. Load the directory.
 
+## Palette
 
+http://www.colourlovers.com/palette/1914331/Garuda_IV
 
 #0B88BE BLUE
 #EE094C RED
