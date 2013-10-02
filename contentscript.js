@@ -1,6 +1,7 @@
 // Calls all initialize methods
 injectScripts();
 injectToolbar();
+injectFonts();
 getToolbarStatus();
 initializeMessageListener();
 initializeAccordion();
@@ -13,25 +14,30 @@ initializeColorPicker();
 function injectToolbar() {
   $('body').append('<div class="getyourcrayon-menubar">' +
                      '<div id="gyc-toolbar-header">' +
-                       '<a id="gyc-previous-button" href="">Previous</a><input type="range" id="gyc-timeline" min="0" max="10"></input><a id="gyc-next-button" href="">Next</a>' +
-                       '<div id="gyc-tag-holder">' +
-                       '</div>' +
+                       '<i id="gyc-previous-button" class="icon-chevron-left"></i><input type="range" id="gyc-timeline" min="0" max="10"></input><i id="gyc-next-button" class="icon-chevron-right"></i>' +
+                     '</div>' +
+                     '<div id="gyc-toolbar-buttons">' +
+                       '<i id="gyc-paint-button" class="icon-eye-close gyc-button"></i>' +
+                       '<i id="gyc-undo-button" class="icon-undo gyc-button"></i>' +
+                       '<i id="gyc-clean-slate-button" class="icon-remove-circle gyc-button"></i>' +
+                       '<i id="gyc-save-button" class="icon-cloud-upload gyc-button"></i>' +
+                       // '<button id="gyc-undo-button" class="gyc-btn gyc-btn-default"></button>' +
+                       // '<button id="gyc-clean-slate-button" class="gyc-btn gyc-btn-default"></button>' +
+                       // '<button id="gyc-save-button" class="gyc-btn gyc-btn-default"></button>' +
                      '</div>' +
                      '<div id="gyc-toolbar">' +
                        '<div id="gyc-toolbar-toggle">' +
-                         '<p id="gyc-toggle-toolbar-arrow">&#9660</p>' +
+                         '<i id="gyc-toggle-toolbar-arrow" class="icon-chevron-sign-down"></i>' +
                        '</div>' +
                        '<div id="gyc-toolbar-tools">' +
-                         '<button type="gyc-button" id="gyc-paint-button" class="gyc-btn gyc-btn-default">Paint</button>' +
-                         '<button type="gyc-button" id="gyc-undo-button" class="gyc-btn gyc-btn-default">Undo</button>' +
-                         '<button type="button" id="gyc-save-button" class="gyc-btn gyc-btn-default">Save</button>' +
-                         '<button type="gyc-button" id="gyc-clean-slate-button" class="gyc-btn gyc-btn-default">Clean Slate</button>' +
-                         '<label>Width: <span id="gyc-current_width">5</span><br><input id="width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
-                         '<label>Opacity: <span id="gyc-current_opacity">100%</span><br><input id="opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
+                         '<label class="gyc-toolbar-value">Width: <span id="gyc-current_width">5</span><br><input id="gyc-width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
+                         '<label class="gyc-toolbar-value">Opacity: <span id="gyc-current_opacity">100%</span><br><input id="gyc-opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
                          '<form>' +
                            '<input type="text" id="gyc-color" name="color" value="#123456" />' +
                          '</form>' +
                          '<div id="gyc-colorpicker"></div>' +
+                         '<div id="gyc-tag-holder">' +
+                         '</div>' +
                        '</div>' +
                      '</div>' +
                    '</div>' +
@@ -47,6 +53,12 @@ function injectToolbar() {
 function injectScripts() {
   var pscriptUrl = chrome.extension.getURL("drawController.js");
   $('body').append('<script type="text/paperscript" src="'+ pscriptUrl + '" canvas="gyc-canvas"></script><canvas id="gyc-canvas" style="display:none;" resize></canvas>');
+}
+
+// Inject font awesome //
+
+function injectFonts() {
+  $('body').append('<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">');
 }
 
 // This listens for messages from the background script (background.js) and toggles the toolbar

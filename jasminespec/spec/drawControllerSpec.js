@@ -21,8 +21,8 @@ describe("drawController", function(){
 
   describe("updateWidth", function() {
     it("updates the width variable when the width slider changes value", function() {
-      $('#width').val(20);
-      var newWidth = $('#width').val();
+      $('#gyc-width').val(20);
+      var newWidth = $('#gyc-width').val();
       var width = parseInt(newWidth);
       $('#gyc-current_width').html(width);
       expect($('#gyc-current_width').html()).toBe('20');

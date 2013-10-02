@@ -35,6 +35,7 @@ function onMouseDrag(event) {
 }
 
 // This are all the Painting Functionality Listeners
+// initializeMsgListener();
 loadDrawings(windowUrl);
 toggleDropdownArrow();
 toggleCanvas();
@@ -108,11 +109,13 @@ function toggleSaveButton(){
 // Listens to a click on the dropdown bar and toggles the arrow up and down.
 function toggleDropdownArrow(){
   $('#gyc-toolbar-toggle').on('click', function() {
+    $(this).focus('false');
     if ($(this).hasClass('ui-state-active')) {
-      $('#gyc-toggle-toolbar-arrow').html('&#9650');
+      $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-down').addClass('icon-chevron-sign-up').css('border-radius', '0px');
+      $('#gyc-toolbar-toggle').css('border-radius', '0px');
     }
     else {
-      $('#gyc-toggle-toolbar-arrow').html('&#9660');
+      $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-up').addClass('icon-chevron-sign-down');
     }
   });
 }
@@ -122,6 +125,13 @@ function toggleDropdownArrow(){
 function toggleCanvas(){
   $('#gyc-paint-button').click(function(){
     $('#gyc-canvas').toggle();
+    if ($('#gyc-canvas').css("display") === 'none') {
+      $('#gyc-paint-button').removeClass("icon-eye-open").addClass("icon-eye-close");
+    }
+    else {
+      $('#gyc-paint-button').removeClass("icon-eye-close").addClass("icon-eye-open");
+    }
+
   });
 }
 
@@ -146,7 +156,7 @@ function updateColor(){
 // Listens for a change on the width slider to change
 // the stroke width by updating the width variable
 function updateWidth(){
-  $('#width').change(function() {
+  $('#gyc-width').change(function() {
     var newWidth = $(this).val();
     width = parseInt(newWidth);
     $('#gyc-current_width').html(width);
@@ -156,7 +166,7 @@ function updateWidth(){
 // Listens for a change on the opacity slider to change
 // the stroke opacity by updating the opacity variable
 function updateOpacity(){
-  $('#opacity').change(function() {
+  $('#gyc-opacity').change(function() {
     var newOpacity = $(this).val();
     opacity = parseFloat(newOpacity)/100;
     $('#gyc-current_opacity').html(newOpacity + "%");
@@ -353,3 +363,17 @@ function initializeNext() {
     });
   });
 }
+
+// function initializeMsgListener(){
+//   chrome.extension.onMessage.addListener(
+//     function(request, sender, sendResponse) {
+//       console.log(request);
+//       console.log(sender.tab ?
+//                   "from a content script:" + sender.tab.url :
+//                   "from the extension");
+//       if (request.task == "toggle") {
+//         console.log('receieved message in drawController.js');
+//         myProject.view.draw();
+//       }
+//     });
+// }
