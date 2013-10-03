@@ -14,10 +14,13 @@ initializeColorPicker();
 function injectToolbar() {
   $('body').append('<div class="getyourcrayon-menubar">' +
                      '<div id="gyc-toolbar-header">' +
-                       '<i id="gyc-previous-button" class="icon-chevron-left"></i><input type="range" id="gyc-timeline" min="0" max="10"></input><i id="gyc-next-button" class="icon-chevron-right"></i>' +
+                       '<div id="gyc-timeline-container">' +
+                         '<i id="gyc-previous-button" class="icon-chevron-sign-left"></i><input type="range" id="gyc-timeline" min="0" max="0"></input><i id="gyc-next-button" class="icon-chevron-sign-right"></i>' +
+                       '</div>' +
                      '</div>' +
                      '<div id="gyc-toolbar-buttons">' +
                        '<i id="gyc-paint-button" class="icon-eye-close gyc-button"></i>' +
+                       '<i id="gyc-draw-button" class="icon-pencil gyc-button"></i>' +
                        '<i id="gyc-undo-button" class="icon-undo gyc-button"></i>' +
                        '<i id="gyc-clean-slate-button" class="icon-remove-circle gyc-button"></i>' +
                        '<i id="gyc-save-button" class="icon-cloud-upload gyc-button"></i>' +
@@ -41,11 +44,11 @@ function injectToolbar() {
                        '</div>' +
                      '</div>' +
                    '</div>' +
-                   '<div id="gyc-save-confirm" title="Confirm save">' +
-                       '<label>Tags:<input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
+                   '<div id="gyc-save-confirm" title="Confirm Save">' +
+                       '<label>Tag your drawing:<input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
                    '</div>' +
-                   '<div id="gyc-twitter" title="Save succesfull">' +
-                      '<p>Tweet your drawing</p>' +
+                   '<div id="gyc-twitter" title="Save Successful">' +
+                      '<p></p>' +
                       '<div id="gyc-twitter-bttn"></div>' +
                    '</div>'
                    );
@@ -62,7 +65,7 @@ function injectScripts() {
 // Inject font awesome //
 
 function injectFonts() {
-  $('body').append('<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">');
+  $('body').append('<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"><link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">');
 }
 
 // This listens for messages from the background script (background.js) and toggles the toolbar
@@ -71,10 +74,6 @@ function injectFonts() {
 function initializeMessageListener(){
   chrome.extension.onMessage.addListener(
     function(request, sender, sendResponse) {
-      console.log(request);
-      console.log(sender.tab ?
-                  "from a content script:" + sender.tab.url :
-                  "from the extension");
       if (request.task == "toggle") {
         sendResponse({status: "toggled"});
         $('.getyourcrayon-menubar').toggle();
@@ -87,9 +86,7 @@ function initializeMessageListener(){
 
 function getToolbarStatus() {
   chrome.runtime.sendMessage({task: "get status"}, function(response) {
-    console.log(response.onOff);
     if (response.onOff === "off") {
-      console.log('got in here');
       $('.getyourcrayon-menubar').hide();
     }
   });

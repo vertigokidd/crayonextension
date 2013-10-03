@@ -1,4 +1,39 @@
 describe("drawController", function(){
+  describe("Graffiti Model", function() {
+
+    project = 'Paperjsproject';
+    currentDrawing = null;
+
+    beforeEach(function() {
+      graffiti = new Graffiti();
+    });
+
+    describe("decrementUndoCounter", function(){
+      it("decreases the value of the undoCounter variable by 1", function(){
+        graffiti.decrementUndoCounter();
+        expect(graffiti.undoCounter).toBe(-1);
+      });
+    });
+    describe("incrementUndoCounter", function() {
+      it("increases the value of the undoCounter variable by 1", function(){
+        graffiti.incrementUndoCounter();
+        expect(graffiti.undoCounter).toBe(1);
+      });
+    });
+    describe("checkUndoCounter", function(){
+      it("returns false when value of undoCounter is not 0", function(){
+        graffiti.incrementUndoCounter();
+        expect(graffiti.checkUndoCounter()).toBeFalsy();
+      });
+      it("returns true when value of undoCounter is 0", function(){
+        expect(graffiti.checkUndoCounter()).toBeTruthy();
+      });
+    });
+
+
+  });
+});
+
   // describe("onMouseDown", function() {
   //   it("creates a new path when the canvas is clicked", function() {
   //     $('#myCanvas').show();
@@ -11,43 +46,40 @@ describe("drawController", function(){
   //     expect($('#myCanvas').onMouseDown).toHaveBeenCalled();
   //   });
   // });
-  describe("toggleCanvas", function() {
-    it("shows the canvas when toggle button is clicked", function(){
-      $('#gyc-toolbar-toggle').trigger('click');
-      setTimeout(function() { $('#gyc-paint-button').trigger('click'); }, 100);
-      setTimeout(function() {expect($('#myCanvas').css('display')).toBe('block');}, 101);
-    });
-  });
+  // describe("toggleCanvas", function() {
+  //   it("shows the canvas when toggle button is clicked", function(){
+  //     $('#gyc-toolbar-toggle').trigger('click');
+  //     setTimeout(function() { $('#gyc-paint-button').trigger('click'); }, 100);
+  //     setTimeout(function() {expect($('#myCanvas').css('display')).toBe('block');}, 101);
+  //   });
+  // });
 
-  describe("updateWidth", function() {
-    it("updates the width variable when the width slider changes value", function() {
-      $('#gyc-width').val(20);
-      var newWidth = $('#gyc-width').val();
-      var width = parseInt(newWidth);
-      $('#gyc-current_width').html(width);
-      expect($('#gyc-current_width').html()).toBe('20');
-    });
-  });
+  // describe("updateWidth", function() {
+  //   it("updates the width variable when the width slider changes value", function() {
+  //     $('#gyc-width').val(20);
+  //     var newWidth = $('#gyc-width').val();
+  //     var width = parseInt(newWidth);
+  //     $('#gyc-current_width').html(width);
+  //     expect($('#gyc-current_width').html()).toBe('20');
+  //   });
+  // });
 
-  describe("save confirmation", function(){
-    it("displays the save confirmation when user clicks save", function(){
-      setTimeout(function() {$('#gyc-save-button').trigger('click');}, 100);
-      setTimeout(function() {expect($('.ui-front').css('display')).toBe('block');}, 101);
-    });
+  // describe("save confirmation", function(){
+  //   it("displays the save confirmation when user clicks save", function(){
+  //     setTimeout(function() {$('#gyc-save-button').trigger('click');}, 100);
+  //     setTimeout(function() {expect($('.ui-front').css('display')).toBe('block');}, 101);
+  //   });
 
-    it("closes the save confirm dialog box if user presses confirm save", function(){
-      setTimeout(function() {$('.gyc-save-confirm-button').trigger('click');}, 102);
-      expect($('.gyc-save-popup').css('display')).toBe('none');
-    });
+  //   it("closes the save confirm dialog box if user presses confirm save", function(){
+  //     setTimeout(function() {$('.gyc-save-confirm-button').trigger('click');}, 102);
+  //     expect($('.gyc-save-popup').css('display')).toBe('none');
+  //   });
 
-    it("closes the save confirm dialog box if user presses cancel", function(){
-      setTimeout(function() {$('#gyc-save-button').trigger('click');}, 103);
-      setTimeout(function() {$('.gyc-save-confirm-button').trigger('click');}, 104);
-      expect($('.gyc-save-popup').css('display')).toBe('none');
-    });
-
-  });
-});
+  //   it("closes the save confirm dialog box if user presses cancel", function(){
+  //     setTimeout(function() {$('#gyc-save-button').trigger('click');}, 103);
+  //     setTimeout(function() {$('.gyc-save-confirm-button').trigger('click');}, 104);
+  //     expect($('.gyc-save-popup').css('display')).toBe('none');
+  //   });
 
 
 
