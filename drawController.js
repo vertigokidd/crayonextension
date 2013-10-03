@@ -5,7 +5,7 @@ function Graffiti() {
   this.width = 5;
   this.opacity = 1;
   this.canvas = document.getElementById('gyc-canvas');
-  this.serverUrl = 'http://localhost:3000';
+  this.serverUrl = 'http://www.getyourcrayon.com';
   this.windowUrl = window.location.href;
   this.latestDrawing = null;
   this.project = project;
