@@ -225,7 +225,7 @@ Graffiti.prototype.initializePopupForm = function(){
   var self = this;
   $('#gyc-save-confirm').dialog({
     autoOpen: false,
-    height: 100,
+    height: 130,
     width: 250,
     dialogClass: 'gyc-popup',
     modal: false,
@@ -256,7 +256,7 @@ Graffiti.prototype.initializePopupForm = function(){
 Graffiti.prototype.initializeTwitterPopup = function(){
   $('#gyc-twitter').dialog({
     autoOpen: false,
-    height: 100,
+    height: 130,
     width: 250,
     dialogClass: 'gyc-popup',
     modal: false,
@@ -293,7 +293,6 @@ Graffiti.prototype.saveDrawingPost = function(){
       self.currentPosition = self.maxIndex;
       $("#gyc-timeline").prop('max', self.maxIndex);
       $('#gyc-timeline').val(self.maxIndex);
-      $("#gyc-next-button").css('visibility', 'hidden');
       $("#gyc-save-button").prop('disabled', true);
       self.latestDrawing = self.project.layers[self.project.layers.length - 1].exportJSON();
       if(self.maxIndex >= 1){

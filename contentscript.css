@@ -10,13 +10,13 @@
   /*border: solid black 1px;*/
   position:absolute;
   display:block;
-  background-color: rgba(224,224,224,0.95);
+  background-color: rgba(224,224,224,1);
   border-radius: 4px !important;
   z-index:1000000000 !important;
 }
 
 .gyc-popup .ui-dialog-titlebar {
-  background-color: #F44C63 !important;
+  background-color: rgba(63,141,143, 1) !important;
   border-top-left-radius: 4px !important;
   border-top-right-radius: 4px !important;
   height: 20px;
@@ -24,7 +24,10 @@
 }
 
 .gyc-popup .ui-dialog-titlebar .ui-dialog-title {
-  font-family: 'Montserrat', sans-serif;
+  font-family: helvetica, sans-serif;
+  font-weight: bold;
+  color: rgba(255,255,255,0.7);
+  font-size: 16px;
 }
 
 .gyc-popup .ui-dialog-titlebar .ui-dialog-titlebar-close {
@@ -34,9 +37,56 @@
   border:0;
 }
 
+.gyc-popup .ui-dialog-buttonpane .ui-dialog-buttonset{
+  width: 140px;
+  margin: auto;
+  margin-bottom:6px;
+}
+
+.gyc-popup .gyc-save-confirm-button, .gyc-save-cancel-button {
+  background-color: gray;
+  color:rgba(255,255,255,0.7);
+  border:none;
+  border-radius: 2px;
+}
+
+.gyc-popup #gyc-save-confirm {
+  padding-top: 8px;
+  padding-left: 18px;
+}
+
+
 #gyc-pop-x {
-  background-color: #F44C63;
+  background-color: rgba(63,141,143, 1) !important;
   font-size: 16px;
+  color: rgba(255,255,255,0.7);
+
+}
+
+#gyc-drawingTags {
+  border-radius: 4px !important;
+  border: none !important;
+  width: 212px;
+  margin-top: 4px;
+  height: 20px;
+}
+
+#gyc-twitter-bttn{
+  display: block;
+}
+
+#gyc-twitter-bttn iframe {
+ display:block;
+ width: 76px;
+ margin:auto;
+}
+
+.gyc-popup p {
+  padding-left: 8px;
+}
+
+#unique_url{
+  margin-left:8px;
 }
 
 
