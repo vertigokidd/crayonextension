@@ -51,6 +51,8 @@ GraffitiView.prototype.setupPage = function(windowUrl) {
     $("#gyc-clean-slate-button").css('color', 'gray');
   }).fail(function(){self.showConfirmationPopup("body","Error: server conection problem");
       $('#gyc-timeline').hide();
+      $('#gyc-next-button').hide();
+      $('#gyc-previous-button').hide();
     });
 };
 
@@ -60,6 +62,8 @@ GraffitiView.prototype.setupTimeline = function(maxIndex) {
   self.model.currentPosition = maxIndex;
   if (maxIndex === null) {
     $('#gyc-timeline').hide();
+    $('#gyc-next-button').hide();
+    $('#gyc-previous-button').hide();
   }
   else {
     $("#gyc-timeline").prop('max', self.model.maxIndex);
@@ -278,8 +282,8 @@ Graffiti.prototype.saveDrawingPost = function(){
 
   $.post(self.serverUrl + '/save', data,function(response){
     if (response.tags_html_string){
-      var twitter_html = '<a href="https://twitter.com/share" data-url="/" class="twitter-share-button" data-hashtags="GetYourCrayon" data-text="I created this amazing drawing see it on => '+response.unique_url+'" data-lang="en" data-size="large" data-count="none">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>'
-      $('#gyc-twitter-bttn').html(twitter_html);
+      var twitter_html = '<a href="https://twitter.com/share" data-url="/" class="twitter-share-button" data-hashtags="GetYourCrayon" data-text="I created this amazing drawing see it on => '+response.unique_url+'" data-lang="en" data-size="large" data-count="none">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>';
+      // $('#gyc-twitter-bttn').html(twitter_html);
       $('#gyc-tag-holder').html(response.tags_html_string);
       $('#gyc-drawingTags').val('');
       if(self.maxIndex === null){
@@ -302,6 +306,8 @@ Graffiti.prototype.saveDrawingPost = function(){
   }).fail(function(){
     graffitiView.showConfirmationPopup("body","ERROR WHEN SAVING");
     $('#gyc-timeline').hide();
+    $('#gyc-next-button').hide();
+    $('#gyc-previous-button').hide();
      });
 };
 

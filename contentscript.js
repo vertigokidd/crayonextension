@@ -14,7 +14,9 @@ initializeColorPicker();
 function injectToolbar() {
   $('body').append('<div class="getyourcrayon-menubar">' +
                      '<div id="gyc-toolbar-header">' +
-                       '<i id="gyc-previous-button" class="icon-chevron-sign-left"></i><input type="range" id="gyc-timeline" min="0" max="0"></input><i id="gyc-next-button" class="icon-chevron-sign-right"></i>' +
+                       '<div id="gyc-timeline-container">' +
+                         '<i id="gyc-previous-button" class="icon-chevron-sign-left"></i><input type="range" id="gyc-timeline" min="0" max="0"></input><i id="gyc-next-button" class="icon-chevron-sign-right"></i>' +
+                       '</div>' +
                      '</div>' +
                      '<div id="gyc-toolbar-buttons">' +
                        '<i id="gyc-paint-button" class="icon-eye-close gyc-button"></i>' +
@@ -46,7 +48,7 @@ function injectToolbar() {
                        '<label>Tag your drawing:<input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
                    '</div>' +
                    '<div id="gyc-twitter" title="Save Successful">' +
-                      '<p>Tweet your drawing</p>' +
+                      '<p></p>' +
                       '<div id="gyc-twitter-bttn"></div>' +
                    '</div>'
                    );
