@@ -19,7 +19,6 @@ function GraffitiView(graffitiModel) {
 }
 // VIEW METHODS ###############################################################
 
-
 // listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
 
 GraffitiView.prototype.toggleSaveButton = function(){
@@ -75,6 +74,19 @@ GraffitiView.prototype.insertTags = function(response) {
   $('#gyc-tag-holder').html(response.tags_html_string);
 };
 
+// Listens to a click on the dropdown bar and toggles the arrow up and down.
+
+GraffitiView.prototype.toggleDropdownArrow = function(){
+  var toolbar = $('#gyc-toolbar-toggle');
+  toolbar.focus('false');
+  if (toolbar.hasClass('ui-state-active')) {
+    $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-down').addClass('icon-chevron-sign-up');
+  }
+  else {
+    $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-up').addClass('icon-chevron-sign-down');
+  }
+};
+
 // MODEL METHODS ##############################################################
 
 Graffiti.prototype.decrementUndoCounter = function() {
@@ -94,6 +106,8 @@ Graffiti.prototype.checkDrawingFreshness = function() {
   return this.latestDrawing == currentDrawing;
 };
 
+//#############################################################################
+
 // This is the Painting Functionality, method names are required by paper.js
 
 function onMouseDown(event) {
@@ -109,25 +123,7 @@ function onMouseDrag(event) {
   graffiti.path.smooth();
 }
 
-
-
-// Listens to a click on the dropdown bar and toggles the arrow up and down.
-
-Graffiti.prototype.toggleDropdownArrow = function(){
-  var toolbar = $('#gyc-toolbar-toggle');
-  toolbar.focus('false');
-  if (toolbar.hasClass('ui-state-active')) {
-    $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-down').addClass('icon-chevron-sign-up');
-  }
-  else {
-    $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-up').addClass('icon-chevron-sign-down');
-  }
-};
-
-
 // Listens for a click on the paint button and hides or displays the canvas
-
-
 
 Graffiti.prototype.toggleCanvas = function(){
     $('#gyc-canvas').toggle();
@@ -352,14 +348,15 @@ function validHex(hexString) {
 
 Graffiti.prototype.initializePrevious = function() {
   var self = this;
-  $('#gyc-previous-button').click(function(event){
-    event.preventDefault();
+  $('#gyc-previous-button').click(function(){
     self.currentPosition -= 1;
     $('#gyc-timeline').val(self.currentPosition);
     $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
       $("#gyc-next-button").css('visibility', 'visible');
       self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
-      self.project.activeLayer.removeChildren();
+      self.project.activeLayer.remove();
+      var newlayer = new Layer();
+      self.project.activeLayer.remove();
       self.project.importJSON(response);
       if (self.currentPosition == 0) {
         $("#gyc-previous-button").css('visibility', 'hidden');
@@ -371,14 +368,15 @@ Graffiti.prototype.initializePrevious = function() {
 
 Graffiti.prototype.initializeNext = function() {
   var self = this;
-  $('#gyc-next-button').click(function(event){
-    event.preventDefault();
+  $('#gyc-next-button').click(function(){
     self.currentPosition += 1;
     $('#gyc-timeline').val(self.currentPosition);
     $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
       $("#gyc-previous-button").css('visibility', 'visible');
       self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
-      self.project.activeLayer.removeChildren();
+      self.project.activeLayer.remove();
+      var newlayer = new Layer();
+      self.project.activeLayer.remove();
       self.project.importJSON(response);
       if (self.currentPosition == self.maxIndex) {
         $("#gyc-next-button").css('visibility', 'hidden');
@@ -434,7 +432,7 @@ $('#gyc-canvas').on('mouseup', function() {
 
 $('#gyc-save-button').click(graffiti.openSaveForm);
 
-$('#gyc-toolbar-toggle').click(graffiti.toggleDropdownArrow);
+$('#gyc-toolbar-toggle').click(graffitiView.toggleDropdownArrow);
 
 $('#gyc-paint-button').click(graffiti.toggleCanvas);
 
