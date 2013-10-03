@@ -13,6 +13,7 @@ function Graffiti() {
   this.currentPosition = null;
   this.undoCounter = 0;
   this.drawingStatus = 'off';
+  this.canvasStatus = 'off';
 }
 
 function GraffitiView(graffitiModel) {
@@ -46,7 +47,6 @@ GraffitiView.prototype.setupPage = function(windowUrl) {
       self.setupTimeline(null);
     }
     $("#gyc-next-button").css('visibility', 'hidden');
-    // self.toggleSaveButton();
     $("#gyc-save-button").css('color', 'gray');
   }).fail(function(){self.showConfirmationPopup("body","Error: server conection problem");
       $('#gyc-timeline').hide();
@@ -79,10 +79,14 @@ GraffitiView.prototype.insertTags = function(response) {
 GraffitiView.prototype.toggleDraw = function() {
   if (graffiti.drawingStatus === 'on') {
     graffiti.drawingStatus = 'off';
-    $('#gyc-draw-button').css("color", "")
+    $('#gyc-draw-button').css("color", "");
   }
   else {
+    if (graffiti.canvasStatus === 'off') {
+      graffiti.toggleCanvas();
+    }
     graffiti.drawingStatus = 'on';
+    $('#gyc-draw-button').css("color", graffiti.color);
   }
 };
 
@@ -128,9 +132,14 @@ Graffiti.prototype.toggleCanvas = function(){
     $('#gyc-canvas').toggle();
     if ($('#gyc-canvas').css("display") === 'none') {
       $('#gyc-paint-button').removeClass("icon-eye-open").addClass("icon-eye-close").css("color", "");
+      if (graffiti.drawingStatus === 'on') {
+        graffitiView.toggleDraw();
+      }
+      graffiti.canvasStatus = 'off';
     }
     else {
       $('#gyc-paint-button').removeClass("icon-eye-close").addClass("icon-eye-open").css("color", "#F44C63");
+      graffiti.canvasStatus = 'on';
     }
 };
 
