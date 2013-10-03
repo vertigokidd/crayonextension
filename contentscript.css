@@ -7,14 +7,38 @@
 }
 
 .gyc-popup {
-  border: solid black 1px;
+  /*border: solid black 1px;*/
   position:absolute;
   display:block;
-  background-color: rgba(63,141,143, 1);
-  padding:5px;
+  background-color: rgba(224,224,224,0.95);
   border-radius: 4px !important;
   z-index:1000000000 !important;
 }
+
+.gyc-popup .ui-dialog-titlebar {
+  background-color: #F44C63 !important;
+  border-top-left-radius: 4px !important;
+  border-top-right-radius: 4px !important;
+  height: 20px;
+  padding: 4px;
+}
+
+.gyc-popup .ui-dialog-titlebar .ui-dialog-title {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.gyc-popup .ui-dialog-titlebar .ui-dialog-titlebar-close {
+  float:right;
+  margin:0;
+  padding:0;
+  border:0;
+}
+
+#gyc-pop-x {
+  background-color: #F44C63;
+  font-size: 16px;
+}
+
 
 #gyc-confirmation-popup {
   background-color: rgba(63,141,143, 0.8);
@@ -145,3 +169,4 @@
   text-align: center !important;
   border: none !important;
 }
+

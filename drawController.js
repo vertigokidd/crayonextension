@@ -47,6 +47,8 @@ GraffitiView.prototype.setupPage = function(windowUrl) {
       self.setupTimeline(null);
     }
     $("#gyc-save-button").css('color', 'gray');
+    $("#gyc-undo-button").css('color', 'gray');
+    $("#gyc-clean-slate-button").css('color', 'gray');
   }).fail(function(){self.showConfirmationPopup("body","Error: server conection problem");
       $('#gyc-timeline').hide();
     });
@@ -79,6 +81,8 @@ GraffitiView.prototype.toggleDraw = function() {
   if (graffiti.drawingStatus === 'on') {
     graffiti.drawingStatus = 'off';
     $('#gyc-draw-button').css("color", "");
+    $("#gyc-undo-button").css('color', 'gray');
+    $("#gyc-clean-slate-button").css('color', 'gray');
   }
   else {
     if (graffiti.canvasStatus === 'off') {
@@ -86,6 +90,8 @@ GraffitiView.prototype.toggleDraw = function() {
     }
     graffiti.drawingStatus = 'on';
     $('#gyc-draw-button').css("color", graffiti.color);
+    $("#gyc-undo-button").css('color', '');
+    $("#gyc-clean-slate-button").css('color', '');
   }
 };
 
@@ -182,10 +188,12 @@ Graffiti.prototype.updateOpacity = function(){
 Graffiti.prototype.undo = function(){
   var self = this;
   $('#gyc-undo-button').click(function(event) {
-    if (self.project.layers[0].children.length >= 1) {
-      self.project.layers[0].children[self.project.layers[0].children.length -1].visible = false;
-      self.project.layers[0].children[self.project.layers[0].children.length -1].remove();
-      self.project.view.draw();
+    if (graffiti.drawingStatus === 'on') {
+      if (self.project.layers[0].children.length >= 1) {
+        self.project.layers[0].children[self.project.layers[0].children.length -1].visible = false;
+        self.project.layers[0].children[self.project.layers[0].children.length -1].remove();
+        self.project.view.draw();
+      }
     }
   });
 };
@@ -195,10 +203,12 @@ Graffiti.prototype.undo = function(){
 Graffiti.prototype.cleanSlate = function() {
   var self = this;
   $('#gyc-clean-slate-button').click(function() {
-    self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
-    self.project.activeLayer.remove();
-    var newlayer = new Layer();
-  });
+    if (graffiti.drawingStatus === 'on') {
+      self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
+      self.project.activeLayer.remove();
+      var newlayer = new Layer();
+
+  }});
 };
 
 // Listens for a click on the save button and opens the dialog save form
@@ -220,6 +230,7 @@ Graffiti.prototype.initializePopupForm = function(){
     dialogClass: 'gyc-popup',
     modal: false,
     open: function() {
+      $('.gyc-popup .ui-dialog-titlebar .ui-dialog-titlebar-close').html('<i id="gyc-pop-x" class="icon-remove gyc-button"></i>')
       $("#gyc-drawingTags").keypress(function(e) {
         if (e.keyCode == $.ui.keyCode.ENTER) {
           $('.gyc-save-confirm-button').trigger("click");
@@ -342,38 +353,47 @@ function validHex(hexString) {
 Graffiti.prototype.initializePrevious = function() {
   var self = this;
     $('#gyc-previous-button').click(function(){
-    console.log(graffiti.currentPosition);
-      self.currentPosition -= 1;
-    if (graffiti.currentPosition !== 0) {
-      $('#gyc-timeline').val(self.currentPosition);
-      $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
-        self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
-        self.project.activeLayer.remove();
-        var newlayer = new Layer();
-        self.project.activeLayer.remove();
-        self.project.importJSON(response);
-        self.project.view.draw();
-      });
-  }
+      if (self.currentPosition !== 0) {
+        if (self.currentPosition > 0) {
+          self.currentPosition -= 1;
+        }
+        console.log(graffiti.currentPosition);
+        if (graffiti.currentPosition >= 0) {
+          $('#gyc-timeline').val(self.currentPosition);
+          $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
+            console.log('made request');
+            self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
+            self.project.activeLayer.remove();
+            var newlayer = new Layer();
+            self.project.activeLayer.remove();
+            self.project.importJSON(response);
+            self.project.view.draw();
+          });
+        }
+      }
     });
 };
 
 Graffiti.prototype.initializeNext = function() {
   var self = this;
     $('#gyc-next-button').click(function(){
-  console.log(graffiti.currentPosition);
-      self.currentPosition += 1;
-  if (graffiti.currentPosition !== graffiti.maxIndex) {
-      $('#gyc-timeline').val(self.currentPosition);
-      $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
-        self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
-        self.project.activeLayer.remove();
-        var newlayer = new Layer();
-        self.project.activeLayer.remove();
-        self.project.importJSON(response);
-        self.project.view.draw();
-      });
-  }
+      if (self.currentPosition !== self.maxIndex) {
+        if (self.currentPosition < self.maxIndex) {
+          self.currentPosition += 1;
+        }
+        console.log(graffiti.currentPosition);
+        if (graffiti.currentPosition <= graffiti.maxIndex) {
+          $('#gyc-timeline').val(self.currentPosition);
+          $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
+            self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
+            self.project.activeLayer.remove();
+            var newlayer = new Layer();
+            self.project.activeLayer.remove();
+            self.project.importJSON(response);
+            self.project.view.draw();
+          });
+        }
+      }
     });
 };
 
