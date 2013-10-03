@@ -12,6 +12,7 @@ function Graffiti() {
   this.maxIndex = null;
   this.currentPosition = null;
   this.undoCounter = 0;
+  this.drawingStatus = 'off';
 }
 
 function GraffitiView(graffitiModel) {
@@ -75,6 +76,16 @@ GraffitiView.prototype.insertTags = function(response) {
   $('#gyc-tag-holder').html(response.tags_html_string);
 };
 
+GraffitiView.prototype.toggleDraw = function() {
+  if (graffiti.drawingStatus === 'on') {
+    graffiti.drawingStatus = 'off';
+    $('#gyc-draw-button').css("color", "")
+  }
+  else {
+    graffiti.drawingStatus = 'on';
+  }
+};
+
 // Listens to a click on the dropdown bar and toggles the arrow up and down.
 
 GraffitiView.prototype.toggleDropdownArrow = function(){
@@ -109,30 +120,17 @@ Graffiti.prototype.checkDrawingFreshness = function() {
 
 //#############################################################################
 
-// This is the Painting Functionality, method names are required by paper.js
 
-function onMouseDown(event) {
-  graffiti.path = new Path();
-  graffiti.path.strokeColor = graffiti.color;
-  graffiti.path.strokeWidth = graffiti.width;
-  graffiti.path.strokeCap = graffiti.strokeCap;
-  graffiti.path.opacity = graffiti.opacity;
-}
-
-function onMouseDrag(event) {
-  graffiti.path.add(event.point);
-  graffiti.path.smooth();
-}
 
 // Listens for a click on the paint button and hides or displays the canvas
 
 Graffiti.prototype.toggleCanvas = function(){
     $('#gyc-canvas').toggle();
     if ($('#gyc-canvas').css("display") === 'none') {
-      $('#gyc-paint-button').removeClass("icon-eye-open").addClass("icon-eye-close");
+      $('#gyc-paint-button').removeClass("icon-eye-open").addClass("icon-eye-close").css("color", "");
     }
     else {
-      $('#gyc-paint-button').removeClass("icon-eye-close").addClass("icon-eye-open");
+      $('#gyc-paint-button').removeClass("icon-eye-close").addClass("icon-eye-open").css("color", "#F44C63");
     }
 };
 
@@ -141,6 +139,9 @@ Graffiti.prototype.toggleCanvas = function(){
 Graffiti.prototype.updateColor = function(){
   if (validHex($('#gyc-color').val())) {
     graffiti.color = $('#gyc-color').val();
+    if (graffiti.drawingStatus === 'on') {
+      $('#gyc-draw-button').css("color", graffiti.color);
+    }
   }
 };
 
@@ -440,6 +441,31 @@ $('#gyc-paint-button').click(graffiti.toggleCanvas);
 $('.marker').on('mouseup', graffiti.updateColor);
 $('.marker').on('mouseleave', graffiti.updateColor);
 $('#gyc-color').on('keyup', graffiti.updateColor);
+
+$('#gyc-draw-button').click(graffitiView.toggleDraw);
+
+// This is the Painting Functionality, method names are required by paper.js
+
+
+
+
+  function onMouseDown(event) {
+    if (graffiti.drawingStatus === 'on') {
+      graffiti.path = new Path();
+      graffiti.path.strokeColor = graffiti.color;
+      graffiti.path.strokeWidth = graffiti.width;
+      graffiti.path.strokeCap = graffiti.strokeCap;
+      graffiti.path.opacity = graffiti.opacity;
+    }
+  }
+
+  function onMouseDrag(event) {
+    if (graffiti.drawingStatus === 'on') {
+      graffiti.path.add(event.point);
+      graffiti.path.smooth();
+    }
+  }
+
 
 
 // Model (Grafitti drawing)

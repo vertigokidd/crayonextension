@@ -18,6 +18,7 @@ function injectToolbar() {
                      '</div>' +
                      '<div id="gyc-toolbar-buttons">' +
                        '<i id="gyc-paint-button" class="icon-eye-close gyc-button"></i>' +
+                       '<i id="gyc-draw-button" class="icon-pencil gyc-button"></i>' +
                        '<i id="gyc-undo-button" class="icon-undo gyc-button"></i>' +
                        '<i id="gyc-clean-slate-button" class="icon-remove-circle gyc-button"></i>' +
                        '<i id="gyc-save-button" class="icon-cloud-upload gyc-button"></i>' +

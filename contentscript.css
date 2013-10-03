@@ -66,17 +66,17 @@
   margin-left: 20px;
 }
 
-#gyc-paint-button, #gyc-undo-button, #gyc-clean-slate-button, #gyc-save-button {
+#gyc-paint-button, #gyc-draw-button, #gyc-undo-button, #gyc-clean-slate-button, #gyc-save-button {
   display:inline-block;
   height:40px;
-  font-size:30px;
+  font-size:25px;
   font-style:normal !important;
-  width:60px;
+  width:48px;
   line-height: 40px;
   text-align:center;
   color: rgba(63,141,143,0.9);
   z-index:10000000;
-  background-color:rgba(224,224,224,0.7);
+  background-color:rgba(224,224,224,0.95);
 }
 
 #gyc-paint-button:hover, #gyc-undo-button:hover, #gyc-clean-slate-button:hover{
@@ -84,35 +84,19 @@
   transition: color 0.7s linear;
 }
 
-/*.gyc-btn {
-  display: inline-block !important;
-  margin-bottom: 0 !important;
-  font-size: 14px !important;
-  font-weight: normal !important;
-  line-height: 1.428571429 !important;
-  text-align: center !important;
-  white-space: nowrap !important;
-  vertical-align: middle !important;
-  cursor: pointer !important;
-  background-color: rgba(255,255,255,0.7) !important;
-  width: 60px !important;
-  height: 40px !important;
-  border: none;
-  border-right: 2px solid black;
-}*/
 
 #gyc-toolbar-header {
   height: 40px !important;
   /*background-color: #aaa !important;*/
   border-top-left-radius: 4px !important;
   border-top-right-radius: 4px !important;
-  background-color: rgba(63,141,143, 0.8) !important;
+  background-color: rgba(63,141,143, 0.95) !important;
 }
 
 #gyc-toolbar-toggle {
   margin-top: 0 !important;
   height: 15px !important;
-  background-color:rgba(224,224,224,0.7);
+  background-color:rgba(224,224,224,0.95);
   border-bottom-left-radius: 4px !important;
   border-bottom-right-radius: 4px !important;
   border-top: 1px solid #ccc;
@@ -124,7 +108,7 @@
 }
 
 #gyc-toolbar-tools {
-  background-color:rgba(224,224,224,0.7) !important;
+  background-color:rgba(224,224,224,0.95) !important;
   border-bottom-left-radius: 4px !important;
   border-bottom-right-radius: 4px !important;
   padding-bottom: 10px;
