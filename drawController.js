@@ -46,7 +46,6 @@ GraffitiView.prototype.setupPage = function(windowUrl) {
     else {
       self.setupTimeline(null);
     }
-    $("#gyc-next-button").css('visibility', 'hidden');
     $("#gyc-save-button").css('color', 'gray');
   }).fail(function(){self.showConfirmationPopup("body","Error: server conection problem");
       $('#gyc-timeline').hide();
@@ -97,9 +96,11 @@ GraffitiView.prototype.toggleDropdownArrow = function(){
   toolbar.focus('false');
   if (toolbar.hasClass('ui-state-active')) {
     $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-down').addClass('icon-chevron-sign-up');
+    setTimeout(function(){toolbar.css('border-radius', '');},1000);
   }
   else {
     $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-up').addClass('icon-chevron-sign-down');
+    toolbbar.css("border-radius", '0px');
   }
 };
 
@@ -313,25 +314,6 @@ Graffiti.prototype.updateTimeline = function(){
   $('#gyc-timeline').change(function() {
     self.currentPosition = $(this).val();
     self.timelineUpdate();
-    if (self.currentPosition == self.maxIndex) {
-      $("#gyc-next-button").css('visibility', 'hidden');
-    }
-    else {
-      $("#gyc-next-button").css('visibility', 'visible');
-    }
-    if (self.currentPosition == 0) {
-      $("#gyc-previous-button").css('visibility', 'hidden');
-    }
-    else {
-      $("#gyc-previous-button").css('visibility', 'visible');
-    }
-
-    if(self.currentPosition != self.maxIndex){
-      $("#gyc-save-button").prop('disabled', false);
-    }
-    else{
-      $("#gyc-save-button").prop('disabled', true);
-    }
   });
 };
 
@@ -359,42 +341,40 @@ function validHex(hexString) {
 
 Graffiti.prototype.initializePrevious = function() {
   var self = this;
-  $('#gyc-previous-button').click(function(){
-    self.currentPosition -= 1;
-    $('#gyc-timeline').val(self.currentPosition);
-    $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
-      $("#gyc-next-button").css('visibility', 'visible');
-      self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
-      self.project.activeLayer.remove();
-      var newlayer = new Layer();
-      self.project.activeLayer.remove();
-      self.project.importJSON(response);
-      if (self.currentPosition == 0) {
-        $("#gyc-previous-button").css('visibility', 'hidden');
-      }
-      self.project.view.draw();
+    $('#gyc-previous-button').click(function(){
+    console.log(graffiti.currentPosition);
+      self.currentPosition -= 1;
+    if (graffiti.currentPosition !== 0) {
+      $('#gyc-timeline').val(self.currentPosition);
+      $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
+        self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
+        self.project.activeLayer.remove();
+        var newlayer = new Layer();
+        self.project.activeLayer.remove();
+        self.project.importJSON(response);
+        self.project.view.draw();
+      });
+  }
     });
-  });
 };
 
 Graffiti.prototype.initializeNext = function() {
   var self = this;
-  $('#gyc-next-button').click(function(){
-    self.currentPosition += 1;
-    $('#gyc-timeline').val(self.currentPosition);
-    $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
-      $("#gyc-previous-button").css('visibility', 'visible');
-      self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
-      self.project.activeLayer.remove();
-      var newlayer = new Layer();
-      self.project.activeLayer.remove();
-      self.project.importJSON(response);
-      if (self.currentPosition == self.maxIndex) {
-        $("#gyc-next-button").css('visibility', 'hidden');
-      }
-      self.project.view.draw();
+    $('#gyc-next-button').click(function(){
+  console.log(graffiti.currentPosition);
+      self.currentPosition += 1;
+  if (graffiti.currentPosition !== graffiti.maxIndex) {
+      $('#gyc-timeline').val(self.currentPosition);
+      $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
+        self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
+        self.project.activeLayer.remove();
+        var newlayer = new Layer();
+        self.project.activeLayer.remove();
+        self.project.importJSON(response);
+        self.project.view.draw();
+      });
+  }
     });
-  });
 };
 
 function initGraffiti() {

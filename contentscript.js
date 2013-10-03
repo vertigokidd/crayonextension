@@ -14,7 +14,7 @@ initializeColorPicker();
 function injectToolbar() {
   $('body').append('<div class="getyourcrayon-menubar">' +
                      '<div id="gyc-toolbar-header">' +
-                       '<i id="gyc-previous-button" class="icon-chevron-left"></i><input type="range" id="gyc-timeline" min="0" max="10"></input><i id="gyc-next-button" class="icon-chevron-right"></i>' +
+                       '<i id="gyc-previous-button" class="icon-chevron-sign-left"></i><input type="range" id="gyc-timeline" min="0" max="10"></input><i id="gyc-next-button" class="icon-chevron-sign-right"></i>' +
                      '</div>' +
                      '<div id="gyc-toolbar-buttons">' +
                        '<i id="gyc-paint-button" class="icon-eye-close gyc-button"></i>' +
