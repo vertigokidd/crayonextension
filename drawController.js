@@ -45,7 +45,8 @@ GraffitiView.prototype.setupPage = function(windowUrl) {
       self.setupTimeline(null);
     }
     $("#gyc-next-button").css('visibility', 'hidden');
-    self.toggleSaveButton();
+    // self.toggleSaveButton();
+    $("#gyc-save-button").css('color', 'gray');
   }).fail(function(){self.showConfirmationPopup("body","Error: server conection problem");
       $('#gyc-timeline').hide();
     });
