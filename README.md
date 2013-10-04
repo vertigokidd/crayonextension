@@ -6,13 +6,8 @@ This extension is designed to be used in tandem with the GetYourCrayon Rails app
 
 ## Installation
 
-Clone the repo to your local machine. In the Chrome browser, open 'Extensions' and switch to developer mode. Load the directory.
+Clone the repo to your local machine. In the Chrome browser, open 'Extensions' and switch to developer mode. Load the directory as an unpacked extension.
 
+## Testing
 
-
-#0B88BE BLUE
-#EE094C RED
-#FC4A04 ORANGE
-#FFA205 YELLOW
-#35AB95 AQUA
-#2F9885 DARKER AQUA
+Jasmine is used for unit testing the drawController script. The jasminespec folder contains a SpecRunner HTML file that can be loaded in the browser to run tests.
