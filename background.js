@@ -41,6 +41,8 @@ function initializeClickListener() {
 // This initializes a listener that waits for a request from the content script for the current
 // status of the toolbar and responds with that status.
 
+datastatus='javier'
+
 function initializeMessageListener(){
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
@@ -49,7 +51,7 @@ function initializeMessageListener(){
                   "from a content script:" + sender.tab.url :
                   "from the extension");
       if (request.task == "get status") {
-        sendResponse({onOff: toolbarStatus});
+        sendResponse({onOff: toolbarStatus, dataS: datastatus});
       }
     }
   );

@@ -1,3 +1,4 @@
+
 function Graffiti() {
   this.path = null;
   this.color = 'blue';

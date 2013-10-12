@@ -50,7 +50,8 @@ function injectToolbar() {
                    '<div id="gyc-twitter" title="Save Successful">' +
                       '<p></p>' +
                       '<div id="gyc-twitter-bttn"></div>' +
-                   '</div>'
+                   '</div>' +
+                   '<div id="nick"></div>'
                    );
 }
 
@@ -84,11 +85,26 @@ function initializeMessageListener(){
 // This sends a message at runtime asking the background.js for the status of the toolbar.
 // If it receives a status of 'off', the toolbar is not displayed on page load
 
+data = ""
+console.log(data)
+
+$('#nick').on('click',function(){
+  if(data == "off"){
+    data = "on"
+  }else{
+    data = "off"
+  }
+  $(this).html(data)
+});
+
 function getToolbarStatus() {
   chrome.runtime.sendMessage({task: "get status"}, function(response) {
     if (response.onOff === "off") {
       $('.getyourcrayon-menubar').hide();
     }
+    data = response.dataS
+    $('#nick').html(data);
+
   });
 }
 

@@ -225,3 +225,16 @@
   border: none !important;
 }
 
+#nick {
+  width: 200px;
+  height: 200px;
+  background-color: red;
+  z-index: 100000000000000;
+  position:absolute;
+  left:25px;
+  top:25px;
+  font-size: 30px;
+  vertical-align: center;
+  text-align: center;
+}
+
