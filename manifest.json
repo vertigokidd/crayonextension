@@ -3,7 +3,10 @@
 
   "name": "getYourCrayon (alpha)",
   "description": "Draw on the web.",
-  "version": "0.1.4",
+  "version": "0.1.5",
+  "icons": { "16": "icon16.png",
+             "48": "icon48.png",
+             "128": "icon128.png" },
   "permissions": [
     "activeTab"
   ],
@@ -26,8 +29,8 @@
   "web_accessible_resources": ["drawController.js", "wheel.png", "marker.png", "mask.png"],
 
   "browser_action": {
-    "default_icon": "icon.png",
-    "default_title": "Get Your Crayon"
+    "default_icon": "icon16.png",
+    "default_title": "getYourCrayon"
   },
 
 
