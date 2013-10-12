@@ -12,7 +12,7 @@ initializeColorPicker();
 // This is injecting all the html we need to create the toolbar and the form to save to the website
 
 function injectToolbar() {
-  $('body').append('<div class="getyourcrayon-menubar">' +
+  $('body').append('<div class="getyourcrayon-menubar" style="display:none;">' +
                      '<div id="gyc-toolbar-header">' +
                        '<div id="gyc-timeline-container">' +
                          '<i id="gyc-previous-button" class="icon-chevron-sign-left"></i><input type="range" id="gyc-timeline" min="0" max="0"></input><i id="gyc-next-button" class="icon-chevron-sign-right"></i>' +

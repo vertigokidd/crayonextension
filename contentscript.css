@@ -12,7 +12,7 @@
   display:block;
   background-color: rgba(224,224,224,1);
   border-radius: 4px !important;
-  z-index:1000000000 !important;
+  z-index:3129484650 !important;
 }
 
 .gyc-popup .ui-dialog-titlebar {
@@ -102,15 +102,15 @@
   padding:10px;
   border-bottom-left-radius: 4px !important;
   border-bottom-right-radius: 4px !important;
-  z-index:1000000000 ;
+  z-index:3129484650 ;
 }
 
 #gyc-canvas {
-  /*border:dashed black 1px ;*/
+  border:dashed 5px #F44C63;
   position: absolute ;
   top:0px ;
   left:0px ;
-  z-index:1000 ;
+  z-index:3129484650;
 }
 
 #gyc-next-button, #gyc-previous-button {
@@ -157,7 +157,7 @@
   line-height: 40px;
   text-align:center;
   color: rgba(63,141,143,0.9);
-  z-index:10000000;
+  z-index:3129484650;
   background-color:rgba(224,224,224,0.95);
 }
 

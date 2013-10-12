@@ -432,6 +432,7 @@ function initGraffiti() {
   // graffiti.toggleSaveButton();
   graffiti.initializePrevious();
   graffiti.initializeNext();
+  // initializeMessageListener();
 }
 
 initGraffiti();
@@ -480,6 +481,17 @@ $('#gyc-draw-button').click(graffitiView.toggleDraw);
     }
   }
 
+// function initializeMessageListener(){
+//   chrome.extension.onMessage.addListener(
+//     function(request, sender, sendResponse) {
+//       if (request.task == "toggle") {
+//         sendResponse({status: "toggled"});
+//         if (graffiti.canvasStatus === 'off'){
+//           graffiti.toggleCanvas();
+//         }
+//       }
+//     });
+// }
 
 
 // Model (Grafitti drawing)
