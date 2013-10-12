@@ -2,7 +2,7 @@
 injectScripts();
 injectToolbar();
 injectFonts();
-getToolbarStatus();
+// getToolbarStatus();
 initializeMessageListener();
 initializeAccordion();
 initializeDraggable();
@@ -84,13 +84,13 @@ function initializeMessageListener(){
 // This sends a message at runtime asking the background.js for the status of the toolbar.
 // If it receives a status of 'off', the toolbar is not displayed on page load
 
-function getToolbarStatus() {
-  chrome.runtime.sendMessage({task: "get status"}, function(response) {
-    if (response.onOff === "off") {
-      $('.getyourcrayon-menubar').hide();
-    }
-  });
-}
+// function getToolbarStatus() {
+//   chrome.runtime.sendMessage({task: "get status"}, function(response) {
+//     if (response.onOff === "on") {
+//       $('.getyourcrayon-menubar').show();
+//     }
+//   });
+// }
 
 // This initializes the toolbar to have the accordion functionality once it is loaded and
 // makes the entire toolbar draggable with the header specified as the handle for dragging

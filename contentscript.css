@@ -106,7 +106,9 @@
 }
 
 #gyc-canvas {
-  border:dashed 5px #F44C63;
+  border:solid 4px rgba(244,57,99, 0.7);
+
+
   position: absolute ;
   top:0px ;
   left:0px ;
