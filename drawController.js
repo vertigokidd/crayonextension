@@ -23,6 +23,27 @@ function GraffitiView(graffitiModel) {
 
 // listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
 
+GraffitiView.prototype.drawTools = function() {
+  return '<label class="gyc-toolbar-value">Width: <span id="gyc-current_width">5</span><br><input id="gyc-width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
+         '<label class="gyc-toolbar-value">Opacity: <span id="gyc-current_opacity">100%</span><br><input id="gyc-opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
+         '<form>' +
+           '<input type="text" id="gyc-color" name="color" value="#123456" />' +
+         '</form>' +
+         '<div id="gyc-colorpicker"></div>' +
+         '<div id="gyc-tag-holder">' +
+         '</div>'
+}
+
+GraffitiView.prototype.searchTools = function() {
+  return "<span>Search Tools Coming Soon</span>"
+}
+
+GraffitiView.prototype.toggleSearchButton = function() {
+  $('#gyc-toolbar-tools').html(graffitiView.searchTools());
+  $('#gyc-toolbar-toggle').click();
+  graffitiView.toggleDropdownArrow();
+}
+
 GraffitiView.prototype.toggleSaveButton = function(){
   if(this.model.checkUndoCounter() && this.model.checkDrawingFreshness()){
     $('#gyc-save-button').removeClass('gyc-button-active');
@@ -110,7 +131,7 @@ GraffitiView.prototype.toggleDropdownArrow = function(){
   }
   else {
     $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-up').addClass('icon-chevron-sign-down');
-    toolbbar.css("border-radius", '0px');
+    toolbar.css("border-radius", '0px');
   }
 };
 
@@ -452,6 +473,8 @@ $('#gyc-save-button').click(graffiti.openSaveForm);
 $('#gyc-toolbar-toggle').click(graffitiView.toggleDropdownArrow);
 
 $('#gyc-paint-button').click(graffiti.toggleCanvas);
+
+$('#gyc-search-tags-button').click(graffitiView.toggleSearchButton);
 
 $('.marker').on('mouseup', graffiti.updateColor);
 $('.marker').on('mouseleave', graffiti.updateColor);
