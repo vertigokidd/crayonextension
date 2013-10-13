@@ -43,7 +43,9 @@ GraffitiView.prototype.toggleSearchButton = function() {
     graffitiView.toggleDraw();
   }
   $('#gyc-toolbar-tools').html(graffitiView.searchTools());
-  $('#gyc-toolbar-toggle').click();
+  if ($('#gyc-toolbar-toggle').hasClass('ui-state-active') === false) {
+    $('#gyc-toolbar-toggle').click();
+  }
   graffitiView.toggleDropdownArrow();
 }
 
@@ -113,6 +115,9 @@ GraffitiView.prototype.toggleDraw = function() {
     $("#gyc-clean-slate-button").css('color', 'gray');
   }
   else {
+    $('#gyc-toolbar-tools').html(graffitiView.drawTools());
+    $('#gyc-colorpicker').farbtastic('#gyc-color');
+    graffitiView.setupColorWheel();
     if (graffiti.canvasStatus === 'off') {
       graffiti.toggleCanvas();
     }
@@ -426,9 +431,7 @@ Graffiti.prototype.initializeNext = function() {
     });
 };
 
-function initGraffiti() {
-
-  // This loads the color picker images
+GraffitiView.prototype.setupColorWheel = function() {
   var farbtasticWheel = chrome.extension.getURL("wheel.png");
   var farbtasticMask = chrome.extension.getURL("mask.png");
   var farbtasticMarker = chrome.extension.getURL("marker.png");
@@ -436,12 +439,18 @@ function initGraffiti() {
   $('.farbtastic-gyc .wheel').css("background", "url('" + farbtasticWheel + "') no-repeat");
   $('.farbtastic-gyc .overlay').css("background", "url('" + farbtasticMask + "') no-repeat");
   $('.farbtastic-gyc .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
+}
 
+function initGraffiti() {
+
+  // This loads the color picker images
+  
   graffiti = new Graffiti();
   graffitiView = new GraffitiView(graffiti);
 
   // This are all the Painting Functionality Listeners
   graffitiView.setupPage(graffiti.windowUrl);
+  graffitiView.setupColorWheel();
   // graffiti.toggleDropdownArrow();
   // graffiti.toggleCanvas();
   // graffiti.updateColor();
