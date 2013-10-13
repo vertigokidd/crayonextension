@@ -23,6 +23,33 @@ function GraffitiView(graffitiModel) {
 
 // listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
 
+GraffitiView.prototype.drawTools = function() {
+  return '<label class="gyc-toolbar-value">Width: <span id="gyc-current_width">5</span><br><input id="gyc-width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
+         '<label class="gyc-toolbar-value">Opacity: <span id="gyc-current_opacity">100%</span><br><input id="gyc-opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
+         '<form>' +
+           '<input type="text" id="gyc-color" name="color" value="#123456" />' +
+         '</form>' +
+         '<div id="gyc-colorpicker"></div>'
+}
+
+GraffitiView.prototype.searchTools = function() {
+  return '<span>Search Tools Coming Soon</span>' +
+         '<div id="gyc-tag-holder">' +
+         '</div>'
+}
+
+GraffitiView.prototype.toggleSearchButton = function() {
+  if (graffiti.drawingStatus === 'on') {
+    graffitiView.toggleDraw();
+  }
+  $('#gyc-toolbar-tools').html(graffitiView.searchTools());
+
+  if ($('#gyc-toolbar-toggle').hasClass('ui-state-active') === false) {
+    $('#gyc-toolbar-toggle').click();
+  }
+  graffitiView.toggleDropdownArrow();
+}
+
 GraffitiView.prototype.toggleSaveButton = function(){
   if(this.model.checkUndoCounter() && this.model.checkDrawingFreshness()){
     $('#gyc-save-button').removeClass('gyc-button-active');
@@ -89,6 +116,11 @@ GraffitiView.prototype.toggleDraw = function() {
     $("#gyc-clean-slate-button").css('color', 'gray');
   }
   else {
+    if ($('#gyc-toolbar-tools').html() === graffitiView.searchTools()) {
+      $('#gyc-toolbar-tools').html(graffitiView.drawTools());
+      $('#gyc-colorpicker').farbtastic('#gyc-color');
+      graffitiView.setupColorWheel();
+    }
     if (graffiti.canvasStatus === 'off') {
       graffiti.toggleCanvas();
     }
@@ -110,7 +142,7 @@ GraffitiView.prototype.toggleDropdownArrow = function(){
   }
   else {
     $('#gyc-toggle-toolbar-arrow').removeClass('icon-chevron-sign-up').addClass('icon-chevron-sign-down');
-    toolbbar.css("border-radius", '0px');
+    toolbar.css("border-radius", '0px');
   }
 };
 
@@ -402,9 +434,7 @@ Graffiti.prototype.initializeNext = function() {
     });
 };
 
-function initGraffiti() {
-
-  // This loads the color picker images
+GraffitiView.prototype.setupColorWheel = function() {
   var farbtasticWheel = chrome.extension.getURL("wheel.png");
   var farbtasticMask = chrome.extension.getURL("mask.png");
   var farbtasticMarker = chrome.extension.getURL("marker.png");
@@ -412,12 +442,18 @@ function initGraffiti() {
   $('.farbtastic-gyc .wheel').css("background", "url('" + farbtasticWheel + "') no-repeat");
   $('.farbtastic-gyc .overlay').css("background", "url('" + farbtasticMask + "') no-repeat");
   $('.farbtastic-gyc .marker').css("background", "url('" + farbtasticMarker + "') no-repeat");
+}
 
+function initGraffiti() {
+
+  // This loads the color picker images
+  
   graffiti = new Graffiti();
   graffitiView = new GraffitiView(graffiti);
 
   // This are all the Painting Functionality Listeners
   graffitiView.setupPage(graffiti.windowUrl);
+  graffitiView.setupColorWheel();
   // graffiti.toggleDropdownArrow();
   // graffiti.toggleCanvas();
   // graffiti.updateColor();
@@ -452,6 +488,8 @@ $('#gyc-save-button').click(graffiti.openSaveForm);
 $('#gyc-toolbar-toggle').click(graffitiView.toggleDropdownArrow);
 
 $('#gyc-paint-button').click(graffiti.toggleCanvas);
+
+$('#gyc-search-tags-button').click(graffitiView.toggleSearchButton);
 
 $('.marker').on('mouseup', graffiti.updateColor);
 $('.marker').on('mouseleave', graffiti.updateColor);
