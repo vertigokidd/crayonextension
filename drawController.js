@@ -43,6 +43,7 @@ GraffitiView.prototype.toggleSearchButton = function() {
     graffitiView.toggleDraw();
   }
   $('#gyc-toolbar-tools').html(graffitiView.searchTools());
+
   if ($('#gyc-toolbar-toggle').hasClass('ui-state-active') === false) {
     $('#gyc-toolbar-toggle').click();
   }
@@ -115,9 +116,11 @@ GraffitiView.prototype.toggleDraw = function() {
     $("#gyc-clean-slate-button").css('color', 'gray');
   }
   else {
-    $('#gyc-toolbar-tools').html(graffitiView.drawTools());
-    $('#gyc-colorpicker').farbtastic('#gyc-color');
-    graffitiView.setupColorWheel();
+    if ($('#gyc-toolbar-tools').html() === graffitiView.searchTools()) {
+      $('#gyc-toolbar-tools').html(graffitiView.drawTools());
+      $('#gyc-colorpicker').farbtastic('#gyc-color');
+      graffitiView.setupColorWheel();
+    }
     if (graffiti.canvasStatus === 'off') {
       graffiti.toggleCanvas();
     }
