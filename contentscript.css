@@ -202,6 +202,12 @@
   border-bottom-left-radius: 4px !important;
   border-bottom-right-radius: 4px !important;
   padding-bottom: 10px;
+}
+
+.search-header {
+  margin: 0;
+  margin-bottom: 10px;
+  padding-top: 10px;
   text-align: center;
 }
 
@@ -234,3 +240,11 @@
   border: none !important;
 }
 
+#gyc-search-field {
+  width: 200px !important;
+  margin-left: 20px !important;
+  border-radius: 4px !important;
+  border: none !important;
+  text-align: center !important;
+  margin-bottom: 10px;
+}

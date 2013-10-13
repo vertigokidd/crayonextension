@@ -34,7 +34,10 @@ GraffitiView.prototype.drawTools = function() {
 }
 
 GraffitiView.prototype.searchTools = function() {
-  return '<span>Search Tags</span>' +
+  return '<h4 class="search-header">Search Tags</h4>' +
+         '<form class="gyc-search-tags">' +
+           '<input type="text" id="gyc-search-field" placeholder="Search Unavailable" disabled>' +
+         '</form>' +
          '<div id="gyc-tag-holder">' +
          '</div>'
 }
