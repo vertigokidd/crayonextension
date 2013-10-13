@@ -163,7 +163,7 @@
   background-color:rgba(224,224,224,0.95);
 }
 
-#gyc-paint-button:hover, #gyc-draw-button:hover, #gyc-undo-button:hover, #gyc-clean-slate-button:hover, #gyc-save-button:hover {
+#gyc-paint-button:hover, #gyc-draw-button:hover, #gyc-undo-button:hover, #gyc-clean-slate-button:hover, #gyc-save-button:hover, #gyc-search-tags-button:hover {
   color: rgba(53,171,149,0.6);
   transition: color 0.7s linear;
 }
