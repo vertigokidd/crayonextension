@@ -15,6 +15,7 @@
   z-index:3129484650 !important;
 }
 
+
 .gyc-popup .ui-dialog-titlebar {
   background-color: rgba(63,141,143, 1) !important;
   border-top-left-radius: 4px !important;
@@ -121,7 +122,12 @@
 }
 
 #gyc-tag-holder {
-  display: none;
+  /*display: none;*/
+  text-align: center;
+}
+
+#gyc-tag-holder > a {
+  display: block;
 }
 
 #gyc-previous-button {
@@ -196,6 +202,7 @@
   border-bottom-left-radius: 4px !important;
   border-bottom-right-radius: 4px !important;
   padding-bottom: 10px;
+  text-align: center;
 }
 
 #gyc-toggle-toolbar-arrow {
