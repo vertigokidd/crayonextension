@@ -29,16 +29,19 @@ GraffitiView.prototype.drawTools = function() {
          '<form>' +
            '<input type="text" id="gyc-color" name="color" value="#123456" />' +
          '</form>' +
-         '<div id="gyc-colorpicker"></div>' +
+         '<div id="gyc-colorpicker"></div>'
+}
+
+GraffitiView.prototype.searchTools = function() {
+  return '<span>Search Tools Coming Soon</span>' +
          '<div id="gyc-tag-holder">' +
          '</div>'
 }
 
-GraffitiView.prototype.searchTools = function() {
-  return "<span>Search Tools Coming Soon</span>"
-}
-
 GraffitiView.prototype.toggleSearchButton = function() {
+  if (graffiti.drawingStatus === 'on') {
+    graffitiView.toggleDraw();
+  }
   $('#gyc-toolbar-tools').html(graffitiView.searchTools());
   $('#gyc-toolbar-toggle').click();
   graffitiView.toggleDropdownArrow();
