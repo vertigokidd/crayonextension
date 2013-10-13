@@ -2,7 +2,7 @@
 // receipt of a message from the content script on runtime
 
 initializeClickListener();
-initializeMessageListener();
+// initializeMessageListener();
 
 // This sets a variable toolbarStatus that is used to determine whether the toolbar should
 // be visible on initial page load.  The function toggleToolbar() toggles the status between
