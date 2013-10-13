@@ -127,7 +127,16 @@
 }
 
 #gyc-tag-holder > a {
+  color: rgba(63,141,143,0.9);
   display: block;
+  font-size: 20px;
+  font-family: sans-serif;
+  text-decoration: none;
+}
+
+#gyc-tag-holder > a:hover {
+  text-shadow: 0px 1px 2px #A1A1A1;
+  transition: text-shadow 0.2s linear;
 }
 
 #gyc-previous-button {
@@ -206,6 +215,8 @@
 
 .search-header {
   margin: 0;
+  font-size: 22px;
+  color: rgba(63,141,143,0.9);
   margin-bottom: 10px;
   padding-top: 10px;
   text-align: center;
