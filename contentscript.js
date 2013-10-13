@@ -44,7 +44,7 @@ function injectToolbar() {
                        '</div>' +
                      '</div>' +
                    '</div>' +
-                   '<div id="gyc-save-confirm" title="Confirm Save">' +
+                   '<div id="gyc-save-confirm" title="Confirm Save" style="display:none;">' +
                        '<label>Tag your drawing:<input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
                    '</div>' +
                    '<div id="gyc-twitter" title="Save Successful">' +
