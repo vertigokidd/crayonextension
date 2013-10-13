@@ -150,12 +150,12 @@
   margin-left: 20px;
 }
 
-#gyc-paint-button, #gyc-draw-button, #gyc-undo-button, #gyc-clean-slate-button, #gyc-save-button {
+#gyc-paint-button, #gyc-draw-button, #gyc-undo-button, #gyc-clean-slate-button, #gyc-save-button, #gyc-search-tags-button {
   display:inline-block;
   height:40px;
   font-size:25px;
   font-style:normal !important;
-  width:48px;
+  width:40px;
   line-height: 40px;
   text-align:center;
   color: rgba(63,141,143,0.9);

@@ -23,6 +23,7 @@ function injectToolbar() {
                        '<i id="gyc-draw-button" class="icon-pencil gyc-button"></i>' +
                        '<i id="gyc-undo-button" class="icon-undo gyc-button"></i>' +
                        '<i id="gyc-clean-slate-button" class="icon-remove-circle gyc-button"></i>' +
+                       '<i id="gyc-search-tags-button" class="icon-search gyc-button"></i>' +
                        '<i id="gyc-save-button" class="icon-cloud-upload gyc-button"></i>' +
                        // '<button id="gyc-undo-button" class="gyc-btn gyc-btn-default"></button>' +
                        // '<button id="gyc-clean-slate-button" class="gyc-btn gyc-btn-default"></button>' +
