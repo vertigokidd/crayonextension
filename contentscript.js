@@ -78,6 +78,9 @@ function initializeMessageListener(){
       if (request.task == "toggle") {
         sendResponse({status: "toggled"});
         $('.getyourcrayon-menubar').toggle();
+        if (graffiti.canvasStatus == 'on') {
+          graffiti.toggleCanvas();  
+        }
       }
     });
 }
