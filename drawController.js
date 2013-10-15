@@ -24,34 +24,13 @@ function GraffitiView(graffitiModel) {
 
 // listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
 
-GraffitiView.prototype.drawTools = function() {
-  return '<label class="gyc-toolbar-value">Width: <span id="gyc-current_width">5</span><br><input id="gyc-width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
-         '<label class="gyc-toolbar-value">Opacity: <span id="gyc-current_opacity">100%</span><br><input id="gyc-opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
-         '<form>' +
-           '<input type="text" id="gyc-color" name="color" value="#123456" />' +
-         '</form>' +
-         '<div id="gyc-colorpicker"></div>'
-}
-
-GraffitiView.prototype.searchTools = function() {
-  // return '<div id="gyc-timeline-container">' +
-  //          '<h4 class="search-header"><i class="icon-time"></i></h4>' +
-  //          '<i id="gyc-previous-button" class="icon-chevron-sign-left"></i><input type="range" id="gyc-timeline" min="0" max="0"></input><i id="gyc-next-button" class="icon-chevron-sign-right"></i>' +
-  //        '</div>' +
-  return '<h4 class="search-header">Search Tags</h4>' +
-         '<form class="gyc-search-tags">' +
-           '<input type="text" id="gyc-search-field" placeholder="Search Unavailable" disabled>' +
-         '</form>' +
-         '<div id="gyc-tag-holder">' +
-         '</div>'
-}
-
 GraffitiView.prototype.toggleSearchButton = function() {
   if (graffiti.drawingStatus === 'on') {
     graffitiView.toggleDraw();
   }
-  $('#gyc-toolbar-tools').html(graffitiView.searchTools());
-  graffitiView.insertTags();
+  $('.gyc-drawing-tools').hide();  
+  $('.gyc-search-tools').show();
+  
   if ($('#gyc-toolbar-toggle').hasClass('ui-state-active') === false) {
     $('#gyc-toolbar-toggle').click();
   }
@@ -75,7 +54,8 @@ GraffitiView.prototype.setupPage = function(windowUrl) {
   $.get(self.model.serverUrl + '/retrieve', {'url': windowUrl}, function(response) {
     if (response !== "website not found") {
       self.loadDrawings(response);
-      // self.insertTags(response);
+      graffiti.currentTags = response.tags_html_string;
+      graffitiView.insertTags();
       self.setupTimeline(response.max_index);
     }
     else {
@@ -125,16 +105,8 @@ GraffitiView.prototype.toggleDraw = function() {
     $("#gyc-clean-slate-button").css('color', 'gray');
   }
   else {
-    if ($('#gyc-toolbar-tools').text().match(/Search/) !== null) {
-      $('#gyc-toolbar-tools').html(graffitiView.drawTools());
-      $('#gyc-colorpicker').farbtastic('#gyc-color');
-      graffitiView.setupColorWheel();
-      graffiti.updateWidth();
-      graffiti.updateOpacity();
-      $('.marker').on('mouseup', graffiti.updateColor);
-      $('.marker').on('mouseleave', graffiti.updateColor);
-      $('#gyc-color').on('keyup', graffiti.updateColor);
-    }
+    $('.gyc-drawing-tools').show();
+    $('.gyc-search-tools').hide();
     if (graffiti.canvasStatus === 'off') {
       graffiti.toggleCanvas();
     }

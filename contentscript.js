@@ -34,13 +34,21 @@ function injectToolbar() {
                          '<i id="gyc-toggle-toolbar-arrow" class="icon-chevron-sign-down"></i>' +
                        '</div>' +
                        '<div id="gyc-toolbar-tools">' +
-                         '<label class="gyc-toolbar-value">Width: <span id="gyc-current_width">5</span><br><input id="gyc-width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
-                         '<label class="gyc-toolbar-value">Opacity: <span id="gyc-current_opacity">100%</span><br><input id="gyc-opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
-                         '<form>' +
-                           '<input type="text" id="gyc-color" name="color" value="#123456" />' +
-                         '</form>' +
-                         '<div id="gyc-colorpicker"></div>' +
-                         '<div id="gyc-tag-holder">' +
+                         '<div class="gyc-drawing-tools">' +
+                           '<label class="gyc-toolbar-value">Width: <span id="gyc-current_width">5</span><br><input id="gyc-width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
+                           '<label class="gyc-toolbar-value">Opacity: <span id="gyc-current_opacity">100%</span><br><input id="gyc-opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
+                           '<form>' +
+                             '<input type="text" id="gyc-color" name="color" value="#123456" />' +
+                           '</form>' +
+                           '<div id="gyc-colorpicker"></div>' +
+                         '</div>' +
+                         '<div class="gyc-search-tools" style="display:none;">' +
+                           '<h4 class="search-header">Search Tags</h4>' +
+                           '<form class="gyc-search-tags">' +
+                             '<input type="text" id="gyc-search-field" placeholder="Search Unavailable" disabled>' +
+                           '</form>' +
+                           '<div id="gyc-tag-holder">' +
+                           '</div>' +
                          '</div>' +
                        '</div>' +
                      '</div>' +
