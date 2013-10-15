@@ -131,6 +131,9 @@ GraffitiView.prototype.toggleDraw = function() {
       graffitiView.setupColorWheel();
       graffiti.updateWidth();
       graffiti.updateOpacity();
+      $('.marker').on('mouseup', graffiti.updateColor);
+      $('.marker').on('mouseleave', graffiti.updateColor);
+      $('#gyc-color').on('keyup', graffiti.updateColor);
     }
     if (graffiti.canvasStatus === 'off') {
       graffiti.toggleCanvas();
