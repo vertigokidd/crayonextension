@@ -24,30 +24,14 @@ function GraffitiView(graffitiModel) {
 
 // listens for a mouseup on the entire document then checks to see if the current project is different than the originally loaded project
 
-GraffitiView.prototype.drawTools = function() {
-  return '<label class="gyc-toolbar-value">Width: <span id="gyc-current_width">5</span><br><input id="gyc-width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
-         '<label class="gyc-toolbar-value">Opacity: <span id="gyc-current_opacity">100%</span><br><input id="gyc-opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
-         '<form>' +
-           '<input type="text" id="gyc-color" name="color" value="#123456" />' +
-         '</form>' +
-         '<div id="gyc-colorpicker"></div>'
-}
-
-GraffitiView.prototype.searchTools = function() {
-  return '<h4 class="search-header">Search Tags</h4>' +
-         '<form class="gyc-search-tags">' +
-           '<input type="text" id="gyc-search-field" placeholder="Search Unavailable" disabled>' +
-         '</form>' +
-         '<div id="gyc-tag-holder">' +
-         '</div>'
-}
-
 GraffitiView.prototype.toggleSearchButton = function() {
   if (graffiti.drawingStatus === 'on') {
     graffitiView.toggleDraw();
   }
-  $('#gyc-toolbar-tools').html(graffitiView.searchTools());
-  graffitiView.insertTags();
+  $('.gyc-drawing-tools').hide();
+  $('#gyc-save-confirm').hide();  
+  $('.gyc-search-tools').show();
+  
   if ($('#gyc-toolbar-toggle').hasClass('ui-state-active') === false) {
     $('#gyc-toolbar-toggle').click();
   }
@@ -71,7 +55,8 @@ GraffitiView.prototype.setupPage = function(windowUrl) {
   $.get(self.model.serverUrl + '/retrieve', {'url': windowUrl}, function(response) {
     if (response !== "website not found") {
       self.loadDrawings(response);
-      // self.insertTags(response);
+      graffiti.currentTags = response.tags_html_string;
+      graffitiView.insertTags();
       self.setupTimeline(response.max_index);
     }
     else {
@@ -114,6 +99,9 @@ GraffitiView.prototype.insertTags = function(response) {
 };
 
 GraffitiView.prototype.toggleDraw = function() {
+  if ($('#gyc-toolbar-toggle').hasClass('ui-state-active') === false && graffiti.drawingStatus === 'off') {
+    $('#gyc-toolbar-toggle').click();
+  }
   if (graffiti.drawingStatus === 'on') {
     graffiti.drawingStatus = 'off';
     $('#gyc-draw-button').css("color", "");
@@ -121,11 +109,9 @@ GraffitiView.prototype.toggleDraw = function() {
     $("#gyc-clean-slate-button").css('color', 'gray');
   }
   else {
-    if ($('#gyc-toolbar-tools').text().match(/Search/) !== null) {
-      $('#gyc-toolbar-tools').html(graffitiView.drawTools());
-      $('#gyc-colorpicker').farbtastic('#gyc-color');
-      graffitiView.setupColorWheel();
-    }
+    $('.gyc-drawing-tools').show();
+    $('.gyc-search-tools').hide();
+    $('#gyc-save-confirm').hide();
     if (graffiti.canvasStatus === 'off') {
       graffiti.toggleCanvas();
     }
@@ -255,11 +241,19 @@ Graffiti.prototype.cleanSlate = function() {
 // Listens for a click on the save button and opens the dialog save form
 Graffiti.prototype.openSaveForm = function(){
   if ($('#gyc-save-button').hasClass('gyc-button-active')) {
-    $('#gyc-save-confirm').dialog("open");
+    if (graffiti.drawingStatus === 'on') {
+      graffitiView.toggleDraw();
+    }
+    $('.gyc-search-tools').hide();
+    $('.gyc-drawing-tools').hide();
+    $('#gyc-save-confirm').show();
+    $('.icon-refresh').hide();
+    // $('#gyc-drawingTags').hide()
+    if ($('#gyc-toolbar-toggle').hasClass('ui-state-active') === false) {
+      $('#gyc-toolbar-toggle').click();
+    }
   }
 };
-
-
 
 // Initializes pop-up Save form and listens
 Graffiti.prototype.initializePopupForm = function(){
@@ -308,7 +302,7 @@ Graffiti.prototype.initializeTwitterPopup = function(){
 // Makes a post that saves the drawing and is triggered
 // by the PopupForm Confirm-Save button
 Graffiti.prototype.saveDrawingPost = function(){
-  var self = this;
+  var self = graffiti;
   var tags = $('#gyc-drawingTags').val();
   var data = {
     url: self.windowUrl,
@@ -316,12 +310,14 @@ Graffiti.prototype.saveDrawingPost = function(){
     tags: tags
   };
 
-
+  $('#gyc-drawingTags').hide();
+  $('.icon-refresh').show();
   $.post(self.serverUrl + '/save', data,function(response){
     if (response.tags_html_string){
       var twitter_html = '<a href="https://twitter.com/share" data-url="/" class="twitter-share-button" data-hashtags="GetYourCrayon" data-text="I created this amazing drawing see it on => '+response.unique_url+'" data-lang="en" data-size="large" data-count="none">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>';
       // $('#gyc-twitter-bttn').html(twitter_html);
       self.currentTags = response.tags_html_string;
+      graffitiView.insert(tags);
       $('#gyc-drawingTags').val('');
       if(self.maxIndex === null){
         self.maxIndex = 0;
@@ -340,6 +336,9 @@ Graffiti.prototype.saveDrawingPost = function(){
         $('#gyc-timeline').show();
       }
     }
+      $('#gyc-drawingTags').show();
+      $('.icon-refresh').hide();
+
   }).fail(function(){
     graffitiView.showConfirmationPopup("body","ERROR WHEN SAVING");
     $('#gyc-timeline').hide();
@@ -364,7 +363,7 @@ GraffitiView.prototype.showConfirmationPopup = function(element,message){
 // updates the current position and updates the time line
 Graffiti.prototype.updateTimeline = function(){
   var self = this;
-  $('#gyc-timeline').change(function() {
+  $('#gyc-timeline').mouseup(function() {
     self.currentPosition = $(this).val();
     self.timelineUpdate();
   });
@@ -467,7 +466,7 @@ function initGraffiti() {
   graffiti.undo();
   graffiti.cleanSlate();
   // graffiti.openSaveForm();
-  graffiti.initializePopupForm();
+  // graffiti.initializePopupForm();
   graffiti.initializeTwitterPopup();
   graffiti.updateTimeline();
   // graffiti.toggleSaveButton();
@@ -488,6 +487,7 @@ $('#gyc-canvas').on('mouseup', function() {
   graffitiView.toggleSaveButton();
 });
 
+$('.gyc-random-class').click(graffiti.saveDrawingPost);
 $('#gyc-save-button').click(graffiti.openSaveForm);
 
 $('#gyc-toolbar-toggle').click(graffitiView.toggleDropdownArrow);
