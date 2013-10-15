@@ -34,6 +34,10 @@ GraffitiView.prototype.drawTools = function() {
 }
 
 GraffitiView.prototype.searchTools = function() {
+  // return '<div id="gyc-timeline-container">' +
+  //          '<h4 class="search-header"><i class="icon-time"></i></h4>' +
+  //          '<i id="gyc-previous-button" class="icon-chevron-sign-left"></i><input type="range" id="gyc-timeline" min="0" max="0"></input><i id="gyc-next-button" class="icon-chevron-sign-right"></i>' +
+  //        '</div>' +
   return '<h4 class="search-header">Search Tags</h4>' +
          '<form class="gyc-search-tags">' +
            '<input type="text" id="gyc-search-field" placeholder="Search Unavailable" disabled>' +
@@ -125,6 +129,8 @@ GraffitiView.prototype.toggleDraw = function() {
       $('#gyc-toolbar-tools').html(graffitiView.drawTools());
       $('#gyc-colorpicker').farbtastic('#gyc-color');
       graffitiView.setupColorWheel();
+      graffiti.updateWidth();
+      graffiti.updateOpacity();
     }
     if (graffiti.canvasStatus === 'off') {
       graffiti.toggleCanvas();
@@ -322,6 +328,7 @@ Graffiti.prototype.saveDrawingPost = function(){
       var twitter_html = '<a href="https://twitter.com/share" data-url="/" class="twitter-share-button" data-hashtags="GetYourCrayon" data-text="I created this amazing drawing see it on => '+response.unique_url+'" data-lang="en" data-size="large" data-count="none">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>';
       // $('#gyc-twitter-bttn').html(twitter_html);
       self.currentTags = response.tags_html_string;
+      graffitiView.insert(tags);
       $('#gyc-drawingTags').val('');
       if(self.maxIndex === null){
         self.maxIndex = 0;
