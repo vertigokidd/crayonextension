@@ -14,9 +14,7 @@ initializeColorPicker();
 function injectToolbar() {
   $('body').append('<div class="getyourcrayon-menubar" style="display:none;">' +
                      '<div id="gyc-toolbar-header">' +
-                       '<div id="gyc-timeline-container">' +
-                         '<i id="gyc-previous-button" class="icon-chevron-sign-left"></i><input type="range" id="gyc-timeline" min="0" max="0"></input><i id="gyc-next-button" class="icon-chevron-sign-right"></i>' +
-                       '</div>' +
+                       
                      '</div>' +
                      '<div id="gyc-toolbar-buttons">' +
                        '<i id="gyc-paint-button" class="icon-eye-close gyc-button"></i>' +
@@ -34,24 +32,40 @@ function injectToolbar() {
                          '<i id="gyc-toggle-toolbar-arrow" class="icon-chevron-sign-down"></i>' +
                        '</div>' +
                        '<div id="gyc-toolbar-tools">' +
-                         '<label class="gyc-toolbar-value">Width: <span id="gyc-current_width">5</span><br><input id="gyc-width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
-                         '<label class="gyc-toolbar-value">Opacity: <span id="gyc-current_opacity">100%</span><br><input id="gyc-opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
-                         '<form>' +
-                           '<input type="text" id="gyc-color" name="color" value="#123456" />' +
-                         '</form>' +
-                         '<div id="gyc-colorpicker"></div>' +
-                         '<div id="gyc-tag-holder">' +
+                         '<div class="gyc-drawing-tools">' +
+                           '<label class="gyc-toolbar-value">Width: <span id="gyc-current_width">5</span><br><input id="gyc-width" type="range" name="points" min="1" max="40" value="5"></label><br>' +
+                           '<label class="gyc-toolbar-value">Opacity: <span id="gyc-current_opacity">100%</span><br><input id="gyc-opacity" type="range" name="points" min="1" max="100" value="100"></label>' +
+                           '<form>' +
+                             '<input type="text" id="gyc-color" name="color" value="#123456" />' +
+                           '</form>' +
+                           '<div id="gyc-colorpicker"></div>' +
+                         '</div>' +
+                         '<div class="gyc-search-tools" style="display:none;">' +
+                           '<div id="gyc-timeline-container">' +
+                             '<i id="gyc-previous-button" class="icon-chevron-sign-left"></i><input type="range" id="gyc-timeline" min="0" max="0"></input><i id="gyc-next-button" class="icon-chevron-sign-right"></i>' +
+                           '</div>' +
+                           '<h4 class="search-header">Search Tags</h4>' +
+                           '<form class="gyc-search-tags">' +
+                             '<input type="text" id="gyc-search-field" placeholder="Search Unavailable" disabled>' +
+                           '</form>' +
+                           '<div id="gyc-tag-holder">' +
+                           '</div>' +
+                         '</div>' +
+                         '<div id="gyc-save-confirm" style="display:none;">' +
+                           '<label><h3>Tag your drawing:</h3><input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
+                           '<i class="icon-refresh icon-spin icon-large"></i>' +
+                           '<button class="gyc-random-class">Save Drawing</button>' +
                          '</div>' +
                        '</div>' +
                      '</div>' +
-                   '</div>' +
-                   '<div id="gyc-save-confirm" title="Confirm Save" style="display:none;">' +
-                       '<label>Tag your drawing:<input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
-                   '</div>' +
-                   '<div id="gyc-twitter" title="Save Successful">' +
-                      '<p></p>' +
-                      '<div id="gyc-twitter-bttn"></div>' +
                    '</div>'
+                   // '<div id="gyc-save-confirm" title="Confirm Save" style="display:none;">' +
+                   //     '<label>Tag your drawing:<input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
+                   // '</div>' +
+                   // '<div id="gyc-twitter" title="Save Successful">' +
+                   //    '<p></p>' +
+                   //    '<div id="gyc-twitter-bttn"></div>' +
+                   // '</div>'
                    );
 }
 
@@ -78,6 +92,9 @@ function initializeMessageListener(){
       if (request.task == "toggle") {
         sendResponse({status: "toggled"});
         $('.getyourcrayon-menubar').toggle();
+        if (graffiti.canvasStatus == 'on') {
+          graffiti.toggleCanvas();  
+        }
       }
     });
 }
