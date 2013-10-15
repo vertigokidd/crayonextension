@@ -14,9 +14,7 @@ initializeColorPicker();
 function injectToolbar() {
   $('body').append('<div class="getyourcrayon-menubar" style="display:none;">' +
                      '<div id="gyc-toolbar-header">' +
-                       '<div id="gyc-timeline-container">' +
-                         '<i id="gyc-previous-button" class="icon-chevron-sign-left"></i><input type="range" id="gyc-timeline" min="0" max="0"></input><i id="gyc-next-button" class="icon-chevron-sign-right"></i>' +
-                       '</div>' +
+                       
                      '</div>' +
                      '<div id="gyc-toolbar-buttons">' +
                        '<i id="gyc-paint-button" class="icon-eye-close gyc-button"></i>' +
@@ -43,6 +41,9 @@ function injectToolbar() {
                            '<div id="gyc-colorpicker"></div>' +
                          '</div>' +
                          '<div class="gyc-search-tools" style="display:none;">' +
+                           '<div id="gyc-timeline-container">' +
+                             '<i id="gyc-previous-button" class="icon-chevron-sign-left"></i><input type="range" id="gyc-timeline" min="0" max="0"></input><i id="gyc-next-button" class="icon-chevron-sign-right"></i>' +
+                           '</div>' +
                            '<h4 class="search-header">Search Tags</h4>' +
                            '<form class="gyc-search-tags">' +
                              '<input type="text" id="gyc-search-field" placeholder="Search Unavailable" disabled>' +
