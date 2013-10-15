@@ -28,7 +28,8 @@ GraffitiView.prototype.toggleSearchButton = function() {
   if (graffiti.drawingStatus === 'on') {
     graffitiView.toggleDraw();
   }
-  $('.gyc-drawing-tools').hide();  
+  $('.gyc-drawing-tools').hide();
+  $('#gyc-save-confirm').hide();  
   $('.gyc-search-tools').show();
   
   if ($('#gyc-toolbar-toggle').hasClass('ui-state-active') === false) {
@@ -110,6 +111,7 @@ GraffitiView.prototype.toggleDraw = function() {
   else {
     $('.gyc-drawing-tools').show();
     $('.gyc-search-tools').hide();
+    $('#gyc-save-confirm').hide();
     if (graffiti.canvasStatus === 'off') {
       graffiti.toggleCanvas();
     }
@@ -239,11 +241,17 @@ Graffiti.prototype.cleanSlate = function() {
 // Listens for a click on the save button and opens the dialog save form
 Graffiti.prototype.openSaveForm = function(){
   if ($('#gyc-save-button').hasClass('gyc-button-active')) {
-    $('#gyc-save-confirm').dialog("open");
+    if (graffiti.drawingStatus === 'on') {
+      graffitiView.toggleDraw();
+    }
+    $('.gyc-search-tools').hide();
+    $('.gyc-drawing-tools').hide();
+    $('#gyc-save-confirm').show();
+    if ($('#gyc-toolbar-toggle').hasClass('ui-state-active') === false) {
+      $('#gyc-toolbar-toggle').click();
+    }
   }
 };
-
-
 
 // Initializes pop-up Save form and listens
 Graffiti.prototype.initializePopupForm = function(){
@@ -292,7 +300,7 @@ Graffiti.prototype.initializeTwitterPopup = function(){
 // Makes a post that saves the drawing and is triggered
 // by the PopupForm Confirm-Save button
 Graffiti.prototype.saveDrawingPost = function(){
-  var self = this;
+  var self = graffiti;
   var tags = $('#gyc-drawingTags').val();
   var data = {
     url: self.windowUrl,
@@ -324,7 +332,9 @@ Graffiti.prototype.saveDrawingPost = function(){
       if(self.maxIndex >= 1){
         $('#gyc-timeline').show();
       }
+      graffitiView.showConfirmationPopup($('#gyc-toolbar-tools'), "Save Successful");
     }
+
   }).fail(function(){
     graffitiView.showConfirmationPopup("body","ERROR WHEN SAVING");
     $('#gyc-timeline').hide();
@@ -452,7 +462,7 @@ function initGraffiti() {
   graffiti.undo();
   graffiti.cleanSlate();
   // graffiti.openSaveForm();
-  graffiti.initializePopupForm();
+  // graffiti.initializePopupForm();
   graffiti.initializeTwitterPopup();
   graffiti.updateTimeline();
   // graffiti.toggleSaveButton();
@@ -473,6 +483,7 @@ $('#gyc-canvas').on('mouseup', function() {
   graffitiView.toggleSaveButton();
 });
 
+$('.gyc-random-class').click(graffiti.saveDrawingPost);
 $('#gyc-save-button').click(graffiti.openSaveForm);
 
 $('#gyc-toolbar-toggle').click(graffitiView.toggleDropdownArrow);

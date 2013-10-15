@@ -51,16 +51,20 @@ function injectToolbar() {
                            '<div id="gyc-tag-holder">' +
                            '</div>' +
                          '</div>' +
+                         '<div id="gyc-save-confirm" style="display:none;">' +
+                           '<label><h3>Tag your drawing:</h3><input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
+                           '<button class="gyc-random-class">Save Drawing</button>' +
+                         '</div>' +
                        '</div>' +
                      '</div>' +
-                   '</div>' +
-                   '<div id="gyc-save-confirm" title="Confirm Save" style="display:none;">' +
-                       '<label>Tag your drawing:<input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
-                   '</div>' +
-                   '<div id="gyc-twitter" title="Save Successful">' +
-                      '<p></p>' +
-                      '<div id="gyc-twitter-bttn"></div>' +
                    '</div>'
+                   // '<div id="gyc-save-confirm" title="Confirm Save" style="display:none;">' +
+                   //     '<label>Tag your drawing:<input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
+                   // '</div>' +
+                   // '<div id="gyc-twitter" title="Save Successful">' +
+                   //    '<p></p>' +
+                   //    '<div id="gyc-twitter-bttn"></div>' +
+                   // '</div>'
                    );
 }
 

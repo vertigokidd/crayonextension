@@ -67,11 +67,34 @@
 #gyc-drawingTags {
   border-radius: 4px !important;
   border: none !important;
-  width: 212px;
-  margin-top: 4px;
+  width: 200px;
+  padding-left: 0;
+  padding-right: 0;
   height: 20px;
+  margin-top: 10px;
+  margin-left: 20px;
 }
 
+
+#gyc-save-confirm h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 20px;
+  padding-top: 10px;
+  font-size: 18px;
+  color: rgba(63,141,143, 0.9);
+}
+
+.gyc-random-class {
+  background-color: gray !important;
+  color:rgba(255,255,255,0.7) !important;
+  border:none !important;
+  border-radius: 4px !important;
+  margin-top: 10px;
+  width: 86px;
+  margin-left: 134px;
+  height: 22px;
+}
 #gyc-twitter-bttn{
   display: block;
 }
@@ -129,7 +152,7 @@
 #gyc-tag-holder > a {
   color: rgba(63,141,143,0.9);
   display: block;
-  font-size: 20px;
+  font-size: 16px;
   font-family: sans-serif;
   text-decoration: none;
 }
@@ -235,7 +258,7 @@
 
 .search-header {
   margin: 0;
-  font-size: 22px;
+  font-size: 18px;
   color: rgba(63,141,143,0.9);
   margin-bottom: 10px;
   padding-top: 10px;
