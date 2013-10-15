@@ -98,6 +98,9 @@ GraffitiView.prototype.insertTags = function(response) {
 };
 
 GraffitiView.prototype.toggleDraw = function() {
+  if ($('#gyc-toolbar-toggle').hasClass('ui-state-active') === false && graffiti.drawingStatus === 'off') {
+    $('#gyc-toolbar-toggle').click();
+  }
   if (graffiti.drawingStatus === 'on') {
     graffiti.drawingStatus = 'off';
     $('#gyc-draw-button').css("color", "");
