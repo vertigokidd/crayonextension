@@ -53,6 +53,7 @@ function injectToolbar() {
                          '</div>' +
                          '<div id="gyc-save-confirm" style="display:none;">' +
                            '<label><h3>Tag your drawing:</h3><input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
+                           '<i class="icon-spinner icon-spin icon-large"></i>' +
                            '<button class="gyc-random-class">Save Drawing</button>' +
                          '</div>' +
                        '</div>' +
