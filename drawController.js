@@ -364,7 +364,7 @@ GraffitiView.prototype.showConfirmationPopup = function(element,message){
 // updates the current position and updates the time line
 Graffiti.prototype.updateTimeline = function(){
   var self = this;
-  $('#gyc-timeline').change(function() {
+  $('#gyc-timeline').mouseup(function() {
     self.currentPosition = $(this).val();
     self.timelineUpdate();
   });
