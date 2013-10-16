@@ -75,14 +75,14 @@
 }
 
 
-#gyc-save-confirm h3 {
+.save-header {
   margin-top: 0;
   margin-bottom: 10px;
   margin-left: 20px;
   padding-top: 10px;
   font-size: 18px;
   color: rgba(63,141,143, 0.9);
-  font-family: sans-serif;
+  font-family: sans-serif
 }
 
 .gyc-random-class {
@@ -95,6 +95,12 @@
   margin-left: 134px;
   height: 22px;
 }
+
+.gyc-random-class:focus {
+  border: 1px solid rgba(142, 193, 255,0.9);
+  outline: rgba(0,0,0,0);
+}
+
 #gyc-twitter-bttn{
   display: block;
 }
@@ -113,7 +119,7 @@
   margin-left:8px;
 }
 
-.icon-refresh {
+.save-indicator {
   color: gray;
   display:block;
   text-align: center;
