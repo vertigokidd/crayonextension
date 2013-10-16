@@ -330,7 +330,6 @@ Graffiti.prototype.saveDrawingPost = function(){
       self.currentPosition = self.maxIndex;
       $("#gyc-timeline").prop('max', self.maxIndex);
       $('#gyc-timeline').val(self.maxIndex);
-      $("#gyc-save-button").prop('disabled', true);
       self.latestDrawing = self.project.layers[self.project.layers.length - 1].exportJSON();
       if(self.maxIndex >= 1){
         $('#gyc-timeline').show();

@@ -82,7 +82,9 @@
   padding-top: 10px;
   font-size: 18px;
   color: rgba(63,141,143, 0.9);
-  font-family: sans-serif
+  font-family: sans-serif;
+  border: none;
+  background-color: inherit;
 }
 
 .gyc-random-class {
