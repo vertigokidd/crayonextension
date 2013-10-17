@@ -42,17 +42,18 @@ function injectToolbar() {
                          '</div>' +
                          '<div class="gyc-search-tools" style="display:none;">' +
                            '<div id="gyc-timeline-container">' +
+                             '<h4 class="search-header"><i class="icon-time"></i> Drawing Timeline</h4>' + 
                              '<i id="gyc-previous-button" class="icon-chevron-sign-left"></i><input type="range" id="gyc-timeline" min="0" max="0"></input><i id="gyc-next-button" class="icon-chevron-sign-right"></i>' +
                            '</div>' +
-                           '<h4 class="search-header">Search Tags</h4>' +
+                           '<h4 class="search-header"><i class="icon-tags"></i> Search Tags</h4>' +
                            '<form class="gyc-search-tags">' +
-                             '<input type="text" id="gyc-search-field" placeholder="Search Unavailable" disabled>' +
+                             '<input type="text" id="gyc-search-field" placeholder="Coming Soon!" disabled>' +
                            '</form>' +
                            '<div id="gyc-tag-holder">' +
                            '</div>' +
                          '</div>' +
                          '<div id="gyc-save-confirm" style="display:none;">' +
-                           '<label><h3 class="save-header">Tag your drawing:</h3><input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
+                           '<label><h3 class="save-header">Tag your drawing:</h3><input type="text" id="gyc-drawingTags" placeholder="Dinosaur, Space_Robot, Steve..."></input></label>'  +
                            '<i class="save-indicator icon-refresh icon-spin icon-large"></i>' +
                            '<button class="gyc-random-class">Save Drawing</button>' +
                          '</div>' +
