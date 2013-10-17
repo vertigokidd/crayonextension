@@ -15,6 +15,7 @@
   z-index:3129484650 !important;
 }
 
+
 .gyc-popup .ui-dialog-titlebar {
   background-color: rgba(63,141,143, 1) !important;
   border-top-left-radius: 4px !important;
@@ -66,9 +67,40 @@
 #gyc-drawingTags {
   border-radius: 4px !important;
   border: none !important;
-  width: 212px;
-  margin-top: 4px;
+  width: 200px;
+  padding-left: 0;
+  padding-right: 0;
   height: 20px;
+  margin-left: 20px;
+}
+
+
+.save-header {
+  margin-top: 0;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  padding-top: 10px;
+  font-size: 18px;
+  color: rgba(63,141,143, 0.9);
+  font-family: sans-serif;
+  border: none;
+  background-color: inherit;
+}
+
+.gyc-random-class {
+  background-color: gray !important;
+  color:rgba(255,255,255,0.7) !important;
+  border:none !important;
+  border-radius: 4px !important;
+  margin-top: 10px;
+  width: 86px;
+  margin-left: 134px;
+  height: 22px;
+}
+
+.gyc-random-class:focus {
+  border: 1px solid rgba(142, 193, 255,0.9);
+  outline: rgba(0,0,0,0);
 }
 
 #gyc-twitter-bttn{
@@ -89,6 +121,13 @@
   margin-left:8px;
 }
 
+.save-indicator {
+  color: gray;
+  display:block;
+  text-align: center;
+  margin-left:110px;
+  margin-top: 10px;
+}
 
 #gyc-confirmation-popup {
   background-color: rgba(63,141,143, 0.8);
@@ -102,7 +141,7 @@
   padding:10px;
   border-bottom-left-radius: 4px !important;
   border-bottom-right-radius: 4px !important;
-  z-index:3129484650 ;
+  z-index:31294846515 ;
 }
 
 #gyc-canvas {
@@ -121,7 +160,21 @@
 }
 
 #gyc-tag-holder {
-  display: none;
+  /*display: none;*/
+  text-align: center;
+}
+
+#gyc-tag-holder > a {
+  color: rgba(63,141,143,0.9);
+  display: block;
+  font-size: 16px;
+  font-family: sans-serif;
+  text-decoration: none;
+}
+
+#gyc-tag-holder > a:hover {
+  text-shadow: 0px 1px 2px #A1A1A1;
+  transition: text-shadow 0.2s linear;
 }
 
 #gyc-previous-button {
@@ -129,33 +182,53 @@
 }
 
 #gyc-timeline {
-  margin-top:20px;
-  width: 170px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-top:20px !important;
+  width: 170px !important;
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+  height: 8px !important;
+  border: 1px solid #ccc;
+  /*border: 1px solid #cccccc;*/
+  border-radius: 3px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  transition: border linear 0.2s, box-shadow linear 0.2s;
 }
 
 #gyc-timeline-container {
-  width: 220px;
-  margin: auto;
+  width: 220px !important;
+  margin: auto !important;
 }
 
 #gyc-width, #gyc-opacity {
   width: 200px !important;
   margin-left: 20px !important;
   margin-right: 20px !important;
+  margin-bottom: 5px !important;
+  padding: 0 !important;
+  margin-top: 5px !important;
+  height: 8px !important;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+
+#gyc-width:focus, #gyc-opacity:focus, #gyc-timeline:focus {
+  border: 1px solid rgba(142, 193, 255,0.9);
+  outline: rgba(0,0,0,0);
 }
 
 .gyc-toolbar-value {
-  margin-left: 20px;
+  margin-left: 20px !important;
+  display: inline !important;
 }
 
-#gyc-paint-button, #gyc-draw-button, #gyc-undo-button, #gyc-clean-slate-button, #gyc-save-button {
+#gyc-paint-button, #gyc-draw-button, #gyc-undo-button, #gyc-clean-slate-button, #gyc-save-button, #gyc-search-tags-button {
   display:inline-block;
   height:40px;
   font-size:25px;
   font-style:normal !important;
-  width:48px;
+  width:40px;
   line-height: 40px;
   text-align:center;
   color: rgba(63,141,143,0.9);
@@ -163,7 +236,7 @@
   background-color:rgba(224,224,224,0.95);
 }
 
-#gyc-paint-button:hover, #gyc-draw-button:hover, #gyc-undo-button:hover, #gyc-clean-slate-button:hover, #gyc-save-button:hover {
+#gyc-paint-button:hover, #gyc-draw-button:hover, #gyc-undo-button:hover, #gyc-clean-slate-button:hover, #gyc-save-button:hover, #gyc-search-tags-button:hover {
   color: rgba(53,171,149,0.6);
   transition: color 0.7s linear;
 }
@@ -198,6 +271,15 @@
   padding-bottom: 10px;
 }
 
+.search-header {
+  margin: 0;
+  font-size: 18px;
+  color: rgba(63,141,143,0.9);
+  margin-bottom: 10px;
+  padding-top: 10px;
+  text-align: center;
+}
+
 #gyc-toggle-toolbar-arrow {
   line-height: 15px !important;
   text-align: center !important;
@@ -222,8 +304,17 @@
 #gyc-color {
   width: 100px !important;
   margin-left: 70px !important;
+  margin-bottom: 5px !important;
   border-radius: 4px !important;
   text-align: center !important;
   border: none !important;
 }
 
+#gyc-search-field {
+  width: 200px !important;
+  margin-left: 20px !important;
+  border-radius: 4px !important;
+  border: none !important;
+  text-align: center !important;
+  margin-bottom: 10px;
+}
