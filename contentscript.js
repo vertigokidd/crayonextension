@@ -97,6 +97,7 @@ function initializeMessageListener(){
         console.log(graffiti.canvasStatus);
         if (graffiti.latestDrawing !== null && graffiti.canvasStatus === 'off') {
           graffiti.toggleCanvas();
+          graffiti.project.view.draw();
         }
         else if (graffiti.canvasStatus === 'on') {
           graffiti.toggleCanvas();  
