@@ -93,7 +93,12 @@ function initializeMessageListener(){
       if (request.task == "toggle") {
         sendResponse({status: "toggled"});
         $('.getyourcrayon-menubar').toggle();
-        if (graffiti.canvasStatus == 'on') {
+        console.log(graffiti.latestDrawing);
+        console.log(graffiti.canvasStatus);
+        if (graffiti.latestDrawing !== null && graffiti.canvasStatus === 'off') {
+          graffiti.toggleCanvas();
+        }
+        else if (graffiti.canvasStatus === 'on') {
           graffiti.toggleCanvas();  
         }
       }
