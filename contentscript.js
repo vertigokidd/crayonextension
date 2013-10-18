@@ -2,7 +2,7 @@
 injectScripts();
 injectToolbar();
 injectFonts();
-// getToolbarStatus();
+getToolbarStatus();
 initializeMessageListener();
 initializeAccordion();
 initializeDraggable();
@@ -93,8 +93,7 @@ function initializeMessageListener(){
       if (request.task == "toggle") {
         sendResponse({status: "toggled"});
         $('.getyourcrayon-menubar').toggle();
-        console.log(graffiti.latestDrawing);
-        console.log(graffiti.canvasStatus);
+      
         if (graffiti.latestDrawing !== null && graffiti.canvasStatus === 'off') {
           graffiti.toggleCanvas();
           graffiti.project.view.draw();
@@ -109,13 +108,20 @@ function initializeMessageListener(){
 // This sends a message at runtime asking the background.js for the status of the toolbar.
 // If it receives a status of 'off', the toolbar is not displayed on page load
 
-// function getToolbarStatus() {
-//   chrome.runtime.sendMessage({task: "get status"}, function(response) {
-//     if (response.onOff === "on") {
-//       $('.getyourcrayon-menubar').show();
-//     }
-//   });
-// }
+function getToolbarStatus() {
+  chrome.runtime.sendMessage({task: "get status"}, function(response) {
+    console.log(response.onOff);
+    if (response.onOff === 'on') {
+      $('.getyourcrayon-menubar').toggle();
+      setTimeout(function () {
+      if (graffiti.latestDrawing !== null && graffiti.canvasStatus === 'off') {
+          graffiti.toggleCanvas();
+          graffiti.project.view.draw();
+      }
+    }, 1000);
+    }
+  });
+}
 
 // This initializes the toolbar to have the accordion functionality once it is loaded and
 // makes the entire toolbar draggable with the header specified as the handle for dragging

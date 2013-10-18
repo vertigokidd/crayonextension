@@ -66,9 +66,6 @@ GraffitiView.prototype.setupPage = function(windowUrl) {
     $("#gyc-save-button").css('color', 'gray');
     $("#gyc-undo-button").css('color', 'gray');
     $("#gyc-clean-slate-button").css('color', 'gray');
-
-    console.log(graffiti.maxIndex);
-    console.log(graffiti.currentPosition);
   }).fail(function(){self.showConfirmationPopup("body","Error: server conection problem");
       $('#gyc-timeline').hide();
       $('#gyc-next-button').hide();
@@ -531,18 +528,6 @@ $('#gyc-draw-button').click(graffitiView.toggleDraw);
       graffiti.path.smooth();
     }
   }
-
-// function initializeMessageListener(){
-//   chrome.extension.onMessage.addListener(
-//     function(request, sender, sendResponse) {
-//       if (request.task == "toggle") {
-//         sendResponse({status: "toggled"});
-//         if (graffiti.canvasStatus === 'off'){
-//           graffiti.toggleCanvas();
-//         }
-//       }
-//     });
-// }
 
 
 // Model (Grafitti drawing)
