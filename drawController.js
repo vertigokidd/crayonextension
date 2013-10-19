@@ -5,7 +5,7 @@ function Graffiti() {
   this.width = 5;
   this.opacity = 1;
   this.canvas = document.getElementById('gyc-canvas');
-  this.serverUrl = 'http://www.getyourcrayon.com';
+  this.serverUrl = 'http://localhost:3000'; 
   this.windowUrl = window.location.href;
   this.latestDrawing = null;
   this.project = project;
@@ -312,34 +312,37 @@ Graffiti.prototype.saveDrawingPost = function(){
 
   $('#gyc-drawingTags').hide();
   $('.save-indicator').show();
+  $('.gyc-random-class').text('Saving...');
   $.post(self.serverUrl + '/save', data,function(response){
     if (response.tags_html_string){
       var twitter_html = '<a href="https://twitter.com/share" data-url="/" class="twitter-share-button" data-hashtags="GetYourCrayon" data-text="I created this amazing drawing see it on => '+response.unique_url+'" data-lang="en" data-size="large" data-count="none">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>';
       // $('#gyc-twitter-bttn').html(twitter_html);
       self.currentTags = response.tags_html_string;
-      graffitiView.insert(tags);
+      graffitiView.insertTags();
       $('#gyc-drawingTags').val('');
       if(self.maxIndex === null){
         self.maxIndex = 0;
-        $("#gyc-timeline").prop('max', self.maxIndex);
-        $('#gyc-timeline').val(self.maxIndex);
+        // $("#gyc-timeline").prop('max', self.maxIndex);
+        // $('#gyc-timeline').val(self.maxIndex);
       }
       else{
         self.maxIndex += 1;
       }
-      self.currentPosition = self.maxIndex;
-      $("#gyc-timeline").prop('max', self.maxIndex);
-      $('#gyc-timeline').val(self.maxIndex);
-      self.latestDrawing = self.project.layers[self.project.layers.length - 1].exportJSON();
-      if(self.maxIndex >= 1){
-        $('#gyc-timeline').show();
-      }
+    }
+    self.currentPosition = self.maxIndex;
+    $("#gyc-timeline").prop('max', self.maxIndex);
+    $('#gyc-timeline').val(self.maxIndex);
+    self.latestDrawing = self.project.layers[self.project.layers.length - 1].exportJSON();
+    if(self.maxIndex >= 1){
+      $('#gyc-timeline').show();
     }
     setTimeout(function() {
         $('.save-indicator').hide();
         $('#gyc-drawingTags').show();
+         $('.gyc-random-class').text('Save Drawing');
     }, 500);
-
+    console.log(self.maxIndex);
+    console.log($('#gyc-timeline').prop('max'));
   }).fail(function(){
     graffitiView.showConfirmationPopup("body","ERROR WHEN SAVING");
     $('#gyc-timeline').hide();
@@ -363,9 +366,10 @@ GraffitiView.prototype.showConfirmationPopup = function(element,message){
 // Listens for a change on the timeline slider
 // updates the current position and updates the time line
 Graffiti.prototype.updateTimeline = function(){
-  var self = this;
+  var self = graffiti;
   $('#gyc-timeline').mouseup(function() {
     self.currentPosition = $(this).val();
+    console.log(self.currentPosition);
     self.timelineUpdate();
   });
 };
@@ -373,7 +377,7 @@ Graffiti.prototype.updateTimeline = function(){
 // triggers a get requests that rettrives drwaings
 // clears the canvas and imports the response to the canvas
 Graffiti.prototype.timelineUpdate = function() {
-  var self = this;
+  var self = graffiti;
   $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
     self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
     self.project.activeLayer.remove();
@@ -395,7 +399,7 @@ function validHex(hexString) {
 Graffiti.prototype.initializePrevious = function() {
   var self = this;
     $('#gyc-previous-button').click(function(){
-      if (self.currentPosition !== 0) {
+      if (self.currentPosition !== 0 && self.currentPosition !== '0') {
         if (self.currentPosition > 0) {
           self.currentPosition -= 1;
         }
@@ -419,7 +423,7 @@ Graffiti.prototype.initializePrevious = function() {
 Graffiti.prototype.initializeNext = function() {
   var self = this;
     $('#gyc-next-button').click(function(){
-      if (self.currentPosition !== self.maxIndex) {
+      if (self.currentPosition !== self.maxIndex && self.currentPosition !== self.maxIndex.toString()) {
         if (self.currentPosition < self.maxIndex) {
           self.currentPosition += 1;
         }
@@ -524,18 +528,6 @@ $('#gyc-draw-button').click(graffitiView.toggleDraw);
       graffiti.path.smooth();
     }
   }
-
-// function initializeMessageListener(){
-//   chrome.extension.onMessage.addListener(
-//     function(request, sender, sendResponse) {
-//       if (request.task == "toggle") {
-//         sendResponse({status: "toggled"});
-//         if (graffiti.canvasStatus === 'off'){
-//           graffiti.toggleCanvas();
-//         }
-//       }
-//     });
-// }
 
 
 // Model (Grafitti drawing)

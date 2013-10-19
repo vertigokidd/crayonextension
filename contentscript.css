@@ -145,7 +145,7 @@
 }
 
 #gyc-canvas {
-  border:solid 4px rgba(244,57,99, 0.7);
+  /*border:solid 4px rgba(244,57,99, 0.7);*/
 
 
   position: absolute ;
@@ -182,7 +182,6 @@
 }
 
 #gyc-timeline {
-  margin-top:20px !important;
   width: 170px !important;
   margin-left: 10px !important;
   margin-right: 10px !important;
