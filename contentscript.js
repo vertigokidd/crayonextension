@@ -116,7 +116,8 @@ function getToolbarStatus() {
     if (response.onOff === 'on') {
       $('.getyourcrayon-menubar').toggle();
       setTimeout(function () {
-      if (graffiti.latestDrawing !== null && graffiti.canvasStatus === false) {
+      if (graffiti.latestDrawing !== null) {
+          graffiti.canvasStatus = false;
           graffiti.toggleCanvas();
           graffiti.project.view.draw();
       }
