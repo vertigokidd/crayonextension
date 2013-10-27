@@ -177,7 +177,6 @@ Graffiti.prototype.toggleCanvas = function(){
       }
       graffiti.canvasStatus = 'off';
       graffitiView.badge = false;
-      console.log(graffitiView.badge);
       graffitiView.refreshBadge();
     }
     else {
