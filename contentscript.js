@@ -96,11 +96,11 @@ function initializeMessageListener(){
         sendResponse({status: "toggled"});
         $('.getyourcrayon-menubar').toggle();
       
-        if (graffiti.latestDrawing !== null && graffiti.canvasStatus === 'off') {
+        if (graffiti.latestDrawing !== null && graffiti.canvasStatus === false && $('.getyourcrayon-menubar').css('display') === 'block') {
           graffiti.toggleCanvas();
           graffiti.project.view.draw();
         }
-        else if (graffiti.canvasStatus === 'on') {
+        else if (graffiti.canvasStatus === true) {
           graffiti.toggleCanvas();  
         }
       }
@@ -116,7 +116,7 @@ function getToolbarStatus() {
     if (response.onOff === 'on') {
       $('.getyourcrayon-menubar').toggle();
       setTimeout(function () {
-      if (graffiti.latestDrawing !== null && graffiti.canvasStatus === 'off') {
+      if (graffiti.latestDrawing !== null && graffiti.canvasStatus === false) {
           graffiti.toggleCanvas();
           graffiti.project.view.draw();
       }

@@ -13,7 +13,7 @@ function Graffiti() {
   this.currentPosition = null;
   this.undoCounter = 0;
   this.drawingStatus = 'off';
-  this.canvasStatus = 'off';
+  this.canvasStatus = true;
   this.currentTags = null;
 }
 
@@ -113,7 +113,7 @@ GraffitiView.prototype.toggleDraw = function() {
     $('.gyc-drawing-tools').show();
     $('.gyc-search-tools').hide();
     $('#gyc-save-confirm').hide();
-    if (graffiti.canvasStatus === 'off') {
+    if (graffiti.canvasStatus === false) {
       graffiti.toggleCanvas();
     }
     graffiti.drawingStatus = 'on';
@@ -169,22 +169,23 @@ Graffiti.prototype.checkDrawingFreshness = function() {
 // Listens for a click on the paint button and hides or displays the canvas
 
 Graffiti.prototype.toggleCanvas = function(){
-    $('#gyc-canvas').toggle();
-    if ($('#gyc-canvas').css("display") === 'none') {
-      $('#gyc-paint-button').removeClass("icon-eye-open").addClass("icon-eye-close").css("color", "");
-      if (graffiti.drawingStatus === 'on') {
-        graffitiView.toggleDraw();
-      }
-      graffiti.canvasStatus = 'off';
-      graffitiView.badge = false;
-      graffitiView.refreshBadge();
+  if (graffiti.canvasStatus === true) {
+    $('#gyc-paint-button').removeClass("icon-eye-open").addClass("icon-eye-close").css("color", "");
+    if (graffiti.drawingStatus === 'on') {
+      graffitiView.toggleDraw();
     }
-    else {
-      $('#gyc-paint-button').removeClass("icon-eye-close").addClass("icon-eye-open").css("color", "#F44C63");
-      graffiti.canvasStatus = 'on';
-      graffitiView.badge = true;
-      graffitiView.refreshBadge();
-    }
+    graffiti.canvasStatus = false;
+    graffitiView.badge = false;
+    graffitiView.refreshBadge();
+    $('#gyc-canvas').toggle(graffiti.canvasStatus);   
+  }
+  else {
+    $('#gyc-paint-button').removeClass("icon-eye-close").addClass("icon-eye-open").css("color", "#F44C63");
+    graffiti.canvasStatus = true;
+    graffitiView.badge = true;
+    graffitiView.refreshBadge();
+    $('#gyc-canvas').toggle(graffiti.canvasStatus);   
+  }
 };
 
 // Listens for mouse events on the color picker image to change
