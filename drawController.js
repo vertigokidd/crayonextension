@@ -15,11 +15,11 @@ function Graffiti() {
   this.drawingStatus = 'off';
   this.canvasStatus = 'off';
   this.currentTags = null;
-  this.badge = 'off';
 }
 
 function GraffitiView(graffitiModel) {
   this.model = graffitiModel;
+  this.badge = false;
 }
 // VIEW METHODS ###############################################################
 
@@ -138,6 +138,11 @@ GraffitiView.prototype.toggleDropdownArrow = function(){
   }
 };
 
+
+GraffitiView.prototype.refreshBadge = function(){
+  $('#gyc-badge').toggle(this.badge);
+}
+
 // MODEL METHODS ##############################################################
 
 Graffiti.prototype.decrementUndoCounter = function() {
@@ -171,10 +176,15 @@ Graffiti.prototype.toggleCanvas = function(){
         graffitiView.toggleDraw();
       }
       graffiti.canvasStatus = 'off';
+      graffitiView.badge = false;
+      console.log(graffitiView.badge);
+      graffitiView.refreshBadge();
     }
     else {
       $('#gyc-paint-button').removeClass("icon-eye-close").addClass("icon-eye-open").css("color", "#F44C63");
       graffiti.canvasStatus = 'on';
+      graffitiView.badge = true;
+      graffitiView.refreshBadge();
     }
 };
 
