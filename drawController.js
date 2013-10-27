@@ -15,6 +15,7 @@ function Graffiti() {
   this.drawingStatus = 'off';
   this.canvasStatus = 'off';
   this.currentTags = null;
+  this.badge = 'off';
 }
 
 function GraffitiView(graffitiModel) {

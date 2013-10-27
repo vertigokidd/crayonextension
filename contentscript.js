@@ -60,7 +60,7 @@ function injectToolbar() {
                        '</div>' +
                      '</div>' +
                    '</div>' +
-                   '<div id="gyc-badge">' +
+                   '<div id="gyc-badge" style="display:none;">' +
                    '</div>'
                    // '<div id="gyc-save-confirm" title="Confirm Save" style="display:none;">' +
                    //     '<label>Tag your drawing:<input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
