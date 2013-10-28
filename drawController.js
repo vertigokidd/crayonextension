@@ -354,10 +354,9 @@ Graffiti.prototype.saveDrawingPost = function(){
     setTimeout(function() {
         $('.save-indicator').hide();
         $('#gyc-drawingTags').show();
-         $('.gyc-random-class').text('Save Drawing');
+        $('.gyc-random-class').text('Save Drawing');
+        graffitiView.showConfirmationPopup('#gyc-save-confirm', 'Saved!');
     }, 500);
-    console.log(self.maxIndex);
-    console.log($('#gyc-timeline').prop('max'));
   }).fail(function(){
     graffitiView.showConfirmationPopup("body","ERROR WHEN SAVING");
     $('#gyc-timeline').hide();
