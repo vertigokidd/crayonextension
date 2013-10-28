@@ -72,7 +72,7 @@ GraffitiView.prototype.setupPage = function(windowUrl) {
     $("#gyc-undo-button").css('color', 'gray');
     $("#gyc-clean-slate-button").css('color', 'gray');
   }).fail(function(){self.showConfirmationPopup("body","Error: server conection problem");
-      $('#gyc-timeline').hide();
+      $('#gyc-timeline-container').hide();
       $('#gyc-next-button').hide();
       $('#gyc-previous-button').hide();
     });
@@ -83,7 +83,7 @@ GraffitiView.prototype.setupTimeline = function(maxIndex) {
   self.model.maxIndex = maxIndex;
   self.model.currentPosition = maxIndex;
   if (maxIndex === null) {
-    $('#gyc-timeline').hide();
+    $('#gyc-timeline-container').hide();
     $('#gyc-next-button').hide();
     $('#gyc-previous-button').hide();
   }
@@ -350,7 +350,7 @@ Graffiti.prototype.saveDrawingPost = function(){
     self.latestDrawing = self.project.layers[self.project.layers.length - 1].exportJSON();
     self.undoCounter = 0;
     if(self.maxIndex >= 1){
-      $('#gyc-timeline').show();
+      $('#gyc-timeline-container').show();
     }
     setTimeout(function() {
         $('.save-indicator').hide();
@@ -365,7 +365,7 @@ Graffiti.prototype.saveDrawingPost = function(){
 
   }).fail(function(){
     graffitiView.showConfirmationPopup("body","ERROR WHEN SAVING");
-    $('#gyc-timeline').hide();
+    $('#gyc-timeline-container').hide();
     $('#gyc-next-button').hide();
     $('#gyc-previous-button').hide();
      });
