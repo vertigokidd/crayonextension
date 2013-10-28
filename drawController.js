@@ -355,9 +355,12 @@ Graffiti.prototype.saveDrawingPost = function(){
     setTimeout(function() {
         $('.save-indicator').hide();
         $('#gyc-drawingTags').show();
+        $('#gyc-drawingTags').prop('placeholder', 'Save Successful!');
         $('.gyc-random-class').text('Save Drawing');
-        graffitiView.showConfirmationPopup('#gyc-save-confirm', 'Saved!');
-        graffitiView.toggleSaveButton();
+        setTimeout(function() {
+          $('#gyc-drawingTags').css('box-shadow', 'none');
+          graffitiView.toggleSaveButton();
+        },1500);
     }, 500);
 
   }).fail(function(){

@@ -93,6 +93,9 @@ div.ui-state-default {
   text-align: center;
 }
 
+.successful-save {
+  background-color: rgba(63,141,143, 0.9);
+}
 
 .save-header {
   margin-top: 0;
@@ -112,8 +115,8 @@ div.ui-state-default {
   border:none !important;
   border-radius: 4px !important;
   margin-top: 10px;
-  width: 86px;
-  margin-left: 134px;
+  width: 96px;
+  margin-left: 124px;
   height: 22px;
 }
 
