@@ -385,7 +385,7 @@ GraffitiView.prototype.showConfirmationPopup = function(element,message){
 Graffiti.prototype.updateTimeline = function(){
   var self = graffiti;
   $('#gyc-timeline').mouseup(function() {
-    self.currentPosition = $(this).val();
+    self.currentPosition = parseInt($(this).val());
     console.log(self.currentPosition);
     self.timelineUpdate();
   });
@@ -416,7 +416,7 @@ function validHex(hexString) {
 Graffiti.prototype.initializePrevious = function() {
   var self = this;
     $('#gyc-previous-button').click(function(){
-      if (self.currentPosition !== 0 && self.currentPosition !== '0') {
+      if (self.currentPosition !== 0) {
         if (self.currentPosition > 0) {
           self.currentPosition -= 1;
         }
@@ -440,7 +440,7 @@ Graffiti.prototype.initializePrevious = function() {
 Graffiti.prototype.initializeNext = function() {
   var self = this;
     $('#gyc-next-button').click(function(){
-      if (self.currentPosition !== self.maxIndex && self.currentPosition !== self.maxIndex.toString()) {
+      if (self.currentPosition !== self.maxIndex) { 
         if (self.currentPosition < self.maxIndex) {
           self.currentPosition += 1;
         }
