@@ -12,7 +12,7 @@ initializeColorPicker();
 // This is injecting all the html we need to create the toolbar and the form to save to the website
 
 function injectToolbar() {
-  $('body').append('<div class="getyourcrayon-menubar" style="display:none;">' +
+  $('body').append('<div id="initial" class="getyourcrayon-menubar" style="display:none;">' +
                      '<div id="gyc-toolbar-header">' +
                        
                      '</div>' +
@@ -95,7 +95,7 @@ function initializeMessageListener(){
       if (request.task == "toggle") {
         sendResponse({status: "toggled"});
         $('.getyourcrayon-menubar').toggle();
-      
+        console.log(graffiti.canvasStatus);
         if (graffiti.latestDrawing !== null && graffiti.canvasStatus === false && $('.getyourcrayon-menubar').css('display') === 'block') {
           graffiti.toggleCanvas();
           graffiti.project.view.draw();

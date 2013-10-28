@@ -13,7 +13,7 @@ function Graffiti() {
   this.currentPosition = null;
   this.undoCounter = 0;
   this.drawingStatus = 'off';
-  this.canvasStatus = true;
+  this.canvasStatus = false;
   this.currentTags = null;
 }
 
@@ -41,12 +41,14 @@ GraffitiView.prototype.toggleSearchButton = function() {
 
 GraffitiView.prototype.toggleSaveButton = function(){
   if(this.model.checkUndoCounter() && this.model.checkDrawingFreshness()){
-    $('#gyc-save-button').removeClass('gyc-button-active');
-    $('#gyc-save-button').css('color', 'gray');
+    $('.gyc-random-class').prop('disabled', true);
+    $('.gyc-random-class').hide();
+    $('#gyc-drawingTags').prop('placeholder', 'Draw something to save!');
   }
   else{
-    $('#gyc-save-button').addClass('gyc-button-active');
-    $('#gyc-save-button').css('color', '');
+    $('.gyc-random-class').prop('disabled', false);
+    $('.gyc-random-class').show();
+    $('#gyc-drawingTags').prop('placeholder', 'Dinosaur, Space_Robot, Steve...');
   }
 };
 
@@ -64,7 +66,9 @@ GraffitiView.prototype.setupPage = function(windowUrl) {
       self.setupTimeline(null);
     } 
     self.model.currentTags = response.tags_html_string
-    $("#gyc-save-button").css('color', 'gray');
+    $('.gyc-random-class').prop('disabled', true);
+    $('.gyc-random-class').hide();
+    $('#gyc-drawingTags').prop('placeholder', 'Draw something to save!');
     $("#gyc-undo-button").css('color', 'gray');
     $("#gyc-clean-slate-button").css('color', 'gray');
   }).fail(function(){self.showConfirmationPopup("body","Error: server conection problem");
@@ -251,7 +255,7 @@ Graffiti.prototype.cleanSlate = function() {
 
 // Listens for a click on the save button and opens the dialog save form
 Graffiti.prototype.openSaveForm = function(){
-  if ($('#gyc-save-button').hasClass('gyc-button-active')) {
+  // if ($('#gyc-save-button').hasClass('gyc-button-active')) {
     if (graffiti.drawingStatus === 'on') {
       graffitiView.toggleDraw();
     }
@@ -263,7 +267,7 @@ Graffiti.prototype.openSaveForm = function(){
     if ($('#gyc-toolbar-toggle').hasClass('ui-state-active') === false) {
       $('#gyc-toolbar-toggle').click();
     }
-  }
+  // }
 };
 
 // Initializes pop-up Save form and listens
@@ -499,8 +503,10 @@ $('#gyc-undo-button').on('click', function() {
 });
 
 $('#gyc-canvas').on('mouseup', function() {
-  graffiti.incrementUndoCounter();
-  graffitiView.toggleSaveButton();
+  if (graffiti.drawingStatus === 'on') {
+    graffiti.incrementUndoCounter();
+    graffitiView.toggleSaveButton(); 
+  }
 });
 
 $('.gyc-random-class').click(graffiti.saveDrawingPost);
