@@ -59,6 +59,8 @@ function injectToolbar() {
                          '</div>' +
                        '</div>' +
                      '</div>' +
+                   '</div>' +
+                   '<div id="gyc-badge" style="display:none;">' +
                    '</div>'
                    // '<div id="gyc-save-confirm" title="Confirm Save" style="display:none;">' +
                    //     '<label>Tag your drawing:<input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
@@ -94,11 +96,11 @@ function initializeMessageListener(){
         sendResponse({status: "toggled"});
         $('.getyourcrayon-menubar').toggle();
       
-        if (graffiti.latestDrawing !== null && graffiti.canvasStatus === 'off') {
+        if (graffiti.latestDrawing !== null && graffiti.canvasStatus === false && $('.getyourcrayon-menubar').css('display') === 'block') {
           graffiti.toggleCanvas();
           graffiti.project.view.draw();
         }
-        else if (graffiti.canvasStatus === 'on') {
+        else if (graffiti.canvasStatus === true) {
           graffiti.toggleCanvas();  
         }
       }
@@ -114,7 +116,8 @@ function getToolbarStatus() {
     if (response.onOff === 'on') {
       $('.getyourcrayon-menubar').toggle();
       setTimeout(function () {
-      if (graffiti.latestDrawing !== null && graffiti.canvasStatus === 'off') {
+      if (graffiti.latestDrawing !== null) {
+          graffiti.canvasStatus = false;
           graffiti.toggleCanvas();
           graffiti.project.view.draw();
       }

@@ -145,13 +145,21 @@
 }
 
 #gyc-canvas {
-  /*border:solid 4px rgba(244,57,99, 0.7);*/
-
-
   position: absolute ;
   top:0px ;
   left:0px ;
   z-index:3129484650;
+}
+
+#gyc-badge {
+  position: absolute;
+  top:-50px;
+  left:-50px;
+  width:100px;
+  height:100px;
+  z-index:3129484650;
+  background-color: rgba(63,141,143, 0.95);
+  -webkit-transform: rotate(45deg);
 }
 
 #gyc-next-button, #gyc-previous-button {
@@ -242,7 +250,7 @@
 
 
 #gyc-toolbar-header {
-  height: 40px !important;
+  height: 20px !important;
   /*background-color: #aaa !important;*/
   border-top-left-radius: 4px !important;
   border-top-right-radius: 4px !important;
