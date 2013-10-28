@@ -348,6 +348,7 @@ Graffiti.prototype.saveDrawingPost = function(){
     $("#gyc-timeline").prop('max', self.maxIndex);
     $('#gyc-timeline').val(self.maxIndex);
     self.latestDrawing = self.project.layers[self.project.layers.length - 1].exportJSON();
+    self.undoCounter = 0;
     if(self.maxIndex >= 1){
       $('#gyc-timeline').show();
     }
@@ -356,7 +357,9 @@ Graffiti.prototype.saveDrawingPost = function(){
         $('#gyc-drawingTags').show();
         $('.gyc-random-class').text('Save Drawing');
         graffitiView.showConfirmationPopup('#gyc-save-confirm', 'Saved!');
+        graffitiView.toggleSaveButton();
     }, 500);
+
   }).fail(function(){
     graffitiView.showConfirmationPopup("body","ERROR WHEN SAVING");
     $('#gyc-timeline').hide();
