@@ -33,6 +33,15 @@
     "default_title": "getYourCrayon"
   },
 
+  "commands": {
+    "Undo": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Z",
+        "mac": "Command+MacCtrl+Z"
+      },
+      "description": "Undo"
+    }
+  },
 
   "background": {
     "persistent": false,
