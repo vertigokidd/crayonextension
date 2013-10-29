@@ -445,7 +445,6 @@ Graffiti.prototype.initializeNext = function() {
         if (self.currentPosition < self.maxIndex) {
           self.currentPosition += 1;
         }
-        console.log(graffiti.currentPosition);
         if (graffiti.currentPosition <= graffiti.maxIndex) {
           $('#gyc-timeline').val(self.currentPosition);
           $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
