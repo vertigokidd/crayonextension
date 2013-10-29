@@ -158,8 +158,8 @@
   width:100px;
   height:100px;
   z-index:3129484650;
-  background-color: rgba(63,141,143, 0.95);
-  -webkit-transform: rotate(45deg);
+/*  background-color: rgba(63,141,143, 0.95);*/
+  -webkit-transform: rotate(-45deg);
 }
 
 #gyc-next-button, #gyc-previous-button {

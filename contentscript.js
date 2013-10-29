@@ -9,6 +9,10 @@ initializeDraggable();
 initializeColorPicker();
 
 
+var badgeIcon = chrome.extension.getURL("gyc-badgeicon.png");
+console.log(badgeIcon);
+$('#gyc-badge').css("background", "url('" + badgeIcon + "') no-repeat");
+
 // This is injecting all the html we need to create the toolbar and the form to save to the website
 
 function injectToolbar() {
