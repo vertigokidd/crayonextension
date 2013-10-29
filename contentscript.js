@@ -11,7 +11,7 @@ initializeColorPicker();
 
 var badgeIcon = chrome.extension.getURL("gyc-badgeicon.png");
 console.log(badgeIcon);
-$('#gyc-badge').css("background", "url('" + badgeIcon + "') no-repeat");
+$('#gyc-badge a').css("background", "url('" + badgeIcon + "') no-repeat");
 
 // This is injecting all the html we need to create the toolbar and the form to save to the website
 
@@ -65,6 +65,7 @@ function injectToolbar() {
                      '</div>' +
                    '</div>' +
                    '<div id="gyc-badge" style="display:none;">' +
+                   '<a href="http://www.getyourcrayon.com"></a>' +
                    '</div>'
                    // '<div id="gyc-save-confirm" title="Confirm Save" style="display:none;">' +
                    //     '<label>Tag your drawing:<input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
