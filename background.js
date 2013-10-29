@@ -11,6 +11,10 @@
 initializeClickListener();
 initializeMessageListener();
 
+chrome.commands.onCommand.addListener(function(command) {
+  console.log('Command:', command);
+});
+
 // This sets a variable toolbarStatus that is used to determine whether the toolbar should
 // be visible on initial page load.  The function toggleToolbar() toggles the status between
 // 'on' and 'off' and is called each time the browser action is clicked.
@@ -19,12 +23,6 @@ var toolbarStatus = 'off';
 
 function toggleToolbarStatus() {
   toolbarStatus = toolbarStatus === 'on' ? 'off' : 'on';
-  // if (toolbarStatus === 'on') {
-  //   toolbarStatus = 'off';
-  // }
-  // else {
-  //   toolbarStatus = 'on';
-  // }
 }
 
 // This listens for a click on the browser action (chrome icon) and sends a message to the

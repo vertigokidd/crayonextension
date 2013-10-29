@@ -15,7 +15,7 @@
   {
     "run_at": "document_end",
     "matches": ["<all_urls>"],
-    "exclude_matches":["https://twitter.com/intent/tweet*"],
+    "exclude_matches":["https://twitter.com/intent/tweet*", "https://www.google.com/webhp?sourceid=chrome-instant&espv=*"],
     "js": ["jquery.js",
     "jquery-ui.js",
     "paper.js",
@@ -33,6 +33,15 @@
     "default_title": "getYourCrayon"
   },
 
+  "commands": {
+    "Undo": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Z",
+        "mac": "Command+MacCtrl+Z"
+      },
+      "description": "Undo"
+    }
+  },
 
   "background": {
     "persistent": false,

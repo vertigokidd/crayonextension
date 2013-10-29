@@ -1,3 +1,22 @@
+/*jQuery UI reset*/
+
+span.ui-accordion-header-icon {
+  display: none;
+}
+
+div.ui-accordion-header {
+  border: none;
+}
+
+div.ui-corner-all, div.ui- {
+  border-top-left-radius: none;
+  border-top-right-radius: none;
+}
+
+div.ui-state-default {
+  background: none;
+}
+
 .getyourcrayon-menubar {
   width:240px !important;
   position: absolute !important;
@@ -11,15 +30,14 @@
   position:absolute;
   display:block;
   background-color: rgba(224,224,224,1);
-  border-radius: 4px !important;
+  /*border-radius: 4px !important;*/
   z-index:3129484650 !important;
 }
 
-
 .gyc-popup .ui-dialog-titlebar {
   background-color: rgba(63,141,143, 1) !important;
-  border-top-left-radius: 4px !important;
-  border-top-right-radius: 4px !important;
+  /*border-top-left-radius: 4px !important;
+  border-top-right-radius: 4px !important;*/
   height: 20px;
   padding: 4px;
 }
@@ -72,8 +90,12 @@
   padding-right: 0;
   height: 20px;
   margin-left: 20px;
+  text-align: center;
 }
 
+.successful-save {
+  background-color: rgba(63,141,143, 0.9);
+}
 
 .save-header {
   margin-top: 0;
@@ -93,8 +115,8 @@
   border:none !important;
   border-radius: 4px !important;
   margin-top: 10px;
-  width: 86px;
-  margin-left: 134px;
+  width: 96px;
+  margin-left: 124px;
   height: 22px;
 }
 
@@ -134,13 +156,13 @@
   position:absolute ;
   text-align: center ;
   display: none ;
-  top:0 ;
-  left:48% ;
-  height:20px;
-  width:120px ;
-  padding:10px;
-  border-bottom-left-radius: 4px !important;
-  border-bottom-right-radius: 4px !important;
+  top:117px;
+  line-height: 22px;
+  color: rgba(255,255,255,0.7);
+  left:20px;
+  height:22px;
+  width:200px ;
+  border-radius: 4px !important;
   z-index:31294846515 ;
 }
 
@@ -207,7 +229,7 @@
 }
 
 #gyc-width, #gyc-opacity {
-  width: 200px !important;
+  width: 198px !important;
   margin-left: 20px !important;
   margin-right: 20px !important;
   margin-bottom: 5px !important;
@@ -259,19 +281,30 @@
 
 #gyc-toolbar-toggle {
   margin-top: 0 !important;
+  padding: 0px;
   height: 15px !important;
   background-color:rgba(224,224,224,0.95);
+  border-radius: none !important;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   border-top: 1px solid #ccc;
+  line-height: 1px;
+  font-size: 14px;
 }
 
 .ui-state-active {
+  border-radius: none !important;
   border-bottom-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
 }
 
 #gyc-toolbar-tools {
+  background: none;
+  padding: 0px;
+  border: none;
+  font-size:12px;
   background-color:rgba(224,224,224,0.95) !important;
   border-bottom-left-radius: 4px !important;
   border-bottom-right-radius: 4px !important;
@@ -310,15 +343,21 @@
 
 #gyc-color {
   width: 100px !important;
+  float:none;
+  box-shadow: none;
+  height: 22px;
+  padding: 0px;
   margin-left: 70px !important;
   margin-bottom: 5px !important;
   border-radius: 4px !important;
   text-align: center !important;
   border: none !important;
+  outline: none !important;
 }
 
 #gyc-search-field {
   width: 200px !important;
+  height: 22px;
   margin-left: 20px !important;
   border-radius: 4px !important;
   border: none !important;

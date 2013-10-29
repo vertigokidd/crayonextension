@@ -13,7 +13,7 @@ function Graffiti() {
   this.currentPosition = null;
   this.undoCounter = 0;
   this.drawingStatus = 'off';
-  this.canvasStatus = true;
+  this.canvasStatus = false;
   this.currentTags = null;
 }
 
@@ -41,12 +41,14 @@ GraffitiView.prototype.toggleSearchButton = function() {
 
 GraffitiView.prototype.toggleSaveButton = function(){
   if(this.model.checkUndoCounter() && this.model.checkDrawingFreshness()){
-    $('#gyc-save-button').removeClass('gyc-button-active');
-    $('#gyc-save-button').css('color', 'gray');
+    $('.gyc-random-class').prop('disabled', true);
+    $('.gyc-random-class').hide();
+    $('#gyc-drawingTags').prop('placeholder', 'Draw something to save!');
   }
   else{
-    $('#gyc-save-button').addClass('gyc-button-active');
-    $('#gyc-save-button').css('color', '');
+    $('.gyc-random-class').prop('disabled', false);
+    $('.gyc-random-class').show();
+    $('#gyc-drawingTags').prop('placeholder', 'Dinosaur, Space_Robot, Steve...');
   }
 };
 
@@ -64,11 +66,13 @@ GraffitiView.prototype.setupPage = function(windowUrl) {
       self.setupTimeline(null);
     } 
     self.model.currentTags = response.tags_html_string
-    $("#gyc-save-button").css('color', 'gray');
+    $('.gyc-random-class').prop('disabled', true);
+    $('.gyc-random-class').hide();
+    $('#gyc-drawingTags').prop('placeholder', 'Draw something to save!');
     $("#gyc-undo-button").css('color', 'gray');
     $("#gyc-clean-slate-button").css('color', 'gray');
   }).fail(function(){self.showConfirmationPopup("body","Error: server conection problem");
-      $('#gyc-timeline').hide();
+      $('#gyc-timeline-container').hide();
       $('#gyc-next-button').hide();
       $('#gyc-previous-button').hide();
     });
@@ -79,7 +83,7 @@ GraffitiView.prototype.setupTimeline = function(maxIndex) {
   self.model.maxIndex = maxIndex;
   self.model.currentPosition = maxIndex;
   if (maxIndex === null) {
-    $('#gyc-timeline').hide();
+    $('#gyc-timeline-container').hide();
     $('#gyc-next-button').hide();
     $('#gyc-previous-button').hide();
   }
@@ -251,7 +255,7 @@ Graffiti.prototype.cleanSlate = function() {
 
 // Listens for a click on the save button and opens the dialog save form
 Graffiti.prototype.openSaveForm = function(){
-  if ($('#gyc-save-button').hasClass('gyc-button-active')) {
+  // if ($('#gyc-save-button').hasClass('gyc-button-active')) {
     if (graffiti.drawingStatus === 'on') {
       graffitiView.toggleDraw();
     }
@@ -263,7 +267,7 @@ Graffiti.prototype.openSaveForm = function(){
     if ($('#gyc-toolbar-toggle').hasClass('ui-state-active') === false) {
       $('#gyc-toolbar-toggle').click();
     }
-  }
+  // }
 };
 
 // Initializes pop-up Save form and listens
@@ -344,19 +348,25 @@ Graffiti.prototype.saveDrawingPost = function(){
     $("#gyc-timeline").prop('max', self.maxIndex);
     $('#gyc-timeline').val(self.maxIndex);
     self.latestDrawing = self.project.layers[self.project.layers.length - 1].exportJSON();
+    self.undoCounter = 0;
     if(self.maxIndex >= 1){
-      $('#gyc-timeline').show();
+      $('#gyc-timeline-container').show();
     }
     setTimeout(function() {
         $('.save-indicator').hide();
         $('#gyc-drawingTags').show();
-         $('.gyc-random-class').text('Save Drawing');
+        $('#gyc-drawingTags').prop('placeholder', 'Save Successful!');
+        $('.gyc-random-class').text('Save Drawing');
+        $('.gyc-random-class').hide('Save Drawing');
+        setTimeout(function() {
+          $('#gyc-drawingTags').css('box-shadow', 'none');
+          graffitiView.toggleSaveButton();
+        },1500);
     }, 500);
-    console.log(self.maxIndex);
-    console.log($('#gyc-timeline').prop('max'));
+
   }).fail(function(){
     graffitiView.showConfirmationPopup("body","ERROR WHEN SAVING");
-    $('#gyc-timeline').hide();
+    $('#gyc-timeline-container').hide();
     $('#gyc-next-button').hide();
     $('#gyc-previous-button').hide();
      });
@@ -379,7 +389,7 @@ GraffitiView.prototype.showConfirmationPopup = function(element,message){
 Graffiti.prototype.updateTimeline = function(){
   var self = graffiti;
   $('#gyc-timeline').mouseup(function() {
-    self.currentPosition = $(this).val();
+    self.currentPosition = parseInt($(this).val());
     console.log(self.currentPosition);
     self.timelineUpdate();
   });
@@ -410,7 +420,7 @@ function validHex(hexString) {
 Graffiti.prototype.initializePrevious = function() {
   var self = this;
     $('#gyc-previous-button').click(function(){
-      if (self.currentPosition !== 0 && self.currentPosition !== '0') {
+      if (self.currentPosition !== 0) {
         if (self.currentPosition > 0) {
           self.currentPosition -= 1;
         }
@@ -434,7 +444,7 @@ Graffiti.prototype.initializePrevious = function() {
 Graffiti.prototype.initializeNext = function() {
   var self = this;
     $('#gyc-next-button').click(function(){
-      if (self.currentPosition !== self.maxIndex && self.currentPosition !== self.maxIndex.toString()) {
+      if (self.currentPosition !== self.maxIndex) { 
         if (self.currentPosition < self.maxIndex) {
           self.currentPosition += 1;
         }
@@ -499,8 +509,10 @@ $('#gyc-undo-button').on('click', function() {
 });
 
 $('#gyc-canvas').on('mouseup', function() {
-  graffiti.incrementUndoCounter();
-  graffitiView.toggleSaveButton();
+  if (graffiti.drawingStatus === 'on') {
+    graffiti.incrementUndoCounter();
+    graffitiView.toggleSaveButton(); 
+  }
 });
 
 $('.gyc-random-class').click(graffiti.saveDrawingPost);
