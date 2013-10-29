@@ -23,12 +23,6 @@ var toolbarStatus = 'off';
 
 function toggleToolbarStatus() {
   toolbarStatus = toolbarStatus === 'on' ? 'off' : 'on';
-  // if (toolbarStatus === 'on') {
-  //   toolbarStatus = 'off';
-  // }
-  // else {
-  //   toolbarStatus = 'on';
-  // }
 }
 
 // This listens for a click on the browser action (chrome icon) and sends a message to the

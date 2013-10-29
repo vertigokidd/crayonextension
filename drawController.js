@@ -357,6 +357,7 @@ Graffiti.prototype.saveDrawingPost = function(){
         $('#gyc-drawingTags').show();
         $('#gyc-drawingTags').prop('placeholder', 'Save Successful!');
         $('.gyc-random-class').text('Save Drawing');
+        $('.gyc-random-class').hide();
         setTimeout(function() {
           $('#gyc-drawingTags').css('box-shadow', 'none');
           graffitiView.toggleSaveButton();
