@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
 
-  "name": "getYourCrayon (alpha)",
+  "name": "getYourCrayon (beta)",
   "description": "Draw on the web.",
   "version": "0.2.0",
   "icons": { "19": "icon19.png",
