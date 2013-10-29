@@ -10,7 +10,6 @@ initializeColorPicker();
 
 
 var badgeIcon = chrome.extension.getURL("gyc-badgeicon.png");
-console.log(badgeIcon);
 $('#gyc-badge a').css("background", "url('" + badgeIcon + "') no-repeat");
 
 // This is injecting all the html we need to create the toolbar and the form to save to the website
@@ -100,7 +99,6 @@ function initializeMessageListener(){
       if (request.task == "toggle") {
         sendResponse({status: "toggled"});
         $('.getyourcrayon-menubar').toggle();
-        console.log(graffiti.canvasStatus);
         if (graffiti.latestDrawing !== null && graffiti.canvasStatus === false && $('.getyourcrayon-menubar').css('display') === 'block') {
           graffiti.toggleCanvas();
           graffiti.project.view.draw();

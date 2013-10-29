@@ -5,7 +5,7 @@ function Graffiti() {
   this.width = 5;
   this.opacity = 1;
   this.canvas = document.getElementById('gyc-canvas');
-  this.serverUrl = 'http://localhost:3000'; 
+  this.serverUrl = 'http://www.getyourcrayon.com'; 
   this.windowUrl = window.location.href;
   this.latestDrawing = null;
   this.project = project;
@@ -390,7 +390,6 @@ Graffiti.prototype.updateTimeline = function(){
   var self = graffiti;
   $('#gyc-timeline').mouseup(function() {
     self.currentPosition = parseInt($(this).val());
-    console.log(self.currentPosition);
     self.timelineUpdate();
   });
 };
@@ -424,11 +423,9 @@ Graffiti.prototype.initializePrevious = function() {
         if (self.currentPosition > 0) {
           self.currentPosition -= 1;
         }
-        console.log(graffiti.currentPosition);
         if (graffiti.currentPosition >= 0) {
           $('#gyc-timeline').val(self.currentPosition);
           $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
-            console.log('made request');
             self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
             self.project.activeLayer.remove();
             var newlayer = new Layer();
