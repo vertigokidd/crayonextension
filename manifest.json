@@ -3,7 +3,7 @@
 
   "name": "getYourCrayon (alpha)",
   "description": "Draw on the web.",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "icons": { "19": "icon19.png",
              "48": "icon48.png",
              "128": "icon128.png" },
