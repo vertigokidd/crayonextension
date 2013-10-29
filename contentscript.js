@@ -2,17 +2,21 @@
 injectScripts();
 injectToolbar();
 injectFonts();
-// getToolbarStatus();
+getToolbarStatus();
 initializeMessageListener();
 initializeAccordion();
 initializeDraggable();
 initializeColorPicker();
 
 
+var badgeIcon = chrome.extension.getURL("gyc-badgeicon.png");
+console.log(badgeIcon);
+$('#gyc-badge a').css("background", "url('" + badgeIcon + "') no-repeat");
+
 // This is injecting all the html we need to create the toolbar and the form to save to the website
 
 function injectToolbar() {
-  $('body').append('<div class="getyourcrayon-menubar" style="display:none;">' +
+  $('body').append('<div id="initial" class="getyourcrayon-menubar" style="display:none;">' +
                      '<div id="gyc-toolbar-header">' +
                        
                      '</div>' +
@@ -42,22 +46,26 @@ function injectToolbar() {
                          '</div>' +
                          '<div class="gyc-search-tools" style="display:none;">' +
                            '<div id="gyc-timeline-container">' +
+                             '<h4 class="search-header"><i class="icon-time"></i> Drawing Timeline</h4>' + 
                              '<i id="gyc-previous-button" class="icon-chevron-sign-left"></i><input type="range" id="gyc-timeline" min="0" max="0"></input><i id="gyc-next-button" class="icon-chevron-sign-right"></i>' +
                            '</div>' +
-                           '<h4 class="search-header">Search Tags</h4>' +
+                           '<h4 class="search-header"><i class="icon-tags"></i> Search Tags</h4>' +
                            '<form class="gyc-search-tags">' +
-                             '<input type="text" id="gyc-search-field" placeholder="Search Unavailable" disabled>' +
+                             '<input type="text" id="gyc-search-field" placeholder="Coming Soon!" disabled>' +
                            '</form>' +
                            '<div id="gyc-tag-holder">' +
                            '</div>' +
                          '</div>' +
                          '<div id="gyc-save-confirm" style="display:none;">' +
-                           '<label><h3 class="save-header">Tag your drawing:</h3><input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
+                           '<label><h3 class="save-header">Tag your drawing:</h3><input type="text" id="gyc-drawingTags" placeholder="Dinosaur, Space_Robot, Steve..."></input></label>'  +
                            '<i class="save-indicator icon-refresh icon-spin icon-large"></i>' +
                            '<button class="gyc-random-class">Save Drawing</button>' +
                          '</div>' +
                        '</div>' +
                      '</div>' +
+                   '</div>' +
+                   '<div id="gyc-badge" style="display:none;">' +
+                   '<a href="http://www.getyourcrayon.com"></a>' +
                    '</div>'
                    // '<div id="gyc-save-confirm" title="Confirm Save" style="display:none;">' +
                    //     '<label>Tag your drawing:<input type="text" id="gyc-drawingTags" placeholder="tag, tag2 ..."></input></label>'  +
@@ -92,7 +100,12 @@ function initializeMessageListener(){
       if (request.task == "toggle") {
         sendResponse({status: "toggled"});
         $('.getyourcrayon-menubar').toggle();
-        if (graffiti.canvasStatus == 'on') {
+        console.log(graffiti.canvasStatus);
+        if (graffiti.latestDrawing !== null && graffiti.canvasStatus === false && $('.getyourcrayon-menubar').css('display') === 'block') {
+          graffiti.toggleCanvas();
+          graffiti.project.view.draw();
+        }
+        else if (graffiti.canvasStatus === true) {
           graffiti.toggleCanvas();  
         }
       }
@@ -102,13 +115,21 @@ function initializeMessageListener(){
 // This sends a message at runtime asking the background.js for the status of the toolbar.
 // If it receives a status of 'off', the toolbar is not displayed on page load
 
-// function getToolbarStatus() {
-//   chrome.runtime.sendMessage({task: "get status"}, function(response) {
-//     if (response.onOff === "on") {
-//       $('.getyourcrayon-menubar').show();
-//     }
-//   });
-// }
+function getToolbarStatus() {
+  chrome.runtime.sendMessage({task: "get status"}, function(response) {
+    console.log(response.onOff);
+    if (response.onOff === 'on') {
+      $('.getyourcrayon-menubar').toggle();
+      setTimeout(function () {
+      if (graffiti.latestDrawing !== null) {
+          graffiti.canvasStatus = false;
+          graffiti.toggleCanvas();
+          graffiti.project.view.draw();
+      }
+    }, 1000);
+    }
+  });
+}
 
 // This initializes the toolbar to have the accordion functionality once it is loaded and
 // makes the entire toolbar draggable with the header specified as the handle for dragging

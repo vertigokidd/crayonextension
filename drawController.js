@@ -5,7 +5,7 @@ function Graffiti() {
   this.width = 5;
   this.opacity = 1;
   this.canvas = document.getElementById('gyc-canvas');
-  this.serverUrl = 'http://www.getyourcrayon.com';
+  this.serverUrl = 'http://localhost:3000'; 
   this.windowUrl = window.location.href;
   this.latestDrawing = null;
   this.project = project;
@@ -13,12 +13,13 @@ function Graffiti() {
   this.currentPosition = null;
   this.undoCounter = 0;
   this.drawingStatus = 'off';
-  this.canvasStatus = 'off';
+  this.canvasStatus = false;
   this.currentTags = null;
 }
 
 function GraffitiView(graffitiModel) {
   this.model = graffitiModel;
+  this.badge = false;
 }
 // VIEW METHODS ###############################################################
 
@@ -40,12 +41,14 @@ GraffitiView.prototype.toggleSearchButton = function() {
 
 GraffitiView.prototype.toggleSaveButton = function(){
   if(this.model.checkUndoCounter() && this.model.checkDrawingFreshness()){
-    $('#gyc-save-button').removeClass('gyc-button-active');
-    $('#gyc-save-button').css('color', 'gray');
+    $('.gyc-random-class').prop('disabled', true);
+    $('.gyc-random-class').hide();
+    $('#gyc-drawingTags').prop('placeholder', 'Draw something to save!');
   }
   else{
-    $('#gyc-save-button').addClass('gyc-button-active');
-    $('#gyc-save-button').css('color', '');
+    $('.gyc-random-class').prop('disabled', false);
+    $('.gyc-random-class').show();
+    $('#gyc-drawingTags').prop('placeholder', 'Dinosaur, Space_Robot, Steve...');
   }
 };
 
@@ -63,11 +66,13 @@ GraffitiView.prototype.setupPage = function(windowUrl) {
       self.setupTimeline(null);
     } 
     self.model.currentTags = response.tags_html_string
-    $("#gyc-save-button").css('color', 'gray');
+    $('.gyc-random-class').prop('disabled', true);
+    $('.gyc-random-class').hide();
+    $('#gyc-drawingTags').prop('placeholder', 'Draw something to save!');
     $("#gyc-undo-button").css('color', 'gray');
     $("#gyc-clean-slate-button").css('color', 'gray');
   }).fail(function(){self.showConfirmationPopup("body","Error: server conection problem");
-      $('#gyc-timeline').hide();
+      $('#gyc-timeline-container').hide();
       $('#gyc-next-button').hide();
       $('#gyc-previous-button').hide();
     });
@@ -78,7 +83,7 @@ GraffitiView.prototype.setupTimeline = function(maxIndex) {
   self.model.maxIndex = maxIndex;
   self.model.currentPosition = maxIndex;
   if (maxIndex === null) {
-    $('#gyc-timeline').hide();
+    $('#gyc-timeline-container').hide();
     $('#gyc-next-button').hide();
     $('#gyc-previous-button').hide();
   }
@@ -112,7 +117,7 @@ GraffitiView.prototype.toggleDraw = function() {
     $('.gyc-drawing-tools').show();
     $('.gyc-search-tools').hide();
     $('#gyc-save-confirm').hide();
-    if (graffiti.canvasStatus === 'off') {
+    if (graffiti.canvasStatus === false) {
       graffiti.toggleCanvas();
     }
     graffiti.drawingStatus = 'on';
@@ -136,6 +141,11 @@ GraffitiView.prototype.toggleDropdownArrow = function(){
     toolbar.css("border-radius", '0px');
   }
 };
+
+
+GraffitiView.prototype.refreshBadge = function(){
+  $('#gyc-badge').toggle(this.badge);
+}
 
 // MODEL METHODS ##############################################################
 
@@ -163,18 +173,23 @@ Graffiti.prototype.checkDrawingFreshness = function() {
 // Listens for a click on the paint button and hides or displays the canvas
 
 Graffiti.prototype.toggleCanvas = function(){
-    $('#gyc-canvas').toggle();
-    if ($('#gyc-canvas').css("display") === 'none') {
-      $('#gyc-paint-button').removeClass("icon-eye-open").addClass("icon-eye-close").css("color", "");
-      if (graffiti.drawingStatus === 'on') {
-        graffitiView.toggleDraw();
-      }
-      graffiti.canvasStatus = 'off';
+  if (graffiti.canvasStatus === true) {
+    $('#gyc-paint-button').removeClass("icon-eye-open").addClass("icon-eye-close").css("color", "");
+    if (graffiti.drawingStatus === 'on') {
+      graffitiView.toggleDraw();
     }
-    else {
-      $('#gyc-paint-button').removeClass("icon-eye-close").addClass("icon-eye-open").css("color", "#F44C63");
-      graffiti.canvasStatus = 'on';
-    }
+    graffiti.canvasStatus = false;
+    graffitiView.badge = false;
+    graffitiView.refreshBadge();
+    $('#gyc-canvas').toggle(graffiti.canvasStatus);   
+  }
+  else {
+    $('#gyc-paint-button').removeClass("icon-eye-close").addClass("icon-eye-open").css("color", "#F44C63");
+    graffiti.canvasStatus = true;
+    graffitiView.badge = true;
+    graffitiView.refreshBadge();
+    $('#gyc-canvas').toggle(graffiti.canvasStatus);   
+  }
 };
 
 // Listens for mouse events on the color picker image to change
@@ -240,7 +255,7 @@ Graffiti.prototype.cleanSlate = function() {
 
 // Listens for a click on the save button and opens the dialog save form
 Graffiti.prototype.openSaveForm = function(){
-  if ($('#gyc-save-button').hasClass('gyc-button-active')) {
+  // if ($('#gyc-save-button').hasClass('gyc-button-active')) {
     if (graffiti.drawingStatus === 'on') {
       graffitiView.toggleDraw();
     }
@@ -252,7 +267,7 @@ Graffiti.prototype.openSaveForm = function(){
     if ($('#gyc-toolbar-toggle').hasClass('ui-state-active') === false) {
       $('#gyc-toolbar-toggle').click();
     }
-  }
+  // }
 };
 
 // Initializes pop-up Save form and listens
@@ -312,37 +327,46 @@ Graffiti.prototype.saveDrawingPost = function(){
 
   $('#gyc-drawingTags').hide();
   $('.save-indicator').show();
+  $('.gyc-random-class').text('Saving...');
   $.post(self.serverUrl + '/save', data,function(response){
     if (response.tags_html_string){
       var twitter_html = '<a href="https://twitter.com/share" data-url="/" class="twitter-share-button" data-hashtags="GetYourCrayon" data-text="I created this amazing drawing see it on => '+response.unique_url+'" data-lang="en" data-size="large" data-count="none">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>';
       // $('#gyc-twitter-bttn').html(twitter_html);
       self.currentTags = response.tags_html_string;
-      graffitiView.insert(tags);
+      graffitiView.insertTags();
       $('#gyc-drawingTags').val('');
       if(self.maxIndex === null){
         self.maxIndex = 0;
-        $("#gyc-timeline").prop('max', self.maxIndex);
-        $('#gyc-timeline').val(self.maxIndex);
+        // $("#gyc-timeline").prop('max', self.maxIndex);
+        // $('#gyc-timeline').val(self.maxIndex);
       }
       else{
         self.maxIndex += 1;
       }
-      self.currentPosition = self.maxIndex;
-      $("#gyc-timeline").prop('max', self.maxIndex);
-      $('#gyc-timeline').val(self.maxIndex);
-      self.latestDrawing = self.project.layers[self.project.layers.length - 1].exportJSON();
-      if(self.maxIndex >= 1){
-        $('#gyc-timeline').show();
-      }
+    }
+    self.currentPosition = self.maxIndex;
+    $("#gyc-timeline").prop('max', self.maxIndex);
+    $('#gyc-timeline').val(self.maxIndex);
+    self.latestDrawing = self.project.layers[self.project.layers.length - 1].exportJSON();
+    self.undoCounter = 0;
+    if(self.maxIndex >= 1){
+      $('#gyc-timeline-container').show();
     }
     setTimeout(function() {
         $('.save-indicator').hide();
         $('#gyc-drawingTags').show();
+        $('#gyc-drawingTags').prop('placeholder', 'Save Successful!');
+        $('.gyc-random-class').text('Save Drawing');
+        $('.gyc-random-class').hide('Save Drawing');
+        setTimeout(function() {
+          $('#gyc-drawingTags').css('box-shadow', 'none');
+          graffitiView.toggleSaveButton();
+        },1500);
     }, 500);
 
   }).fail(function(){
     graffitiView.showConfirmationPopup("body","ERROR WHEN SAVING");
-    $('#gyc-timeline').hide();
+    $('#gyc-timeline-container').hide();
     $('#gyc-next-button').hide();
     $('#gyc-previous-button').hide();
      });
@@ -363,9 +387,10 @@ GraffitiView.prototype.showConfirmationPopup = function(element,message){
 // Listens for a change on the timeline slider
 // updates the current position and updates the time line
 Graffiti.prototype.updateTimeline = function(){
-  var self = this;
+  var self = graffiti;
   $('#gyc-timeline').mouseup(function() {
-    self.currentPosition = $(this).val();
+    self.currentPosition = parseInt($(this).val());
+    console.log(self.currentPosition);
     self.timelineUpdate();
   });
 };
@@ -373,7 +398,7 @@ Graffiti.prototype.updateTimeline = function(){
 // triggers a get requests that rettrives drwaings
 // clears the canvas and imports the response to the canvas
 Graffiti.prototype.timelineUpdate = function() {
-  var self = this;
+  var self = graffiti;
   $.get( self.serverUrl + '/retrieve',{'url': self.windowUrl, 'id': self.currentPosition},function(response){
     self.canvas.getContext('2d').clearRect(0,0,self.canvas.width, self.canvas.height);
     self.project.activeLayer.remove();
@@ -419,7 +444,7 @@ Graffiti.prototype.initializePrevious = function() {
 Graffiti.prototype.initializeNext = function() {
   var self = this;
     $('#gyc-next-button').click(function(){
-      if (self.currentPosition !== self.maxIndex) {
+      if (self.currentPosition !== self.maxIndex) { 
         if (self.currentPosition < self.maxIndex) {
           self.currentPosition += 1;
         }
@@ -484,8 +509,10 @@ $('#gyc-undo-button').on('click', function() {
 });
 
 $('#gyc-canvas').on('mouseup', function() {
-  graffiti.incrementUndoCounter();
-  graffitiView.toggleSaveButton();
+  if (graffiti.drawingStatus === 'on') {
+    graffiti.incrementUndoCounter();
+    graffitiView.toggleSaveButton(); 
+  }
 });
 
 $('.gyc-random-class').click(graffiti.saveDrawingPost);
@@ -524,18 +551,6 @@ $('#gyc-draw-button').click(graffitiView.toggleDraw);
       graffiti.path.smooth();
     }
   }
-
-// function initializeMessageListener(){
-//   chrome.extension.onMessage.addListener(
-//     function(request, sender, sendResponse) {
-//       if (request.task == "toggle") {
-//         sendResponse({status: "toggled"});
-//         if (graffiti.canvasStatus === 'off'){
-//           graffiti.toggleCanvas();
-//         }
-//       }
-//     });
-// }
 
 
 // Model (Grafitti drawing)
